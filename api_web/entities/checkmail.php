@@ -4,7 +4,7 @@ function checkmail(string $email)
     require_once __DIR__ . "/../database/connection.php";
 
     $bdd = getDatabaseConnection();
-    $user = $bdd->prepare("SELECT id FROM users WHERE email = :email");
+    $user = $bdd->prepare("SELECT id FROM user WHERE email = :email");
 
     $success = $user->execute([
         "email" => $email

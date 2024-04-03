@@ -1,9 +1,8 @@
 <?php
 
-//echo "Hello, Register!";
 require_once __DIR__ . "/../database/connection.php";
 require_once __DIR__ . "/../libraries/body.php";
-require_once __DIR__ . "/../entities/register.php";
+require_once __DIR__ . "/../entities/adduser.php";
 require_once __DIR__ . "/../libraries/response.php";
 require_once __DIR__ . "/../entities/checkmail.php";
 
@@ -13,7 +12,12 @@ $password = $body["password"];
 $nom = $body["nom"];
 $prenom = $body["prenom"];
 $naissance = $body["naissance"];
+$naissance = DateTime::createFromFormat('d/m/Y', $body["naissance"]);
+$date_naissance = $naissance->format('Y-m-d');
 $phone = $body["phone"];
+echo "LALALLALALALLALALALALA";
+var_dump($body);
+echo "MIMIMIIMIMIIMIM";
 $role = $body["role"];
 
 if($email === ""){
@@ -72,6 +76,8 @@ if(empty($naissance)){
 
 
 
+
+
 if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 	echo jsonResponse(400, ['Content-Type' => 'application/json'], [
 		'success' => false,
@@ -92,19 +98,19 @@ if (strlen($password) < 8) {
 if(checkmail($email)){
     echo jsonResponse(400, ['Content-Type' => 'application/json'], [
 		'success' => false,
-		'error' => 'Ce mail est déjà utilisé'
+		'error' => "Ce mail est déjà utilisé"
 ]);
 	die();
 }
 
 
 
-$inscription = register($email, $password, $nom, $prenom, $role, $naissance, $phone);
+$inscription = register($email, $password, $nom, $prenom, $role, $date_naissance, $phone);
 
 if ($inscription) {
 	echo jsonResponse(400, [], [
-		'success' => false,
-		'error' => 'Ajout Réussi'
+		'success' => true,
+		'error' => "Ajout Réussi"
 ]);
 
 	die();
