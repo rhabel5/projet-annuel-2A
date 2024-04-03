@@ -1,17 +1,17 @@
 <?php
-function getTasks()
+function getUsers()
 {
     require_once __DIR__ . "/../database/connection.php";
 
     $databaseConnection = getDatabaseConnection();
-    $getTasksQuery = $databaseConnection->prepare("SELECT description FROM tasks");
+    $getUsersQuery = $databaseConnection->prepare("SELECT * FROM user");
 
     try {
-        $success = $getTasksQuery->execute();
+        $success = $getUsersQuery->execute();
 
         if ($success) {
-            $tasksData = $getTasksQuery->fetchAll(PDO::FETCH_COLUMN);
-            return $tasksData;
+            $usersData = $getUsersQuery->fetchAll(PDO::FETCH_ASSOC);
+            return $usersData;
         } else {
             return false;
         }

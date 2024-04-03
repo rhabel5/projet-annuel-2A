@@ -18,8 +18,9 @@ if(isPath("/adduser")){
 
 if(isPath("/getusers")){
 
-    if(isPostMethod("post")){
+    if(isGetMethod("get")){
         require_once __DIR__ . "/routes/getusers.php";
+        echo "ok test";
         die();
     }
 

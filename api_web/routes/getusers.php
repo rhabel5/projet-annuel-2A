@@ -1,25 +1,14 @@
 <?php
 
+require_once __DIR__ . "/../entities/getusers.php";
 
+$users = getUsers();
 
-function getUsers()
-{
-    require_once __DIR__ . "../database/connection.php";
+// Convertir les données au format JSON
+$json_data = json_encode($users);
 
-    $databaseConnection = getDatabaseConnection();
-    $getUsersQuery = $databaseConnection->prepare("SELECT * FROM users");
+// Envoyer les en-têtes HTTP pour spécifier que la réponse est au format JSON
+header('Content-Type: application/json');
 
-    try {
-        $success = $getUsersQuery->execute();
-
-        if ($success) {
-            $usersData = $getUsersQuery->fetchAll(PDO::FETCH_COLUMN);
-            return $usersData;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        // Retourne le message de l'exception
-        return $e->getMessage();
-    }
-}
+// Afficher les données JSON
+echo $json_data;

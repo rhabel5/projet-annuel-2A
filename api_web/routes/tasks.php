@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../entities/gettasks.php";
+require_once __DIR__ . "/../entities/getusers.php";
 require_once __DIR__ . "/../entities/isconnected.php";
 
 	if(!isConnected()) {
