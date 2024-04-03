@@ -14,7 +14,8 @@ function register(string $email, string $password, string $nom, string $prenom, 
             "nom" => $nom,
             "prenom" => $prenom,
             "phone" => $phone,
-            "role" => $role
+            "role" => $role,
+            "naissance" => $naissance
         ]);
 
         if ($success) {
