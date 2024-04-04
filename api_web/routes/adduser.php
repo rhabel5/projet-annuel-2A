@@ -15,9 +15,7 @@ $naissance = $body["naissance"];
 $naissance = DateTime::createFromFormat('d/m/Y', $body["naissance"]);
 $date_naissance = $naissance->format('Y-m-d');
 $phone = $body["phone"];
-echo "LALALLALALALLALALALALA";
 var_dump($body);
-echo "MIMIMIIMIMIIMIM";
 $role = $body["role"];
 
 if($email === ""){

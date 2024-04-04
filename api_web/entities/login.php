@@ -1,7 +1,6 @@
 <?php
 
-function login(string $email, string $password)
-{
+function login(string $email, string $password){
 	require_once __DIR__ . "/../database/connection.php";
 
 	$databaseConnection = getDatabaseConnection();

@@ -5,8 +5,8 @@ function register(string $email, string $password, string $nom, string $prenom, 
     require_once __DIR__ . "/../database/connection.php";
 
     try {
-        $bdd = getDatabaseConnection();
-        $getUser = $bdd->prepare("INSERT INTO user (email, password, nom, prenom, phone, role, naissance) VALUES(:email, :password, :nom, :prenom, :phone, :role, :naissance)");
+        $databaseConnection = getDatabaseConnection();
+        $getUser = $databaseConnection->prepare("INSERT INTO user (email, password, nom, prenom, phone, role, naissance) VALUES(:email, :password, :nom, :prenom, :phone, :role, :naissance)");
 
         $success = $getUser->execute([
             "email" => htmlspecialchars($email) ,
