@@ -29,7 +29,7 @@ try {
 }catch (PDOException $e){
     echo jsonResponse(400, [], [
         'success' => true,
-        'message' => "Un problème est survenu lors de la suppression de l'utilisateur" . $e->getMessage()
+        'message' => "Un problème est survenu lors de la suppression de l'utilisateur " . $e->getMessage()
     ]);
 }
 
