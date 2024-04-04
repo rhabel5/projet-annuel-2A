@@ -37,9 +37,9 @@ if(isPath("/updateuser")){
 
 if(isPath("/deleteuser")){
 
-    if(isPostMethod("post")){
+    if(isDeleteMethod("delete")){
         require_once __DIR__ . "/routes/deleteuser.php";
-        echo "ok test";
+        echo "delete";
         die();
     }
 

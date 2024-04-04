@@ -106,9 +106,9 @@ if(checkmail($email)){
 $inscription = register($email, $password, $nom, $prenom, $role, $date_naissance, $phone);
 
 if ($inscription) {
-	echo jsonResponse(400, [], [
+	echo jsonResponse(200, [], [
 		'success' => true,
-		'error' => "Ajout Réussi"
+		'message' => "Ajout Réussi"
 ]);
 
 	die();
