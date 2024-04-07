@@ -36,7 +36,7 @@ try {
 if ($success) {
     echo jsonResponse(200, [], [
         'success' => true,
-        'message' => "Utilisateur supprimé avec succès"
+        'message' => "Utilisateur supprimé avec succès !"
     ]);
 }
 
