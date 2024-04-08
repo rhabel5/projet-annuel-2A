@@ -17,7 +17,7 @@ if(!isser($authParts[1])){
 	return false;
 }	
 
-$auhtType = $authParts[0];
+$authType = $authParts[0];
 $token = $authParts[1];
 
 if(!$authType==="bearer"){
@@ -32,7 +32,7 @@ $success = $getuserQuery->execute([
 ]);
 
 
-if(!$succes){
+if(!$success){
  return false;
 }
 
