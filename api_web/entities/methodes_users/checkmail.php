@@ -1,7 +1,7 @@
 <?php
 function checkmail(string $email)
 {
-    require_once __DIR__ . "/../database/connection.php";
+    require_once __DIR__ . "/../../database/connection.php";
 
     $bdd = getDatabaseConnection();
     $user = $bdd->prepare("SELECT id FROM user WHERE email = :email");

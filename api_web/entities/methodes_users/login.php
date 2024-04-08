@@ -1,7 +1,7 @@
 <?php
 
 function login(string $email, string $password){
-	require_once __DIR__ . "/../database/connection.php";
+	require_once __DIR__ . "/../../database/connection.php";
 
 	$databaseConnection = getDatabaseConnection();
 	$getuserQuery = $databaseConnection->prepare("SELECT id, password FROM users WHERE email = :email");

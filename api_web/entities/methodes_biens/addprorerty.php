@@ -1,121 +1,44 @@
 <?php
 
-require_once __DIR__ . "/../../database/connection.php";
-require_once __DIR__ . "/../../libraries/body.php";
-require_once __DIR__ . "/../../entities/adduser.php";
-require_once __DIR__ . "/../../libraries/response.php";
-require_once __DIR__ . "/../../entities/checkmail.php";
+function registerProperty($id_bailleur, $nom_bien, $description, $couchage, $type_bien, $type_location, $ville, $adresse, $code_postal, $prix_adulte, $prix_enfant, $prix_animaux, $nb_lit, $piscine, $note_moyenne, $salle_eau, $images, $nb_chambres, $dispo, $valide) {
+    require_once __DIR__ . "/../../database/connection.php";
 
-$body = getBody();
-$email = $body["email"];
-$password = $body["password"];
-$nom = $body["nom"];
-$prenom = $body["prenom"];
-$naissance = $body["naissance"];
-$naissance = DateTime::createFromFormat('d/m/Y', $body["naissance"]);
-$date_naissance = $naissance->format('Y-m-d');
-$phone = $body["phone"];
-var_dump($body);
-$role = $body["role"];
+    try {
+        $databaseConnection = getDatabaseConnection();
+        $query = "INSERT INTO bien (id_bailleur, nom_bien, description, couchage, type_bien, type_location, ville, adresse, code_postal, prix_adulte, prix_enfant, prix_animaux, nb_lit, piscine, note_moyenne, salle_eau, images, nb_chambres, dispo, valide) VALUES (:id_bailleur, :nom_bien, :description, :couchage, :type_bien, :type_location, :ville, :adresse, :code_postal, :prix_adulte, :prix_enfant, :prix_animaux, :nb_lit, :piscine, :note_moyenne, :salle_eau, :images, :nb_chambres, :dispo, :valide)";
 
-if($email === ""){
-    echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-		'success' => false,
-		'error' => 'Email not found'
-]);
+        $statement = $databaseConnection->prepare($query);
 
-	die();
+        $success = $statement->execute([
+            ':id_bailleur' => $id_bailleur,
+            ':nom_bien' => $nom_bien,
+            ':description' => $description,
+            ':couchage' => $couchage,
+            ':type_bien' => $type_bien,
+            ':type_location' => $type_location,
+            ':ville' => $ville,
+            ':adresse' => $adresse,
+            ':code_postal' => $code_postal,
+            ':prix_adulte' => $prix_adulte,
+            ':prix_enfant' => $prix_enfant,
+            ':prix_animaux' => $prix_animaux,
+            ':nb_lit' => $nb_lit,
+            ':piscine' => $piscine,
+            ':note_moyenne' => $note_moyenne,
+            ':salle_eau' => $salle_eau,
+            ':images' => $images,
+            ':nb_chambres' => $nb_chambres,
+            ':dispo' => $dispo,
+            ':valide' => $valide,
+        ]);
+
+        if ($success) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        echo "Erreur lors de l'ajout du bien dans la base de données : " . $e->getMessage();
+        return false;
+    }
 }
-
-if($password === ""){
-    echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-		'success' => false,
-		'error' => 'Password not found'
-]);
-
-	die();
-}
-
-if(empty($phone)){
-    echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-        'success' => false,
-        'error' => 'Phone not found'
-    ]);
-
-    die();
-}
-
-if(empty($prenom)){
-    echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-        'success' => false,
-        'error' => 'Name not found'
-    ]);
-
-    die();
-}
-
-if(empty($nom)){
-    echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-        'success' => false,
-        'error' => 'Nom not found'
-    ]);
-
-    die();
-}
-
-if(empty($naissance)){
-    echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-        'success' => false,
-        'error' => 'Password not found'
-    ]);
-
-    die();
-}
-
-
-
-
-
-if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-	echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-		'success' => false,
-		'error' => 'Email invalide'
-]);
-	die();		
-}
-
-if (strlen($password) < 8) {
-    echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-		'success' => false,
-		'error' => 'Le mot de passe doit faire au moins 8 caractères'
-]);
-	die();	
-}
-
-
-if(checkmail($email)){
-    echo jsonResponse(400, ['Content-Type' => 'application/json'], [
-		'success' => false,
-		'error' => "Ce mail est déjà utilisé"
-]);
-	die();
-}
-
-
-
-$inscription = register($email, $password, $nom, $prenom, $role, $date_naissance, $phone);
-
-if ($inscription) {
-	echo jsonResponse(200, [], [
-		'success' => true,
-		'message' => "Ajout Réussi"
-]);
-
-	die();
-}
-
-echo jsonResponse(400, [], [
-    'success' => false,
-    'error' => 'Échec de l\'ajout'
-]);
-

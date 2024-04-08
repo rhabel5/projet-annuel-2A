@@ -34,11 +34,49 @@ if(isPath("/updateuser")){
     }
 
 }
+if(isPath("/updatebien")){
+
+    if(isPostMethod("post")){
+        require_once __DIR__ . "/routes/routes_biens/updatebien.php";
+        echo "ok test";
+        die();
+    }
+
+}
+
+if(isPath("/addbien")){
+
+    if(isPostMethod("post")){
+        require_once __DIR__ . "/routes/routes_biens/addbien.php";
+        echo "ok test";
+        die();
+    }
+
+}
 
 if(isPath("/deleteuser")){
 
     if(isDeleteMethod("delete")){
-        require_once __DIR__ . "/routes/deleteuser.php";
+        require_once __DIR__ . "/routes/routes_users/deleteuser.php";
+        echo "delete";
+        die();
+    }
+
+}
+
+if(isPath("/deletebien")){
+
+    if(isDeleteMethod("delete")){
+        require_once __DIR__ . "/routes/routes_biens/deletebien.php";
+        echo "delete";
+        die();
+    }
+
+}
+if(isPath("/getallbiens")){
+
+    if(isGetMethod("get")){
+        require_once __DIR__ . "/routes/routes_biens/getallbiens.php";
         echo "delete";
         die();
     }

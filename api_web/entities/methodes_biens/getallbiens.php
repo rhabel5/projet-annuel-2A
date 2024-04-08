@@ -1,17 +1,17 @@
 <?php
-function getUsers()
+function getAllBiens()
 {
     require_once __DIR__ . "/../../database/connection.php";
 
     $databaseConnection = getDatabaseConnection();
-    $getUsersQuery = $databaseConnection->prepare("SELECT * FROM user");
+    $getAllBiensQuery = $databaseConnection->prepare("SELECT * FROM bien");
 
     try {
-        $success = $getUsersQuery->execute();
+        $success = $getAllBiensQuery->execute();
 
         if ($success) {
-            $usersData = $getUsersQuery->fetchAll(PDO::FETCH_ASSOC);
-            return $usersData;
+            $AllBiensData = $getAllBiensQuery->fetchAll(PDO::FETCH_ASSOC);
+            return $AllBiensData;
         } else {
             return false;
         }

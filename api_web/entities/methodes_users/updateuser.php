@@ -3,7 +3,7 @@
 
 function updateUser(string $id, string $nom, string $prenom, string $email, string $naissance, string $phone, string $role)
 {
-    require_once __DIR__ . "/../database/connection.php";
+    require_once __DIR__ . "/../../database/connection.php";
 
     try {
         $databaseConnection = getDatabaseConnection();

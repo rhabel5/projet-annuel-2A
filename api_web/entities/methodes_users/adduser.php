@@ -2,7 +2,7 @@
 
 function register(string $email, string $password, string $nom, string $prenom, string $role, string $naissance, string $phone)
 {
-    require_once __DIR__ . "/../database/connection.php";
+    require_once __DIR__ . "/../../database/connection.php";
 
     try {
         $databaseConnection = getDatabaseConnection();
