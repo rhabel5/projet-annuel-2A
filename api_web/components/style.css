@@ -1,0 +1,15 @@
+body {
+    font-family: 'Aileron', sans-serif;
+    color: #012B28;
+    background-color: #EBB42C;
+}
+
+header, main {
+    padding: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
