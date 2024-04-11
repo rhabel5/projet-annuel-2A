@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../entities/getusers.php";
+require_once __DIR__ . "/../../entities/methodes_users/getusers.php";
 
 $users = getUsers();
 

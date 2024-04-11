@@ -2,9 +2,9 @@
 
 require_once __DIR__ . "/../../database/connection.php";
 require_once __DIR__ . "/../../libraries/body.php";
-require_once __DIR__ . "/../../entities/adduser.php";
+require_once __DIR__ . "/../../entities/methodes_users/adduser.php";
 require_once __DIR__ . "/../../libraries/response.php";
-require_once __DIR__ . "/../../entities/checkmail.php";
+require_once __DIR__ . "/../../entities/methodes_users/checkmail.php";
 
 $body = getBody();
 $email = $body["email"];

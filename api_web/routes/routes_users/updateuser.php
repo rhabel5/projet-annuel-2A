@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . "/../database/connection.php";
-require_once __DIR__ . "/../libraries/body.php";
-require_once __DIR__ . "/../entities/updateuser.php";
-require_once __DIR__ . "/../libraries/response.php";
-require_once __DIR__ . "/../entities/checkmail.php";
+require_once __DIR__ . "/../../database/connection.php";
+require_once __DIR__ . "/../../libraries/body.php";
+require_once __DIR__ . "/../../entities/methodes_users/updateuser.php";
+require_once __DIR__ . "/../../libraries/response.php";
+require_once __DIR__ . "/../../entities/methodes_users/checkmail.php";
 
 //recup l'id de l'utilisateur à changer
 if (isset($_GET['id'])) {

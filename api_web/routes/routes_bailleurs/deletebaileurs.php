@@ -1,7 +1,7 @@
 
 <?php
-require_once __DIR__ . "/../libraries/response.php";
-require_once __DIR__ . "/../database/connection.php";
+require_once __DIR__ . "/../../libraries/response.php";
+require_once __DIR__ . "/../../database/connection.php";
 echo "delete";
 //recup l'id de l'utilateur à supprimer
 if (isset($_GET['id'])) {
