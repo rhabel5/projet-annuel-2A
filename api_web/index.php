@@ -11,7 +11,7 @@ echo "Hello, world!";
 if(isPath("/adduser")){
 
 	if(isPostMethod("post")){
-	require_once __DIR__ . "/routes/adduser.php";
+	require_once __DIR__ . "/routes/routes_users/adduser.php";
     die();
 	}
 }
@@ -19,7 +19,7 @@ if(isPath("/adduser")){
 if(isPath("/getusers")) {
 
     if (isGetMethod("get")) {
-        require_once __DIR__ . "/routes/getusers.php";
+        require_once __DIR__ . "/routes/routes_users/getusers.php";
         echo "ok test";
         die();
     }
@@ -28,7 +28,7 @@ if(isPath("/getusers")) {
 if(isPath("/updateuser")){
 
     if(isPostMethod("post")){
-        require_once __DIR__ . "/routes/updateuser.php";
+        require_once __DIR__ . "/routes/routes_users/updateuser.php";
         echo "ok test";
         die();
     }
