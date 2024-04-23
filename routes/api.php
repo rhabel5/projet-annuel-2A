@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BailleurController;
 use App\Http\Controllers\BienController;
-use Illuminate\Support\Facades\Route;
+//use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
 

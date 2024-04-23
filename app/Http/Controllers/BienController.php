@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Bien; // Ensure you have a Bien model correctly set up
