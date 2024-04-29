@@ -5,6 +5,9 @@ use App\Http\Controllers\BailleurController;
 use App\Http\Controllers\BienController;
 //use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
 
 
 // Routes for Bailleurs
@@ -36,3 +39,7 @@ Route::prefix('users')->group(function () {
     Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
     Route::get('/check', [UserController::class, 'isConnected'])->name('users.check');
 });
+
+// Routes for login
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/register', [RegisterController::class, 'register']);
