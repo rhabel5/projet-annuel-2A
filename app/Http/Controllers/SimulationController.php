@@ -1,17 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Simulation; // Importer la classe Simulation
+use Illuminate\Http\Request;
 
-public function store(Request $request)
+class SimulationController extends Controller
 {
-    $data = $request->validate([
-        'property_type' => 'required|string',
-        'location' => 'required|string',
-        'income_estimate' => 'required|numeric'
-    ]);
+    // Méthode pour afficher la page de simulation
+    public function index()
+    {
+        return view('simulation');
+    }
 
-    // Logique pour enregistrer les données ou effectuer des calculs
-    Simulation::create($data);
+    // Méthode pour enregistrer les données de simulation
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'property_type' => 'required|string',
+            'location' => 'required|string',
+            'income_estimate' => 'required|numeric'
+        ]);
 
-    return back()->with('success', 'Simulation enregistrée avec succès!');
+        // Logique pour enregistrer les données ou effectuer des calculs
+        Simulation::create($data);
+
+        return back()->with('success', 'Simulation enregistrée avec succès !');
+    }
 }
