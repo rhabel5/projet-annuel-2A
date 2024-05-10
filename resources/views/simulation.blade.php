@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <form method="POST" action="{{ route('simulation.store') }}">
