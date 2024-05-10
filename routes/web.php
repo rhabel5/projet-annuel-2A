@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BienController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,9 +22,9 @@ Route::get('/simulation', function () {
     return view('simulation');
 })->name('simulation');
 
-Route::get('/properties', 'PropertyController@index')->name('properties.index');
-Route::get('/properties/{property}', 'PropertyController@show')->name('properties.show');
-Route::get('/properties/create', 'PropertyController@create')->name('properties.create');
-Route::get('/properties/{property}/edit', 'PropertyController@edit')->name('properties.edit');
+Route::get('/biens', [BienController::class, 'index']);
+Route::post('/biens', [BienController::class, 'store']);
+Route::put('/biens/{bien}', [BienController::class, 'update']);
+Route::delete('/biens/{bien}', [BienController::class, 'destroy']);
 
 require __DIR__.'/auth.php';
