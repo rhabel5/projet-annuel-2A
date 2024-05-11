@@ -27,4 +27,13 @@ Route::post('/biens', [BienController::class, 'store']);
 Route::put('/biens/{bien}', [BienController::class, 'update']);
 Route::delete('/biens/{bien}', [BienController::class, 'destroy']);
 
+// Routes pour l'administration
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.create');
+    Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+    Route::post('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+    Route::get('/admin/show/{id}', [AdminController::class, 'show'])->name('admin.show');
+});
+
 require __DIR__.'/auth.php';
