@@ -36,4 +36,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/show/{id}', [AdminController::class, 'show'])->name('admin.show');
 });
 
+// Routes pour l'administration des utilisateurs
+Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('users', 'AdminController@listUsers')->name('admin.users.index');
+    Route::get('users/create', 'AdminController@createUser')->name('admin.users.create');
+    Route::post('users', 'AdminController@storeUser')->name('admin.users.store');
+    Route::get('users/{user}/edit', 'AdminController@editUser')->name('admin.users.edit');
+    Route::put('users/{user}', 'AdminController@updateUser')->name('admin.users.update');
+    Route::delete('users/{user}', 'AdminController@destroyUser')->name('admin.users.destroy');
+});
+
 require __DIR__.'/auth.php';
