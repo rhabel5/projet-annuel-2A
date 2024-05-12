@@ -25,6 +25,8 @@ class UserController extends Controller
 
         ]);
 
+        echo "hello from registerBailleur";
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
@@ -48,14 +50,14 @@ class UserController extends Controller
 
         Bailleur::create($bailleurFields);
 
-        $user->role = $request->invitation_code === 'quoicoubeh' ? 'admin' : 'user';
-        $user->save();
+        //$user->role = $request->invitation_code === 'quoicoubeh' ? 'admin' : 'user';
+        //$user->save();
 
-        return $user->role === 'admin' ?
-            redirect()->route('admin.dashboard') :
-            redirect('/home');
+        //return $user->role === 'admin' ?
+            //redirect()->route('admin.dashboard') :
+            //redirect('/home');
 
-        return response()->json(['user' => $user, 'message' => 'Created successfully'], 201);
+        //return response()->json(['user' => $user, 'message' => 'Created successfully'], 201);
     }
 
     public function checkEmail(Request $request)
