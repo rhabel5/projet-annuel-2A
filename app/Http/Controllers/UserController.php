@@ -17,7 +17,7 @@ class UserController extends Controller
             'nom' => ['required', 'string', 'max:255'],
             'prenom' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
             'tel' => ['required', 'string', 'max:255'],
             'naissance' => ['required', 'string', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
