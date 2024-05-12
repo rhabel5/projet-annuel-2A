@@ -15,6 +15,6 @@ class Bailleur extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'rib', 'biens', 'prestataire_favoris', 'voyageurs_bloques', 'siret'
+        'user_id', 'rib', 'prestataire_favoris', 'voyageurs_bloques'
     ];
 }
