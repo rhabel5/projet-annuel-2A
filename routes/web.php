@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BienController;
 
@@ -45,5 +46,9 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::put('users/{user}', 'AdminController@updateUser')->name('admin.users.update');
     Route::delete('users/{user}', 'AdminController@destroyUser')->name('admin.users.destroy');
 });
+
+Route::get('/addbailleur', function (){return view('addbailleur');});
+Route::post('/mala', [UserController::class, 'registerBailleur']);
+
 
 require __DIR__.'/auth.php';

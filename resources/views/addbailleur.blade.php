@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Inscription</h1>
-    <form action="/register" method="post">
+    <form action="/mala" method="post">
         @csrf
         <input type="text" name="prenom" placeholder="prenom" id="">
         <input type="text" name="nom" placeholder="nom" id="">

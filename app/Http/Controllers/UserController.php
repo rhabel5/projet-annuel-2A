@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bailleur;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,12 +11,18 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function store(Request $request)
+    public function registerBailleur(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'nom' => ['required', 'string', 'max:255'],
+            'prenom' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'tel' => ['required', 'string', 'max:255'],
+            'naissance' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+            'rib' => ['required', 'string', 'max:255'],
+
         ]);
 
         if ($validator->fails()) {
@@ -23,15 +30,29 @@ class UserController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'naissance' => $request->naissance,
+            'role' => $request->role,
+            'tel' => $request->tel,
         ]);
+
+        $bailleurFields = [
+            'user_id' => $user->id,
+            'nom' => $user->nom . ' ' . $user->prenom,
+            'rib' => $request->rib,
+            'role'=> 'bailleur'
+        ];
+
+        Bailleur::create($bailleurFields);
+
         $user->role = $request->invitation_code === 'quoicoubeh' ? 'admin' : 'user';
         $user->save();
 
-        return $user->role === 'admin' ? 
-            redirect()->route('admin.dashboard') : 
+        return $user->role === 'admin' ?
+            redirect()->route('admin.dashboard') :
             redirect('/home');
 
         return response()->json(['user' => $user, 'message' => 'Created successfully'], 201);
@@ -67,13 +88,13 @@ class UserController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return Auth::user()->role === 'admin' ? 
-                redirect()->route('admin.dashboard') : 
+            return Auth::user()->role === 'admin' ?
+                redirect()->route('admin.dashboard') :
                 redirect('/home');
         }
-    
+
         return response()->json(['error' => 'The provided credentials do not match our records.'], 401);
-    }    
+    }
 
     public function update(Request $request, User $user)
     {
