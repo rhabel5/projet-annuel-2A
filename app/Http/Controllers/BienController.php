@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bien; // Ensure you have a Bien model correctly set up
+use App\Models\Bien;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

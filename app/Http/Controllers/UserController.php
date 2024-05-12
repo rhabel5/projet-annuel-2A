@@ -27,6 +27,12 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $user->role = $request->invitation_code === 'quoicoubeh' ? 'admin' : 'user';
+        $user->save();
+
+        return $user->role === 'admin' ? 
+            redirect()->route('admin.dashboard') : 
+            redirect('/home');
 
         return response()->json(['user' => $user, 'message' => 'Created successfully'], 201);
     }
@@ -59,15 +65,15 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
-            return response()->json(['message' => 'Logged in successfully']);
+            return Auth::user()->role === 'admin' ? 
+                redirect()->route('admin.dashboard') : 
+                redirect('/home');
         }
-
+    
         return response()->json(['error' => 'The provided credentials do not match our records.'], 401);
-    }
+    }    
 
     public function update(Request $request, User $user)
     {
