@@ -57,8 +57,11 @@ class UserController extends Controller
             //redirect()->route('admin.dashboard') :
             //redirect('/home');
 
-        //return response()->json(['user' => $user, 'message' => 'Created successfully'], 201);
+        return response()->json(['user' => $user, 'message' => 'Created successfully'], 201);
     }
+
+
+
 
     public function checkEmail(Request $request)
     {
