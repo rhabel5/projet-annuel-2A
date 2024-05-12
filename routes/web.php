@@ -48,7 +48,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 });
 
 Route::get('/addbailleur', function (){return view('addbailleur');});
-Route::post('/mala', [UserController::class, 'registerBailleur']);
+Route::post('/lolo', [UserController::class, 'registerBailleur']);
 
 
 require __DIR__.'/auth.php';
