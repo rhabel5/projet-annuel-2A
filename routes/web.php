@@ -48,6 +48,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 });
 
 Route::get('/addbailleur', function (){return view('addbailleur');});
+Route::get('/addvoyageur', function (){return view('addvoyageur');});
 Route::post('/lolo', [UserController::class, 'registerBailleur']);
 
 
