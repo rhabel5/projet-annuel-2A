@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BailleurController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -47,10 +48,16 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::delete('users/{user}', 'AdminController@destroyUser')->name('admin.users.destroy');
 });
 
-Route::get('/addbailleur', function (){return view('addbailleur');});
+//Routes Bailleurs
+Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
+Route::get('/addbailleur', function (){return view('bailleur_views/addbailleur');});
+Route::post('/registerbailleur', [UserController::class, 'registerBailleur']);
+
+
+//Routes Voyageurs
+Route::get('/allvoyageur', function () {return view('allvoyageurs');});
 Route::get('/addvoyageur', function (){return view('addvoyageur');});
-Route::post('/lolo', [UserController::class, 'registerBailleur']);
-Route::post('/registervoyageur', [UserController::class, 'registervoyageur']);
+Route::post('/registervoyageur', [UserController::class, 'registerVoyageur']);
 
 
 require __DIR__.'/auth.php';

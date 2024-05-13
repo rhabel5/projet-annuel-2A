@@ -52,7 +52,7 @@
     </style>
 </head>
 <body>
-<form action="/lolo" method="post">
+<form action="/registerBailleur" method="post">
     @csrf
     <h1>Inscription</h1>
     <input type="text" name="prenom" placeholder="prenom">

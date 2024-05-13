@@ -63,6 +63,9 @@ class UserController extends Controller
 
 
 
+
+
+
     public function checkEmail(Request $request)
     {
         $validator = Validator::make($request->all(), [
