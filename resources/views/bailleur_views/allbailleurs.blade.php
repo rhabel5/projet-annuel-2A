@@ -27,6 +27,11 @@
                 <td>{{ $user->prenom }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->tel }}</td>
+                <td><form action="{{ route('bailleur.destroy', $user) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Supprimer</button>
+                    </form> </td>
             </tr>
         @endforeach
         </tbody>

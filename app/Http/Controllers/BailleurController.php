@@ -58,9 +58,16 @@ class BailleurController extends Controller
         return response()->json(['bailleur' => $bailleur, 'message' => 'Landlord updated successfully']);
     }
 
-    public function destroy(Bailleur $bailleur)
+    public function destroy(User $user)
     {
-        $bailleur->delete();
-        return response()->json(['message' => 'Landlord deleted successfully']);
+        $bailleur = $user->bailleur;
+        $user->delete();
+
+        if (!is_null($bailleur))
+        {
+            $bailleur->delete();
+        }
+
+        return redirect()->route('bailleur.index');
     }
 }

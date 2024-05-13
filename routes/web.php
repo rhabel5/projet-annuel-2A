@@ -52,6 +52,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
 Route::get('/addbailleur', function (){return view('bailleur_views/addbailleur');});
 Route::post('/registerbailleur', [UserController::class, 'registerBailleur']);
+Route::delete('/bailleur/{user}', [BailleurController::class, 'destroy'])->name('bailleur.destroy');
 
 
 //Routes Voyageurs
