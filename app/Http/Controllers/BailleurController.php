@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bailleur; // Make sure you have a Bailleur model correctly set up
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,11 +28,20 @@ class BailleurController extends Controller
         return response()->json(['bailleur' => $bailleur, 'message' => 'Landlord created successfully'], 201);
     }
 
+//Fonction pour affichier un tableau avec tout les bailleurs
+    public function allBailleurs()
+    {
+        $bailleurUsers = User::where('role', 'bailleur')->get();
+
+        return view('bailleur_views/allbailleurs', ['bailleurUsers' => $bailleurUsers]);
+    }
+
     public function index()
     {
         $bailleurs = Bailleur::all();
         return response()->json($bailleurs);
     }
+
 
     public function update(Request $request, Bailleur $bailleur)
     {
@@ -48,9 +58,16 @@ class BailleurController extends Controller
         return response()->json(['bailleur' => $bailleur, 'message' => 'Landlord updated successfully']);
     }
 
-    public function destroy(Bailleur $bailleur)
+    public function destroy(User $user)
     {
-        $bailleur->delete();
-        return response()->json(['message' => 'Landlord deleted successfully']);
+        $bailleur = $user->bailleur;
+        $user->delete();
+
+        if (!is_null($bailleur))
+        {
+            $bailleur->delete();
+        }
+
+        return redirect()->route('bailleur.index');
     }
 }

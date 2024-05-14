@@ -10,8 +10,10 @@ class CreateBailleursTable extends Migration
     {
         Schema::create('bailleurs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('biens');
-            $table->unsignedBigInteger('id_prestations');
+            $table->unsignedBigInteger('user_id'); // Clé étrangère vers la table users
+            $table->string('prestataire_favoris')->nullable();//liste des prestataires favoris
+            $table->string('voyageurs_bloques')->nullable();//liste des voyageurs bloquées
+            $table->string('rib', 60); //où il recevra ses payement
             $table->timestamps();
         });
     }
