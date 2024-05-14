@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paris Caretaker Services</title>
-    <!-- <link href="{{ asset('css/main.css') }}" rel="stylesheet"> -->
-    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^3.0/dist/tailwind.min.css" rel="stylesheet">
+    <link href="../css/output.css" rel="stylesheet">
 </head>
 <body class="bg-gray-50">
     <div class="container mx-auto px-4">
-        <header class="text-center my-12">
+        <header class="flex flex-col items-center justify-between py-6">
             <h1 class="text-3xl font-bold text-gray-800">Bienvenue chez Paris Caretaker Services</h1>
             <p class="text-gray-600">Gestion complète de vos propriétés locatives.</p>
+            <nav>
+                @guest
+                    <a href="{{ route('login') }}" class="text-blue-500 hover:text-blue-700">Se connecter</a>
+                    <a href="{{ route('register') }}" class="ml-4 text-blue-500 hover:text-blue-700">Créer un compte</a>
+                @else
+                    <span>Bonjour, {{ Auth::user()->name }}</span>
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                       class="text-red-500 hover:text-red-700">Déconnexion</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @endguest
+            </nav>
         </header>
 
         <section>
