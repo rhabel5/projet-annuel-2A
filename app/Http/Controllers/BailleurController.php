@@ -9,24 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class BailleurController extends Controller
 {
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'biens' => 'required|integer',
-            'id_prestations' => 'required|integer'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $bailleur = Bailleur::create([
-            'biens' => $request->biens,
-            'id_prestations' => $request->id_prestations
-        ]);
-
-        return response()->json(['bailleur' => $bailleur, 'message' => 'Landlord created successfully'], 201);
-    }
 
 //Fonction pour affichier un tableau avec tout les bailleurs
     public function allBailleurs()
@@ -36,6 +18,7 @@ class BailleurController extends Controller
         return view('bailleur_views/allbailleurs', ['bailleurUsers' => $bailleurUsers]);
     }
 
+
     public function index()
     {
         $bailleurs = Bailleur::all();
@@ -43,19 +26,25 @@ class BailleurController extends Controller
     }
 
 
-    public function update(Request $request, Bailleur $bailleur)
+    public function update(Request $request, Bailleur $bailleur): \Illuminate\Http\RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
-            'biens' => 'integer',
-            'id_prestations' => 'integer'
+        // validation des données reçues
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            // et les autres règles de validation selon votre modèle de bailleur
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
+        // modification des données du bailleur
+        $bailleur->name = $request->name;
+        $bailleur->email = $request->email;
+        // et les autres attributs de votre modèle de bailleur
 
-        $bailleur->update($request->all());
-        return response()->json(['bailleur' => $bailleur, 'message' => 'Landlord updated successfully']);
+        // sauvegarde des modifications
+        $bailleur->save();
+
+        // redirection vers la page appropriée avec un message de succès
+        return redirect()->route('bailleurs.show', $bailleur)->with('success', 'Les informations du bailleur ont été modifiées avec succès');
     }
 
     public function destroy(User $user)

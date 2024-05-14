@@ -49,6 +49,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 });
 
 //Routes Bailleurs
+Route::resource('bailleurs', BailleurController::class);
 Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
 Route::get('/addbailleur', function (){return view('bailleur_views/addbailleur');});
 Route::post('/registerbailleur', [UserController::class, 'registerBailleur']);

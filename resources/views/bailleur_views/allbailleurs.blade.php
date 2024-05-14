@@ -20,20 +20,29 @@
     </thead>
 
     <tbody>
-        @foreach($bailleurUsers as $user)
-            <tr>
-                <th scope="row">{{ $user->id }}</th>
-                <td>{{ $user->nom }}</td>
-                <td>{{ $user->prenom }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->tel }}</td>
-                <td><form action="{{ route('bailleur.destroy', $user) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit">Supprimer</button>
-                    </form> </td>
-            </tr>
-        @endforeach
+    @foreach($bailleurUsers as $user)
+        <tr>
+            <th scope="row">{{ $user->id }}</th>
+            <td>{{ $user->nom }}</td>
+            <td>{{ $user->prenom }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->tel }}</td>
+            <td>
+                <!-- Bouton Modifier -->
+                <form action="{{ route('bailleurs.update', $user) }}" method="POST" style="display: inline-block;">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" class="btn btn-info">Modifier</button>
+                </form>
+                <!-- Bouton Supprimer -->
+                <form action="{{ route('bailleur.destroy', $user) }}" method="POST" style="display: inline-block;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    @endforeach
         </tbody>
     </table>
 </div>
