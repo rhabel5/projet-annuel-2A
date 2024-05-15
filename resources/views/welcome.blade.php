@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paris Caretaker Services</title>
-    <link href="../css/output.css" rel="stylesheet">
+    @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-50">
     <div class="container mx-auto px-4">
