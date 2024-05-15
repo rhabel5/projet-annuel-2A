@@ -54,6 +54,9 @@ Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
 Route::get('/addbailleur', function (){return view('bailleur_views/addbailleur');});
 Route::post('/registerbailleur', [UserController::class, 'registerBailleur']);
 Route::delete('/bailleur/{user}', [BailleurController::class, 'destroy'])->name('bailleur.destroy');
+// Routes Modifications Bailleurs
+Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('bailleur.edit');
+Route::post('/bailleur/{id}/update', 'BailleurController@update')->name('bailleur.update');
 
 
 //Routes Voyageurs

@@ -29,11 +29,7 @@
             <td>{{ $user->tel }}</td>
             <td>
                 <!-- Bouton Modifier -->
-                <form action="{{ route('bailleurs.update', $user) }}" method="POST" style="display: inline-block;">
-                    @csrf
-                    @method('PUT')
-                    <button type="submit" class="btn btn-info">Modifier</button>
-                </form>
+                <button class="btn btn-alert" ><a href="{{ route('bailleur.edit', $user->id) }}">Modifier</a></button>
                 <!-- Bouton Supprimer -->
                 <form action="{{ route('bailleur.destroy', $user) }}" method="POST" style="display: inline-block;">
                     @csrf

@@ -25,6 +25,12 @@ class BailleurController extends Controller
         return response()->json($bailleurs);
     }
 
+    public function edit($id)
+    {
+        $bailleur = Bailleur::with('user')->findOrFail($id); // Assurez-vous que vous avez bien la relation avec 'user' configurée
+        return view('updatebailleur', compact('bailleur'));
+    }
+
 
     public function update(Request $request, Bailleur $bailleur): \Illuminate\Http\RedirectResponse
     {
