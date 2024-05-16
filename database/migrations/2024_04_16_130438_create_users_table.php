@@ -10,13 +10,26 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nom', 60);
-            $table->string('prenom', 60);
+            $table->string('name', 60);
+            $table->string('surname', 60);
             $table->string('email', 60)->unique();
-            $table->date('naissance');
+            $table->date('birth_date');
             $table->string('password', 60);
-            $table->string('tel', 60);
+            $table->string('phone', 60);
             $table->string('role', 60);
+
+            // ATTRIBUTS VOYAGEURS
+            $table->boolean('vip')->nullable();//vip ou non
+
+
+            // ATTRIBUTS BAILLEURS
+            $table->string('prestataire_favoris')->nullable();// Liste des prestataires favoris
+            $table->string('voyageurs_bloques')->nullable();// Liste des voyageurs bloquées
+
+            //ATTRIBUTS PRESTATAIRES
+            $table->integer('rating')->nullable();//note moyenne du presta
+            $table->string('availability', 60)->nullable();//disponibilité du presta
+
             $table->timestamps();
         });
     }
