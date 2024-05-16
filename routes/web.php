@@ -68,4 +68,6 @@ Route::get('/allvoyageur', function () {return view('allvoyageurs');});
 Route::post('/registervoyageur', [UserController::class, 'registerVoyageur']);
 
 
+//Routes Presta
+Route::get('inscription/prestataire', [UserController::class, 'createPrestataire'])->name('inscription/prestataire');
 require __DIR__.'/auth.php';
