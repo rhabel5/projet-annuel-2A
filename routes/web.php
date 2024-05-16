@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BailleurController;
+use App\Http\Controllers\PrestataireController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoyageurController;
@@ -68,5 +69,6 @@ Route::delete('voyageur/{voyageur}', [VoyageurController::class, 'allVoyageurs']
 
 
 //Routes Presta
+Route::get('/allprestataires', [PrestataireController::class, 'allPrestataires'])->name('allprestataires');
 Route::get('inscription/prestataire', [UserController::class, 'createPrestataire'])->name('inscription/prestataire');
 require __DIR__.'/auth.php';
