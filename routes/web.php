@@ -52,19 +52,19 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
 Route::get('users/create-bailleur', [UserController::class, 'createBailleur'])->name('users.create-bailleur');
 Route::post('users', [UserController::class, 'store'])->name('users.store');
 //Route::resource('bailleurs', BailleurController::class);
-//Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
+Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
 //Route::get('/addbailleur', function (){return view('bailleur_views/addbailleur');});
 //Route::post('/registerbailleur', [UserController::class, 'registerBailleur']);
-//Route::delete('/bailleur/{user}', [BailleurController::class, 'destroy'])->name('bailleur.destroy');
+Route::delete('/bailleur/{user}', [BailleurController::class, 'destroy'])->name('bailleur.destroy');
     //Routes Modifications Bailleurs
 
-//Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('bailleur.edit');
+Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('bailleur.edit');
 //Route::post('/bailleur/{id}/update', 'BailleurController@update')->name('bailleur.update');
 
 
 //Routes Voyageurs
+Route::get('users/create-voyageur', [UserController::class, 'createVoyageur'])->name('users.create-voyageur');
 Route::get('/allvoyageur', function () {return view('allvoyageurs');});
-Route::get('/addvoyageur', function (){return view('addvoyageur');});
 Route::post('/registervoyageur', [UserController::class, 'registerVoyageur']);
 
 
