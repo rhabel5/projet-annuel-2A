@@ -53,7 +53,7 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
    //Routes Bailleurs
 Route::get('users/create-bailleur', [UserController::class, 'createBailleur'])->name('users.create-bailleur');
 Route::post('users', [UserController::class, 'store'])->name('users.store');
-Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
+Route::get('/bailleurs', [BailleurController::class, 'allBailleurs']);
 Route::delete('/bailleur/{user}', [BailleurController::class, 'destroy'])->name('bailleur.destroy');
 
 Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('bailleur.edit');
@@ -62,13 +62,13 @@ Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('ba
 
 //Routes Voyageurs
 Route::get('users/create-voyageur', [UserController::class, 'createVoyageur'])->name('users.create-voyageur');
-Route::get('/allvoyageurs', [VoyageurController::class, 'allVoyageurs'])->name('allvoyageurs');
+Route::get('/voyageurs', [VoyageurController::class, 'allVoyageurs'])->name('voyageurs');
 Route::post('/registervoyageur', [UserController::class, 'registerVoyageur']);
 Route::get('voyageur/{voyageur}/edit', [VoyageurController::class, 'allVoyageurs'])->name('voyageur.edit');
-Route::delete('voyageur/{voyageur}', [VoyageurController::class, 'allVoyageurs'])->name('voyageur.destroy');
+Route::delete('voyageur/{voyageur}', [VoyageurController::class, 'destroy'])->name('voyageur.destroy');
 
 
 //Routes Presta
-Route::get('/allprestataires', [PrestataireController::class, 'allPrestataires'])->name('allprestataires');
+Route::get('/prestataires', [PrestataireController::class, 'allPrestataires'])->name('prestataires');
 Route::get('inscription/prestataire', [UserController::class, 'createPrestataire'])->name('inscription/prestataire');
 require __DIR__.'/auth.php';
