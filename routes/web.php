@@ -3,6 +3,7 @@
 use App\Http\Controllers\BailleurController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoyageurController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BienController;
 
@@ -51,12 +52,8 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
    //Routes Bailleurs
 Route::get('users/create-bailleur', [UserController::class, 'createBailleur'])->name('users.create-bailleur');
 Route::post('users', [UserController::class, 'store'])->name('users.store');
-//Route::resource('bailleurs', BailleurController::class);
 Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
-//Route::get('/addbailleur', function (){return view('bailleur_views/addbailleur');});
-//Route::post('/registerbailleur', [UserController::class, 'registerBailleur']);
 Route::delete('/bailleur/{user}', [BailleurController::class, 'destroy'])->name('bailleur.destroy');
-    //Routes Modifications Bailleurs
 
 Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('bailleur.edit');
 //Route::post('/bailleur/{id}/update', 'BailleurController@update')->name('bailleur.update');
@@ -64,8 +61,10 @@ Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('ba
 
 //Routes Voyageurs
 Route::get('users/create-voyageur', [UserController::class, 'createVoyageur'])->name('users.create-voyageur');
-Route::get('/allvoyageur', function () {return view('allvoyageurs');});
+Route::get('/allvoyageurs', [VoyageurController::class, 'allVoyageurs'])->name('allvoyageurs');
 Route::post('/registervoyageur', [UserController::class, 'registerVoyageur']);
+Route::get('voyageur/{voyageur}/edit', [VoyageurController::class, 'allVoyageurs'])->name('voyageur.edit');
+Route::delete('voyageur/{voyageur}', [VoyageurController::class, 'allVoyageurs'])->name('voyageur.destroy');
 
 
 //Routes Presta
