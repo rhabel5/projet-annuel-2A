@@ -52,16 +52,15 @@
     </style>
 </head>
 <body>
-<form action="{{ route('bailleurs.update', $bailleur) }}" method="POST">
+<form action="{{ route('bailleur.update', $bailleur->id) }}" method="POST">
     @csrf
     @method('PUT')
     <h1>Modifier un bailleur</h1>
-    <input type="text" name="prenom" value="{{ $bailleur->prenom }}" placeholder="prenom">
-    <input type="text" name="nom" value="{{ $bailleur->nom }}" placeholder="nom">
-    <input type="date" name="naissance" value="{{ $bailleur->naissance }}" placeholder="naissance">
+    <input type="text" name="name" value="{{ $bailleur->name }}" placeholder="prenom">
+    <input type="text" name="surname" value="{{ $bailleur->surname }}" placeholder="nom">
+    <input type="date" name="birth_date" value="{{ $bailleur->birth_date }}" placeholder="naissance">
     <input type="text" name="email" value="{{ $bailleur->email }}" placeholder="email">
-    <input type="text" name="tel" value="{{ $bailleur->tel }}" placeholder="tel">
-    <input type="hidden" name="role" value="bailleur">
+    <input type="text" name="phone" value="{{ $bailleur->tel }}" placeholder="tel">
     <input type="text" name="rib" value="{{ $bailleur->rib }}" placeholder="RIB">
     <button type="submit">Sauvegarder les modifications</button>
 </form>

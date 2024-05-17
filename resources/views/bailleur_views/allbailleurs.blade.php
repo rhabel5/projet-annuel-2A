@@ -23,10 +23,13 @@
     @foreach($bailleurUsers as $user)
         <tr>
             <th scope="row">{{ $user->id }}</th>
-            <td>{{ $user->nom }}</td>
-            <td>{{ $user->prenom }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->surname }}</td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user->tel }}</td>
+            <td>{{ $user->phone }}</td>
+            <td>{{ $user->rib }}</td>
+            <td>{{ $user->rib }}</td>
+            <td>{{ $user->rib }}</td>
             <td>
                 <!-- Bouton Modifier -->
                 <button class="btn btn-alert" ><a href="{{ route('bailleur.edit', $user->id) }}">Modifier</a></button>

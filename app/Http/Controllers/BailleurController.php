@@ -25,33 +25,29 @@ class BailleurController extends Controller
         return response()->json($bailleurs);
     }
 
-    public function edit($id)
+    public function edit(Bailleur $bailleur)
     {
-        $bailleur = Bailleur::with('user')->findOrFail($id); // Assurez-vous que vous avez bien la relation avec 'user' configurée
-        return view('updatebailleur', compact('bailleur'));
+        return view('bailleur_views.updatebailleur', compact('bailleur'));
     }
 
-
-    public function update(Request $request, Bailleur $bailleur): \Illuminate\Http\RedirectResponse
+    public function update(Request $request, Bailleur $bailleur)
     {
-        // validation des données reçues
+        // Validation et mise à jour des données du bailleur
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            // et les autres règles de validation selon votre modèle de bailleur
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:60',
+            'rib' => 'required|string|max:60',
+            'phone' => 'required|string|max:60',
+            'email' => 'required|string|email|max:255',
+            'birth_date' => 'required|date',
         ]);
 
-        // modification des données du bailleur
-        $bailleur->name = $request->name;
-        $bailleur->email = $request->email;
-        // et les autres attributs de votre modèle de bailleur
+        $bailleur->update($request->all());
 
-        // sauvegarde des modifications
-        $bailleur->save();
-
-        // redirection vers la page appropriée avec un message de succès
-        return redirect()->route('bailleurs.show', $bailleur)->with('success', 'Les informations du bailleur ont été modifiées avec succès');
+        return redirect()->route('bailleurs.index')->with('success', 'Bailleur updated successfully.');
     }
+
+
 
     public function destroy(User $user)
     {

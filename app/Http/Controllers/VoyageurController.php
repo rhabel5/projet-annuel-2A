@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bailleur; // Make sure you have a Bailleur model correctly set up
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Voyageur;
+
+// Make sure you have a Bailleur model correctly set up
 
 
 class VoyageurController extends Controller
@@ -14,7 +14,14 @@ class VoyageurController extends Controller
     {
         $voyageurs = User::where('role', 'voyageur')->get();
 
-        return view('voyageur_views/allvoyageurs', ['bailleurUsers' => $voyageurs]);
+        return view('voyageur_views/allvoyageurs', ['voyageurs' => $voyageurs]);
+    }
+
+    public function destroy(User $voyageur)
+    {
+        $voyageur->delete();
+
+        return redirect()->route('voyageurs');
     }
 
 }

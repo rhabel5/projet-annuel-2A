@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bailleur;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,60 +10,66 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function registerBailleur(Request $request)
+    public function createVoyageur()
     {
-        $validator = Validator::make($request->all(), [
-            'nom' => ['required', 'string', 'max:255'],
-            'prenom' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-            'tel' => ['required', 'string', 'max:255'],
-            'naissance' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'max:255'],
-            'rib' => ['required', 'string', 'max:255'],
-
-        ]);
-
-        echo "hello from registerBailleur";
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $user = User::create([
-            'nom' => $request->nom,
-            'prenom' => $request->prenom,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'naissance' => $request->naissance,
-            'role' => $request->role,
-            'tel' => $request->tel,
-        ]);
-
-        $bailleurFields = [
-            'user_id' => $user->id,
-            'nom' => $user->nom . ' ' . $user->prenom,
-            'rib' => $request->rib,
-            'role'=> 'bailleur'
-        ];
-
-        Bailleur::create($bailleurFields);
-
-        //$user->role = $request->invitation_code === 'quoicoubeh' ? 'admin' : 'user';
-        //$user->save();
-
-        //return $user->role === 'admin' ?
-            //redirect()->route('admin.dashboard') :
-            //redirect('/home');
-
-        return response()->json(['user' => $user, 'message' => 'Created successfully'], 201);
+        return view('voyageur_views.addvoyageurs');
     }
 
+    public function createBailleur()
+    {
+        return view('bailleur_views.addbailleur');
+    }
 
+    public function createPrestataire()
+    {
+        return view('presta_views.addpresta');
+    }
 
+    public function store(Request $request)
+    {
+        $role = $request->input('role');
 
+        $rules = [
+            'name' => 'required|string|max:60',
+            'surname' => 'required|string|max:60',
+            'email' => 'required|string|email|max:60|unique:users',
+            'birth_date' => 'required|date',
+            'password' => 'required|string|max:60',
+            'phone' => 'required|string|max:60',
+            'role' => 'required|string|max:60',
+        ];
 
+        // Common rules based on role
+        switch ($role) {
+            case 'voyageur':
+                $rules['vip'] = 'nullable|boolean';
+                break;
 
+            case 'bailleur':
+                $rules['rib'] = 'required|string|max:60';
+                $rules['prestataire_favoris'] = 'nullable|string';
+                $rules['voyageurs_bloques'] = 'nullable|string';
+                break;
+
+            case 'prestataire':
+                $rules['rating'] = 'nullable|integer|min:0|max:5';
+                $rules['availability'] = 'required|string|max:60';
+                break;
+
+            default:
+                return redirect()->back()->withErrors(['role' => 'Invalid role specified.']);
+        }
+
+        $data = $request->validate($rules);
+
+        $data['password'] = bcrypt($data['password']);
+        //echo "bite";
+        //return "lala";
+
+        User::create($data);
+
+        return redirect()->route('users.index')->with('success', 'User created successfully.');
+    }
 
     public function checkEmail(Request $request)
     {
@@ -104,6 +109,21 @@ class UserController extends Controller
         return response()->json(['error' => 'The provided credentials do not match our records.'], 401);
     }
 
+    public function edit(User $user)
+    {
+        switch ($user->role) {
+            case 'voyageur':
+                return view('voyageurs_views.edit-voyageur', compact('user'));
+            case 'bailleur':
+                return view('bailleur_views.edit-bailleur', compact('user'));
+            case 'prestataire':
+                return view('users_views.edit-prestataire', compact('user'));
+            default:
+                return redirect()->route('users.index')->withErrors(['role' => 'Invalid role specified.']);
+        }
+    }
+
+
     public function update(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
@@ -136,4 +156,6 @@ class UserController extends Controller
         Auth::logout();
         return response()->json(['message' => 'Successfully logged out']);
     }
+
+
 }

@@ -8,13 +8,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class VoyageurController extends Controller
+class PrestataireController extends Controller
 {
-    public function allVoyageurs(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function allPrestataires(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $voyageurs = User::where('role', 'voyageur')->get();
+        $prestataires = User::where('role', 'prestataire')->get();
 
-        return view('voyageur_views/allvoyageurs', ['voyageurs' => $voyageurs]);
+        return view('presta_views/allpresta', ['prestataires' => $prestataires]);
+    }
+
+    public function destroy(User $prestataire)
+    {
+        $prestataire->delete();
+
+        return redirect()->route('prestataires');
     }
 
 }

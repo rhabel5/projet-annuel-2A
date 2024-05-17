@@ -56,6 +56,7 @@ Route::get('/bailleurs', [BailleurController::class, 'allBailleurs']);
 Route::delete('/bailleur/{user}', [BailleurController::class, 'destroy'])->name('bailleur.destroy');
 Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('bailleur.edit');
 Route::post('/bailleur/{id}/edit', [BailleurController::class, 'update'])->name('bailleur.update');
+Route::post('users.store', [UserController::class, 'store'])->name('users.store');
 
 
 

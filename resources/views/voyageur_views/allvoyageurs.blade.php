@@ -5,7 +5,7 @@
 
 </head>
 
-<h1>Utilisateurs</h1>
+<h1>Voyageurs</h1>
 
 <!-- Ajouter 'table' en tant que classe pour styliser le tableau avec Bootstrap -->
 <table class="table">
@@ -20,7 +20,7 @@
     </thead>
 
     <tbody>
-    @foreach($bailleurUsers as $user)
+    @foreach($voyageurs as $user)
         <tr>
             <th scope="row">{{ $user->id }}</th>
             <td>{{ $user->name }}</td>
@@ -29,9 +29,9 @@
             <td>{{ $user->phone }}</td>
             <td>
                 <!-- Bouton Modifier -->
-                <button class="btn btn-alert" ><a href="{{ route('bailleur.edit', $user->id) }}">Modifier</a></button>
+                <button class="btn btn-alert" ><a href="{{ route('voyageur.edit', $user->id) }}">Modifier</a></button>
                 <!-- Bouton Supprimer -->
-                <form action="{{ route('bailleur.destroy', $user) }}" method="POST" style="display: inline-block;">
+                <form action="{{ route('voyageur.destroy', $user) }}" method="POST" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Supprimer</button>

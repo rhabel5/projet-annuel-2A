@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
 
 
             // ATTRIBUTS BAILLEURS
+            $table->string('rib', 60)->nullable(); //où il recevra ses payement
             $table->string('prestataire_favoris')->nullable();// Liste des prestataires favoris
             $table->string('voyageurs_bloques')->nullable();// Liste des voyageurs bloquées
 
