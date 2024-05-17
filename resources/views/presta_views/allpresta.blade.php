@@ -16,25 +16,25 @@
         <th>Prénom</th>
         <th>Email</th>
         <th>Numéro de Téléphone</th>
+        <th>Disponibilités</th>
     </tr>
     </thead>
 
     <tbody>
-    @foreach($bailleurUsers as $user)
+    @foreach($prestataires as $user)
         <tr>
             <th scope="row">{{ $user->id }}</th>
             <td>{{ $user->name }}</td>
             <td>{{ $user->surname }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $user->phone }}</td>
-            <td>{{ $user->rib }}</td>
-            <td>{{ $user->rib }}</td>
+            <td>{{ $user->availability }}</td>
             <td>{{ $user->rib }}</td>
             <td>
                 <!-- Bouton Modifier -->
-                <button class="btn btn-alert" ><a href="{{ route('bailleur.edit', $user->id) }}">Modifier</a></button>
+                <button class="btn btn-alert" ><a href="{{ route('prestataire.edit', $user->id) }}">Modifier</a></button>
                 <!-- Bouton Supprimer -->
-                <form action="{{ route('bailleur.destroy', $user) }}" method="POST" style="display: inline-block;">
+                <form action="{{ route('prestataire.destroy', $user) }}" method="POST" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Supprimer</button>

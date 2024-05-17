@@ -5,50 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        body {
-            display: flex;
-            justify-content:center;
+body {
+    display: flex;
+    justify-content:center;
             align-items: center;
             height: 100vh;
             background: #F2F2F2;
         }
 
         form {
-            background: #fff;
-            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
             padding: 20px;
             border-radius: 4px;
         }
 
         h1 {
-            margin-bottom: 10px;
+    margin-bottom: 10px;
             text-align: center;
         }
 
         input[type="text"],
-        input[type="password"],
-        input[type="date"] {
-            display: block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-            width: 100%;
+input[type="password"],
+input[type="date"] {
+display: block;
+border: 1px solid #ccc;
+border-radius: 4px;
+padding: 10px;
+width: 100%;
             margin-bottom: 10px;
-        }
+}
 
-        button[type="submit"] {
-            background: #007BFF;
-            color: #fff;
-            border: 0;
-            border-radius: 4px;
-            padding: 10px;
-            width: 100%;
+button[type="submit"] {
+background: #007BFF;
+color: #fff;
+border: 0;
+border-radius: 4px;
+padding: 10px;
+width: 100%;
             cursor: pointer;
-        }
+}
 
-        .flash-message {
-            position: fixed;
-            top: 20px;
+.flash-message {
+    position: fixed;
+    top: 20px;
             right: 20px;
             z-index: 1000;
             border: 1px solid;
@@ -56,18 +56,18 @@
             border-radius: 4px;
         }
         .flash-message.success {
-            color: green;
-            border-color: green;
+    color: green;
+    border-color: green;
         }
         .flash-message.error {
-            color: red;
-            border-color: red;
+    color: red;
+    border-color: red;
         }
 
         button[type="submit"]:hover {
-            background: #0056b3;
-        }
-    </style>
+    background: #0056b3;
+}
+</style>
 </head>
 <body>
 @if (session('success'))
@@ -90,8 +90,7 @@
     <input type="text" name="email" placeholder="Email">
     <input type="text" name="phone" placeholder="Numéro de téléphone">
     <input type="password" name="password" placeholder="Mot de passe">
-    <input type="hidden" name="role" value="bailleur">
-    <input type="text" name="rib" placeholder="Relevé d'identité bancaire">
+    <input type="hidden" name="role" value="voyageur">
     <button type="submit">S'inscrire</button>
 </form>
 

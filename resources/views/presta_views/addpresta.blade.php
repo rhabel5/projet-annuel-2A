@@ -90,7 +90,8 @@
     <input type="text" name="email" placeholder="Email">
     <input type="text" name="phone" placeholder="Numéro de téléphone">
     <input type="password" name="password" placeholder="Mot de passe">
-    <input type="hidden" name="role" value="bailleur">
+    <input type="hidden" name="role" value="prestataire">
+    <input type="text" name="availability" placeholder="Disponibilités"> <!--pour les disponibilité faire comme staffme-->
     <input type="text" name="rib" placeholder="Relevé d'identité bancaire">
     <button type="submit">S'inscrire</button>
 </form>

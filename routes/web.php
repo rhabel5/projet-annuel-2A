@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\BailleurController;
+use App\Http\Controllers\PrestataireController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoyageurController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BienController;
 
@@ -48,17 +50,26 @@ Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::delete('users/{user}', 'AdminController@destroyUser')->name('admin.users.destroy');
 });
 
-//Routes Bailleurs
-Route::get('/allbailleurs', [BailleurController::class, 'allBailleurs']);
-Route::get('/addbailleur', function (){return view('bailleur_views/addbailleur');});
-Route::post('/registerbailleur', [UserController::class, 'registerBailleur']);
+   //Routes Bailleurs
+Route::get('users/create-bailleur', [UserController::class, 'createBailleur'])->name('users.create-bailleur');
+Route::get('/bailleurs', [BailleurController::class, 'allBailleurs']);
 Route::delete('/bailleur/{user}', [BailleurController::class, 'destroy'])->name('bailleur.destroy');
+Route::get('/bailleur/{id}/edit', [BailleurController::class, 'edit'])->name('bailleur.edit');
+Route::post('/bailleur/{id}/edit', [BailleurController::class, 'update'])->name('bailleur.update');
+Route::post('users.store', [UserController::class, 'store'])->name('users.store');
+
 
 
 //Routes Voyageurs
-Route::get('/allvoyageur', function () {return view('allvoyageurs');});
-Route::get('/addvoyageur', function (){return view('addvoyageur');});
-Route::post('/registervoyageur', [UserController::class, 'registerVoyageur']);
+Route::get('users/create-voyageur', [UserController::class, 'createVoyageur'])->name('users.create-voyageur');
+Route::get('/voyageurs', [VoyageurController::class, 'allVoyageurs'])->name('voyageurs');
+Route::get('voyageur/{voyageur}/edit', [VoyageurController::class, 'allVoyageurs'])->name('voyageur.edit');
+Route::delete('voyageur/{voyageur}', [VoyageurController::class, 'destroy'])->name('voyageur.destroy');
 
 
+//Routes Presta
+Route::get('/prestataires', [PrestataireController::class, 'allPrestataires'])->name('prestataires');
+Route::get('inscription/prestataire', [UserController::class, 'createPrestataire'])->name('inscription/prestataire');
+Route::get('prestataire/{prestataire}/edit', [PrestataireController::class, 'allVoyageurs'])->name('prestataire.edit');
+Route::delete('prestataire/{prestataire}', [PrestataireController::class, 'destroy'])->name('prestataire.destroy');
 require __DIR__.'/auth.php';
