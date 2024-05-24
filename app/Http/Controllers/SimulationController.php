@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Simulation; // Importer la classe Simulation
+use App\Models\Simulation; // Importer la classe Simulation TODO
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SimulationController extends Controller
 {

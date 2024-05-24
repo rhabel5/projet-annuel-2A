@@ -63,7 +63,7 @@ class UserController extends Controller
         $data = $request->validate($rules);
 
         $data['password'] = bcrypt($data['password']);
-        //echo "bite";
+        //echo "quoicoubeh";
         //return "lala";
 
         User::create($data);
@@ -156,6 +156,4 @@ class UserController extends Controller
         Auth::logout();
         return response()->json(['message' => 'Successfully logged out']);
     }
-
-
 }

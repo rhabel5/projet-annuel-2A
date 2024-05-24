@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoyageurController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BienController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
