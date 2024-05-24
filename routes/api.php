@@ -3,12 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BailleurController;
 use App\Http\Controllers\BienController;
-//use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-
-
 
 // Routes for Bailleurs
 Route::prefix('bailleurs')->group(function () {
@@ -18,7 +15,6 @@ Route::prefix('bailleurs')->group(function () {
     Route::delete('/{bailleur}', [BailleurController::class, 'destroy'])->name('bailleurs.destroy');
 });
 
-
 // Routes for Biens
 Route::prefix('biens')->group(function () {
     Route::post('/', [BienController::class, 'store'])->name('biens.store');
@@ -26,7 +22,6 @@ Route::prefix('biens')->group(function () {
     Route::put('/{bien}', [BienController::class, 'update'])->name('biens.update');
     Route::delete('/{bien}', [BienController::class, 'destroy'])->name('biens.destroy');
 });
-
 
 // Routes for Users
 Route::prefix('users')->group(function () {
