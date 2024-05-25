@@ -15,3 +15,6 @@
         </div>
     </div>
 </x-app-layout>
+
+
+<!-- Le dashboard doit être different selon les rôles que possède l' utilisateur, si il est juste voyageur il aura juste les infos voyageurs, si il est aussi bailleur/prestataire il aura les infos relatives à son rôle -->
