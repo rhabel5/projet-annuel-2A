@@ -36,4 +36,8 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
 
+Route::get('/home', function () {
+    return view('welcome');
+})->name('home');
+
 require __DIR__.'/auth.php';
