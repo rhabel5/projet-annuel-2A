@@ -14,9 +14,12 @@
             <nav class="flex items-center">
                 @guest
                     <a href="{{ route('login') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Se connecter</a>
-                    <a href="{{ route('register') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Créer un compte</a>
+                     <a href="{{ route('register') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Créer un compte</a>
+                     <a href="{{ route('register') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Créer un compte</a>
                 @else
-                    <span class="text-gray-700 dark:text-gray-300 mx-2">Bonjour, {{ Auth::user()->name }}</span>
+                    <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Devenir Bailleur</a>
+                    <a href="{{ route('dashboard') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Mon Espace</a>
+                    <span class="text-gray-700 dark:text-gray-300 mx-2">Bonjour {{ Auth::user()->firstname }}</span>
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                        class="text-red-500 dark:text-red-300 font-semibold hover:text-red-700 dark:hover:text-red-500 mx-2">Déconnexion</a>

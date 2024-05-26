@@ -40,4 +40,12 @@ Route::get('/home', function () {
     return view('welcome');
 })->name('home');
 
+//Routes biens
+
+Route::get('/biens/ajout', function () {
+    return view('biens_views/addbien');
+})->name('biens.ajout');
+
+Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
+
 require __DIR__.'/auth.php';
