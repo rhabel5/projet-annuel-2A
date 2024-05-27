@@ -15,7 +15,6 @@
                 @guest
                     <a href="{{ route('login') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Se connecter</a>
                      <a href="{{ route('register') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Créer un compte</a>
-                     <a href="{{ route('register') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Créer un compte</a>
                 @else
                     <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Devenir Bailleur</a>
                     <a href="{{ route('dashboard') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Mon Espace</a>
