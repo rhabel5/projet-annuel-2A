@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +29,7 @@ class Bien extends Model
         'prix_animaux' ,
         'nb_lit'  ,
         'piscine',
-        'note_moyenne' ,
+        'note_moyenne',
         'salle_eau',
         'images'  ,
         'nb_chambres' ,

@@ -26,12 +26,12 @@ class BienController extends Controller
             'prix_animaux' => 'required|integer',
             'nb_lit' => 'required|integer',
             'piscine' => 'required|boolean',
-            'note_moyenne' => 'integer',
+            'note_moyenne' => 'nullable|integer',
             'salle_eau' => 'required|integer',
-            'images' => 'string',
+            'images' => 'nullable|string',
             'nb_chambres' => 'required|integer',
-            'dispo' => 'string',
-            'valide' => 'boolean'
+            'dispo' => 'nullable|string',
+            'valide' => 'nullable|boolean'
         ]);
 
         if ($validator->fails()) {
