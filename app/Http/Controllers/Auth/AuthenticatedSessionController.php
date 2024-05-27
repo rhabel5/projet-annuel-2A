@@ -7,7 +7,10 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use App\Models\User;
+use App\Models\Role;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,7 +31,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('home', absolute: false));
+        $user = Auth::user();
+
+        return $this->authenticated($request, $user);
     }
 
     /**
@@ -43,5 +48,20 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->hasRole('voyageur')) {
+            return redirect()->route('voyageur.dashboard');
+        } elseif ($user->hasRole('prestataire')) {
+            return redirect()->route('prestataire.dashboard');
+        } elseif ($user->hasRole('bailleur')) {
+            return redirect()->route('bailleur.dashboard');
+        }
+
+        return redirect()->route('home');
     }
 }

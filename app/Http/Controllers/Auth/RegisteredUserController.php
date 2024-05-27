@@ -4,17 +4,27 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     * Display the registration view.
+     */
     public function create()
     {
         return view('auth.register');
     }
 
+    /**
+     * Handle an incoming registration request.
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -24,7 +34,7 @@ class RegisteredUserController extends Controller
             'birthdate' => 'required|date',
             'password' => 'required|string|min:8|confirmed',
             'tel' => 'required|string|max:60',
-            'role' => 'required|string|max:60',
+            'role' => 'required|string|exists:roles,name',
         ]);
 
         if ($validator->fails()) {
@@ -32,16 +42,20 @@ class RegisteredUserController extends Controller
         }
 
         $user = User::create([
-            'firstname' => $request->input('firstname'),
-            'lastname' => $request->input('lastname'),
-            'email' => $request->input('email'),
-            'birthdate' => $request->input('birthdate'),
-            'password' => Hash::make($request->input('password')),
-            'tel' => $request->input('tel'),
-            'role' => $request->input('role'),
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+            'birthdate' => $request->birthdate,
+            'password' => Hash::make($request->password),
+            'tel' => $request->tel,
         ]);
 
-        auth()->login($user);
+        $role = Role::where('name', $request->role)->first();
+        $user->roles()->attach($role);
+
+        event(new Registered($user));
+
+        Auth::login($user);
 
         return redirect()->route('home');
     }
