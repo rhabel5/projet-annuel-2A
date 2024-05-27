@@ -10,6 +10,7 @@ class CreateBiensTable extends Migration
     {
         Schema::create('biens', function (Blueprint $table) {
             $table->id();
+            $table->string('titre', 60);
             $table->unsignedBigInteger('id_bailleur');
             $table->string('nom_bien', 60);
             $table->string('description', 255);
@@ -27,6 +28,7 @@ class CreateBiensTable extends Migration
             $table->unsignedInteger('note_moyenne');
             $table->unsignedInteger('salle_eau');
             $table->unsignedInteger('images');
+            $table->string('image_url', 255)->nullable();
             $table->unsignedInteger('nb_chambres');
             $table->unsignedInteger('dispo');
             $table->boolean('valide')->default(false);

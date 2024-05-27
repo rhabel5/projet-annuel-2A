@@ -11,10 +11,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Utiliser BienController@index pour la route racine
+Route::get('/', [BienController::class, 'index'])->name('home');
 
+Route::get('/biens/{bien}', [BienController::class, 'show'])->name('biens.show');
+
+// Route pour le tableau de bord
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -35,9 +37,5 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest');
-
-Route::get('/home', function () {
-    return view('welcome');
-})->name('home');
 
 require __DIR__.'/auth.php';

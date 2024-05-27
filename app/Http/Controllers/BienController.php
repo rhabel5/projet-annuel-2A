@@ -44,8 +44,11 @@ class BienController extends Controller
 
     public function index()
     {
+        // Récupérer tous les biens depuis la base de données
         $biens = Bien::all();
-        return response()->json($biens);
+        
+        // Retourner la vue avec les biens
+        return view('welcome', compact('biens'));
     }
 
     public function update(Request $request, Bien $bien)
@@ -84,5 +87,10 @@ class BienController extends Controller
     {
         $bien->delete();
         return response()->json(['message' => 'Property deleted successfully']);
+    }
+
+    public function show(Bien $bien)
+    {
+        return view('bien.show', compact('bien'));
     }
 }
