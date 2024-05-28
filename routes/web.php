@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\VoyageurController;
+
 
 Route::get('/', [BienController::class, 'index'])->name('home');
 Route::get('/biens/{bien}', [BienController::class, 'show'])->name('biens.show');
@@ -49,3 +51,8 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->middleware
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
 require __DIR__.'/auth.php';
+
+//Route dashboard 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/voyageur/dashboard', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
+});
