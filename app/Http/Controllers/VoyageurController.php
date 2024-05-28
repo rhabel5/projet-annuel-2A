@@ -36,4 +36,27 @@ class VoyageurController extends Controller
         return view('voyageur.dashboard', compact('user', 'reservationsAVenir', 'reservationsPassees'));
     }
 
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'birthdate' => 'required|date',
+            'tel' => 'nullable|string|max:20',
+        ]);
+
+        $user->update([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+            'birthdate' => $request->birthdate,
+            'tel' => $request->tel,
+        ]);
+
+        return redirect()->route('voyageur.dashboard')->with('success', 'Profil mis à jour avec succès.');
+    }
+
 }
