@@ -25,10 +25,10 @@ class CreateBiensTable extends Migration
             $table->unsignedInteger('prix_animaux');
             $table->unsignedInteger('nb_lit');
             $table->boolean('piscine');
-            $table->unsignedInteger('note_moyenne');
+            $table->unsignedInteger('note_moyenne')->nullable();
             $table->unsignedInteger('salle_eau');
-            $table->unsignedInteger('images');
             $table->string('image_url', 255)->nullable();
+            $table->unsignedInteger('images')->nullable();
             $table->unsignedInteger('nb_chambres');
             $table->unsignedInteger('dispo');
             $table->boolean('valide')->default(false);

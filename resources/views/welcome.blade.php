@@ -30,6 +30,15 @@
                             </form>
                         </div>
                     </div>
+                    <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Devenir Bailleur</a>
+                    <a href="{{ route('dashboard') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Mon Espace</a>
+                    <span class="text-gray-700 dark:text-gray-300 mx-2">Bonjour {{ Auth::user()->firstname }}</span>
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                       class="text-red-500 dark:text-red-300 font-semibold hover:text-red-700 dark:hover:text-red-500 mx-2">Déconnexion</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 @endguest
                 <div class="relative ml-4">
                     <input type="checkbox" id="toggle-theme" class="toggle-checkbox sr-only">

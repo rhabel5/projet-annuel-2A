@@ -9,29 +9,31 @@ class Bien extends Model
 {
     use HasFactory;
 
-    protected $table = 'biens';
-
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'id_bailleur',
-        'nom_bien',
-        'description',
-        'couchage',
-        'type_bien',
+        'nom_bien' ,
+        'description' ,
+        'couchage' ,
+        'type_bien' ,
         'type_location',
-        'ville',
-        'adresse',
+        'ville' ,
+        'adresse' ,
         'code_postal',
-        'prix_adulte',
-        'prix_enfant',
-        'prix_animaux',
-        'nb_lit',
+        'prix_adulte' ,
+        'prix_enfant' ,
+        'prix_animaux' ,
+        'nb_lit'  ,
         'piscine',
         'note_moyenne',
         'salle_eau',
-        'images',
-        'nb_chambres',
+        'images'  ,
+        'nb_chambres' ,
         'dispo',
-        'valide',
-        'image_url',
+        'valide'
     ];
 }

@@ -26,12 +26,12 @@ class BienController extends Controller
             'prix_animaux' => 'required|integer',
             'nb_lit' => 'required|integer',
             'piscine' => 'required|boolean',
-            'note_moyenne' => 'required|integer',
+            'note_moyenne' => 'nullable|integer',
             'salle_eau' => 'required|integer',
-            'images' => 'required|integer',
+            'images' => 'nullable|string',
             'nb_chambres' => 'required|integer',
-            'dispo' => 'required|integer',
-            'valide' => 'required|boolean'
+            'dispo' => 'nullable|string',
+            'valide' => 'nullable|boolean'
         ]);
 
         if ($validator->fails()) {
@@ -82,7 +82,7 @@ class BienController extends Controller
         $bien->update($request->all());
         return response()->json(['bien' => $bien, 'message' => 'Property updated successfully']);
     }
-    
+
     public function destroy(Bien $bien)
     {
         $bien->delete();

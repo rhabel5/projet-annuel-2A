@@ -51,4 +51,12 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->middleware
 
 Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
+//Routes biens
+
+Route::get('/biens/ajout', function () {
+    return view('biens_views/addbien');
+})->name('biens.ajout');
+
+Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
+
 require __DIR__.'/auth.php';
