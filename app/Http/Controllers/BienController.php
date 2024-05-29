@@ -46,7 +46,7 @@ class BienController extends Controller
     {
         // Récupérer tous les biens depuis la base de données
         $biens = Bien::all();
-        
+
         // Retourner la vue avec les biens
         return view('welcome', compact('biens'));
     }
@@ -55,6 +55,7 @@ class BienController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nom_bien' => 'string|max:255',
+            'titre' => 'string|max:60',
             'description' => 'string|max:255',
             'couchage' => 'integer',
             'type_bien' => 'string|max:255',
