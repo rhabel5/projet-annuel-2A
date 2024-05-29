@@ -26,7 +26,7 @@ class CreateBiensTable extends Migration
             $table->boolean('piscine');
             $table->unsignedInteger('note_moyenne')->nullable();
             $table->unsignedInteger('salle_eau');
-            $table->unsignedInteger('images');
+            $table->unsignedInteger('images')->nullable();
             $table->unsignedInteger('nb_chambres');
             $table->unsignedInteger('dispo');
             $table->boolean('valide')->default(false);
