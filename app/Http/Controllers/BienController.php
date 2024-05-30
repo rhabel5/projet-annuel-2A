@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bien;
+use App\Models\Role_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -39,6 +40,12 @@ class BienController extends Controller
         }
 
         $bien = Bien::create($request->all());
+
+        $dejaBailleur = Role_user::where('id_user', Auth::id())->where('id_role', 3)->first();
+        if (!$dejaBailleur) {
+            $instance->assignRole(3, Auth::id());
+        }
+
         return response()->json(['bien' => $bien, 'message' => 'Property created successfully'], 201);
     }
 
@@ -54,7 +61,6 @@ class BienController extends Controller
     public function update(Request $request, Bien $bien)
     {
         $validator = Validator::make($request->all(), [
-            'nom_bien' => 'string|max:255',
             'titre' => 'string|max:60',
             'description' => 'string|max:255',
             'couchage' => 'integer',

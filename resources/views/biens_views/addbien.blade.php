@@ -9,9 +9,9 @@
 
                 <div id="step-1">
                     <div class="mb-4">
-                        <label for="nom_bien" class="block text-gray-700 dark:text-gray-200">{{ __('Nom du Bien') }}</label>
-                        <input id="nom_bien" type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('nom_bien') border-red-500 @enderror" name="nom_bien" value="{{ old('nom_bien') }}" required>
-                        @error('nom_bien')
+                        <label for="titre" class="block text-gray-700 dark:text-gray-200">{{ __('Nom du Bien') }}</label>
+                        <input id="titre" type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('titre') border-red-500 @enderror" name="titre" value="{{ old('titre') }}" required>
+                        @error('titre')
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                         @enderror
                     </div>

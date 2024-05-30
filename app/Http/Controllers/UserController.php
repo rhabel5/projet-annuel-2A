@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role_user;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,8 +64,6 @@ class UserController extends Controller
         $data = $request->validate($rules);
 
         $data['password'] = bcrypt($data['password']);
-        //echo "quoicoubeh";
-        //return "lala";
 
         User::create($data);
 
@@ -156,4 +155,16 @@ class UserController extends Controller
         Auth::logout();
         return response()->json(['message' => 'Successfully logged out']);
     }
+
+    public function assignRole($idRole, $idUser)
+    {
+        $data = [
+            'id_user' => $idUser,
+            'id_role' => $idRole,
+        ];
+
+
+        Role_user::create($data);
+    }
+
 }

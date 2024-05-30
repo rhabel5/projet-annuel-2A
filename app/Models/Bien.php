@@ -16,7 +16,7 @@ class Bien extends Model
      */
     protected $fillable = [
         'id_bailleur',
-        'nom_bien' ,
+        'titre' ,
         'description' ,
         'couchage' ,
         'type_bien' ,
