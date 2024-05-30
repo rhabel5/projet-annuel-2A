@@ -28,38 +28,17 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $role = $request->input('role');
 
         $rules = [
-            'name' => 'required|string|max:60',
-            'surname' => 'required|string|max:60',
+            'firstname' => 'required|string|max:60',
+            'lastname' => 'required|string|max:60',
             'email' => 'required|string|email|max:60|unique:users',
             'birth_date' => 'required|date',
             'password' => 'required|string|max:60',
             'phone' => 'required|string|max:60',
-            'role' => 'required|string|max:60',
         ];
 
         // Common rules based on role
-        switch ($role) {
-            case 'voyageur':
-                $rules['vip'] = 'nullable|boolean';
-                break;
-
-            case 'bailleur':
-                $rules['rib'] = 'required|string|max:60';
-                $rules['prestataire_favoris'] = 'nullable|string';
-                $rules['voyageurs_bloques'] = 'nullable|string';
-                break;
-
-            case 'prestataire':
-                $rules['rating'] = 'nullable|integer|min:0|max:5';
-                $rules['availability'] = 'required|string|max:60';
-                break;
-
-            default:
-                return redirect()->back()->withErrors(['role' => 'Invalid role specified.']);
-        }
 
         $data = $request->validate($rules);
 
@@ -67,7 +46,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        //return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
     public function checkEmail(Request $request)

@@ -6,6 +6,7 @@ use App\Models\Bien;
 use App\Models\Role_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class BienController extends Controller
@@ -39,14 +40,32 @@ class BienController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $bien = Bien::create($request->all());
-
-        $dejaBailleur = Role_user::where('id_user', Auth::id())->where('id_role', 3)->first();
-        if (!$dejaBailleur) {
-            $instance->assignRole(3, Auth::id());
+        // Vérification si l'utilisateur est authentifié
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        return response()->json(['bien' => $bien, 'message' => 'Property created successfully'], 201);
+        DB::beginTransaction();
+        try {
+            // Création de l'enregistrement Bien
+            $bien = Bien::create($request->all());
+
+            // Vérification si l'utilisateur a déjà le rôle de bailleur
+            $dejaBailleur = RoleUser::where('id_user', Auth::id())->where('id_role', 3)->first();
+            if (!$dejaBailleur) {
+                // Assigner le rôle de bailleur à l'utilisateur
+                $roleUser = new RoleUser;
+                $roleUser->id_role = 3;
+                $roleUser->id_user = Auth::id();
+                $roleUser->save();
+            }
+
+            DB::commit();
+            return response()->json(['bien' => $bien, 'message' => 'Property created successfully'], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'An error occurred while creating the property'], 500);
+        }
     }
 
     public function index()

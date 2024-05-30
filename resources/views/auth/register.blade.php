@@ -60,18 +60,6 @@
                 @enderror
             </div>
 
-            <div class="mb-4">
-                <label for="role" class="block text-gray-700 dark:text-gray-200">{{ __('Role') }}</label>
-                <select id="role" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('role') border-red-500 @enderror" name="role" required>
-                    <option value="voyageur">Voyageur</option>
-                    <option value="bailleur">Bailleur</option>
-                    <option value="prestataire">Prestataire</option>
-                </select>
-                @error('role')
-                    <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                @enderror
-            </div>
-
             <div>
                 <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800">
                     {{ __('Register') }}
