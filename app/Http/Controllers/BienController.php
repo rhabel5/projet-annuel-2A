@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bien;
+use App\Models\Role;
 use App\Models\Role_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -51,10 +52,10 @@ class BienController extends Controller
             $bien = Bien::create($request->all());
 
             // Vérification si l'utilisateur a déjà le rôle de bailleur
-            $dejaBailleur = RoleUser::where('id_user', Auth::id())->where('id_role', 3)->first();
+            $dejaBailleur = Role_user::where('id_user', Auth::id())->where('id_role', 3)->first();
             if (!$dejaBailleur) {
                 // Assigner le rôle de bailleur à l'utilisateur
-                $roleUser = new RoleUser;
+                $roleUser = new Role_user;
                 $roleUser->id_role = 3;
                 $roleUser->id_user = Auth::id();
                 $roleUser->save();

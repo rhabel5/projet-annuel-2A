@@ -34,7 +34,6 @@ class RegisteredUserController extends Controller
             'birthdate' => 'required|date',
             'password' => 'required|string|min:8|confirmed',
             'tel' => 'required|string|max:60',
-            'role' => 'required|string|exists:roles,name',
         ]);
 
         if ($validator->fails()) {
@@ -49,9 +48,6 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'tel' => $request->tel,
         ]);
-
-        $role = Role::where('name', $request->role)->first();
-        $user->roles()->attach($role);
 
         event(new Registered($user));
 
