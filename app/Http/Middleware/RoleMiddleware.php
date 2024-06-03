@@ -11,7 +11,7 @@ class RoleMiddleware
     public function handle($request, Closure $next, $role)
     {
         Log::info('RoleMiddleware: Checking role', ['role' => $role]);
-        
+
         if (!Auth::check() || !Auth::user()->hasRole($role)) {
             abort(403, 'Unauthorized action.');
         }

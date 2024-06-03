@@ -4,7 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminBienController;
+use App\Http\Controllers\Admin\AdminServiceController;
+use App\Http\Controllers\Admin\AdminTicketController;
 use App\Http\Controllers\LanguageController;
 
 Route::get('/', [BienController::class, 'index'])->name('home');
@@ -20,8 +24,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/biens', [AdminBienController::class, 'index'])->name('admin.biens.index');
+    Route::get('/admin/services', [AdminServiceController::class, 'index'])->name('admin.services.index');
+    Route::get('/admin/tickets', [AdminTicketController::class, 'index'])->name('admin.tickets.index');
 });
 
 Route::middleware(['auth', 'role:voyageur'])->group(function () {
