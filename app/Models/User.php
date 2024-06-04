@@ -38,4 +38,10 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name', $role)->exists();
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'id_client');
+    }
+
 }

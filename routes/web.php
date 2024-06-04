@@ -72,3 +72,9 @@ Route::get('/bien_add', function () {
 Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
 
 require __DIR__.'/auth.php';
+
+//Route dashboard 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/voyageur/dashboard', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
+    Route::put('/voyageur/update', [VoyageurController::class, 'update'])->name('voyageur.update');
+});
