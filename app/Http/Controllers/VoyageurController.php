@@ -17,7 +17,7 @@ class VoyageurController extends Controller
     {
         $voyageurs = User::where('role', 'voyageur')->get();
 
-        return view('voyageur_views/allvoyageurs', ['voyageurs' => $voyageurs]);
+        return view('voyageur/allvoyageurs', ['voyageurs' => $voyageurs]);
     }
 
     public function destroy(User $voyageur)
@@ -30,8 +30,14 @@ class VoyageurController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-        $reservationsAVenir = Reservation::where('id_client', $user->id)->where('date_debut', '>', now())->get();
-        $reservationsPassees = Reservation::where('id_client', $user->id)->where('date_fin', '<=', now())->get();
+        $reservationsAVenir = Reservation::where('id_client', $user->id)
+                                        ->where('date_debut', '>', now())
+                                        ->with('bien')
+                                        ->get();
+        $reservationsPassees = Reservation::where('id_client', $user->id)
+                                         ->where('date_fin', '<=', now())
+                                         ->with('bien')
+                                         ->get();
 
         return view('voyageur.dashboard', compact('user', 'reservationsAVenir', 'reservationsPassees'));
     }

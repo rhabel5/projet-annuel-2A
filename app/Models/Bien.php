@@ -34,4 +34,10 @@ class Bien extends Model
         'valide',
         'image_url',
     ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'id_bien');
+    }
+
 }

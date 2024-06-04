@@ -40,31 +40,63 @@
             </form>
         </div>
 
-        <!-- Réservations à venir -->
         <div class="mt-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Mes séjours à venir</h2>
-            @if($reservationsAVenir->isEmpty())
-                <p class="text-gray-700 dark:text-gray-300">Pas de séjours à venir.</p>
-            @else
-                <ul class="list-disc list-inside text-gray-700 dark:text-gray-300">
-                    @foreach($reservationsAVenir as $reservation)
-                        <li>{{ $reservation->bien->nom_bien }} - du {{ $reservation->date_debut }} au {{ $reservation->date_fin }}</li>
-                    @endforeach
-                </ul>
-            @endif
-        </div>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Mes Réservations</h2>
 
-        <!-- Réservations passées -->
-        <div class="mt-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Mes séjours précédents</h2>
-            @if($reservationsPassees->isEmpty())
-                <p class="text-gray-700 dark:text-gray-300">Pas de séjours précédents.</p>
+            <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Réservations à venir</h3>
+            @if($reservationsAVenir->isEmpty())
+                <p>Vous n'avez aucune réservation à venir.</p>
             @else
-                <ul class="list-disc list-inside text-gray-700 dark:text-gray-300">
-                    @foreach($reservationsPassees as $reservation)
-                        <li>{{ $reservation->bien->nom_bien }} - du {{ $reservation->date_debut }} au {{ $reservation->date_fin }}</li>
-                    @endforeach
-                </ul>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Bien</th>
+                            <th>Date de début</th>
+                            <th>Date de fin</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($reservationsAVenir as $reservation)
+                            <tr>
+                                <td>
+                                    <a href="{{ route('voyageur.dashboard', $reservationsAVenir->bien) }}" class="text-blue-500 dark:text-blue-300 hover:underline">{{ $reservationsAVenir->bien->nom }}</a>
+                                </td>
+                                <td>{{ $reservation->date_debut }}</td>
+                                <td>{{ $reservation->date_fin }}</td>
+                                <td>{{ $reservation->status }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
+
+            <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 mt-8">Réservations passées</h3>
+            @if($reservationsPassees->isEmpty())
+                <p>Vous n'avez aucune réservation passée.</p>
+            @else
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Bien</th>
+                            <th>Date de début</th>
+                            <th>Date de fin</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($reservationsPassees as $reservation)
+                            <tr>
+                                <td>
+                                    <a href="{{ route('voyageur.dashboard', $reservationsPassees->bien) }}" class="text-blue-500 dark:text-blue-300 hover:underline">{{ $reservation->bien->nom }}</a>
+                                </td>
+                                <td>{{ $reservation->date_debut }}</td>
+                                <td>{{ $reservation->date_fin }}</td>
+                                <td>{{ $reservation->status }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             @endif
         </div>
     </div>
