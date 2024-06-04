@@ -12,7 +12,6 @@ class CreateBiensTable extends Migration
             $table->id();
             $table->string('titre', 60);
             $table->unsignedBigInteger('id_bailleur');
-            $table->string('nom_bien', 60);
             $table->string('description', 255);
             $table->unsignedInteger('couchage');
             $table->string('type_bien', 60);

@@ -16,7 +16,6 @@ class BienController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id_bailleur' => 'required|integer',
-            'nom_bien' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'couchage' => 'required|integer',
             'type_bien' => 'required|string|max:255',
@@ -52,12 +51,12 @@ class BienController extends Controller
             $bien = Bien::create($request->all());
 
             // Vérification si l'utilisateur a déjà le rôle de bailleur
-            $dejaBailleur = Role_user::where('id_user', Auth::id())->where('id_role', 3)->first();
+            $dejaBailleur = Role_user::where('user_id', Auth::id())->where('role_id', 4)->first();
             if (!$dejaBailleur) {
                 // Assigner le rôle de bailleur à l'utilisateur
                 $roleUser = new Role_user;
-                $roleUser->id_role = 3;
-                $roleUser->id_user = Auth::id();
+                $roleUser->role_id = 4;
+                $roleUser->user_id = Auth::id();
                 $roleUser->save();
             }
 
@@ -65,7 +64,11 @@ class BienController extends Controller
             return response()->json(['bien' => $bien, 'message' => 'Property created successfully'], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'An error occurred while creating the property'], 500);
+
+            return response()->json([
+                'message' => 'An error occurred while creating the property:',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

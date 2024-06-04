@@ -51,7 +51,7 @@
         }
     </style>
 </head>
-<body>
+<body>g
 <form action="/registervoyageur" method="post">
     @csrf
     <h1>Inscription</h1>
