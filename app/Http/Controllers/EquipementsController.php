@@ -31,5 +31,11 @@ class EquipementsController extends Controller
         return back()
             ->with('success','L\'équipement a été créé avec succès.')
         ->with('image',$imageName);
-        }
+
+    }
+
+    public function select()
+    {
+        return view('biens_views/selection_equipement');
+    }
 }

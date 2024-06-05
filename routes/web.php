@@ -96,6 +96,7 @@ Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->na
 
 Route::get('/equipements/create', [EquipementsController::class, 'create'])->name('equipements.create');
 Route::post('/equipements', [EquipementsController::class, 'store'])->name('equipements.store');
+Route::get('/equipements/selection', [EquipementsController::class, 'select'])->name('equipements.select');
 
 
 require __DIR__.'/auth.php';
