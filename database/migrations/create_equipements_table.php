@@ -8,10 +8,10 @@ class CreateEquipementTable extends Migration
 {
     public function up()
     {
-        Schema::create('equipement', function (Blueprint $table) {
+        Schema::create('equipements', function (Blueprint $table) {
             $table->id();
             $table->string('nom', 255);
-            $table->unsignedBigInteger('image_url');
+            $table->string('image_url');
             $table->timestamps();
         });
     }

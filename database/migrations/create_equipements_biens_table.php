@@ -10,7 +10,7 @@ class CreateEquipementBienTable extends Migration
     {
         Schema::create('equipements_biens', function (Blueprint $table) {
             $table->id();
-            $table->string('id_bien', 255);
+            $table->unsignedInteger('id_bien');
             $table->unsignedBigInteger('id_equipement');
             $table->timestamps();
         });

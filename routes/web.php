@@ -91,7 +91,7 @@ Route::get('/bien_add', function () {
 
 Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
 
-Route::get('/bien/{bien}', [BienController::class, 'show'])->name('biens.equipement');
+Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');
 
 require __DIR__.'/auth.php';
 
