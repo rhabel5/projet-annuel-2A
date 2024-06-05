@@ -1,28 +1,34 @@
-@extends('admin.layout')
+@extends('layouts.admin')
 
 @section('content')
-<div class="container">
-    <h1>Gestion des Utilisateurs</h1>
-    <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Ajouter un utilisateur</a>
-    <table class="table">
+<div class="container mx-auto px-4 py-6 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md shadow-md">
+    <h1 class="text-3xl font-bold mb-6">Gestion des Utilisateurs</h1>
+    <div class="mb-4 flex justify-end">
+        <a href="{{ route('admin.users.create') }}" class="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700">Ajouter un utilisateur</a>
+    </div>
+    <table class="table-auto w-full text-left">
         <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Actions</th>
+            <tr class="bg-gray-200 dark:bg-gray-700">
+                <th class="px-4 py-2">Prénom</th>
+                <th class="px-4 py-2">Nom</th>
+                <th class="px-4 py-2">Email</th>
+                <th class="px-4 py-2">Date de Naissance</th>
+                <th class="px-4 py-2">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($users as $user)
-            <tr>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>
-                    <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-info">Modifier</a>
-                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" style="display:inline;">
+            <tr class="bg-gray-100 dark:bg-gray-700 border-b dark:border-gray-600">
+                <td class="px-4 py-2">{{ $user->firstname }}</td>
+                <td class="px-4 py-2">{{ $user->lastname }}</td>
+                <td class="px-4 py-2">{{ $user->email }}</td>
+                <td class="px-4 py-2">{{ \Carbon\Carbon::parse($user->birthdate)->format('d/m/Y') }}</td>
+                <td class="px-4 py-2">
+                    <a href="{{ route('admin.users.edit', $user->id) }}" class="text-blue-500 dark:text-blue-300 hover:underline">Modifier</a>
+                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                        <button type="submit" class="text-red-500 dark:text-red-300 hover:underline ml-2">Supprimer</button>
                     </form>
                 </td>
             </tr>

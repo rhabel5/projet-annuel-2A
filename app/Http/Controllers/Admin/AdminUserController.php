@@ -26,18 +26,24 @@ class AdminUserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $user->update($request->all());
-        return redirect()->route('admin.users.index');
+        app('App\Http\Controllers\UserController')->update($request, $user);
+        return redirect()->route('admin.users.index')->with('success', 'Utilisateur mis à jour avec succès.');
     }
 
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.users.index')->with('success', 'Utilisateur supprimé avec succès.');
     }
 
     public function create()
     {
         return view('admin.users.create');
+    }
+
+    public function store(Request $request)
+    {
+        app('App\Http\Controllers\UserController')->store($request);
+        return redirect()->route('admin.users.index')->with('success', 'Utilisateur ajouté avec succès.');
     }
 }

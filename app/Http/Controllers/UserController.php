@@ -26,29 +26,6 @@ class UserController extends Controller
         return view('presta_views.addpresta');
     }
 
-    public function store(Request $request)
-    {
-
-        $rules = [
-            'firstname' => 'required|string|max:60',
-            'lastname' => 'required|string|max:60',
-            'email' => 'required|string|email|max:60|unique:users',
-            'birth_date' => 'required|date',
-            'password' => 'required|string|max:60',
-            'phone' => 'required|string|max:60',
-        ];
-
-        // Common rules based on role
-
-        $data = $request->validate($rules);
-
-        $data['password'] = bcrypt($data['password']);
-
-        User::create($data);
-
-        //return redirect()->route('users.index')->with('success', 'User created successfully.');
-    }
-
     public function checkEmail(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -101,21 +78,44 @@ class UserController extends Controller
         }
     }
 
-
     public function update(Request $request, User $user)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'string|max:255',
-            'email' => 'string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'string|min:6|confirmed',
+        $validatedData = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'tel' => 'required|string|max:60',
+            'birthdate' => 'required|date',
+            'password' => 'nullable|string|min:6|confirmed',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        if ($request->filled('password')) {
+            $validatedData['password'] = Hash::make($request->password);
+        } else {
+            unset($validatedData['password']);
         }
 
-        $user->update($request->all());
+        $user->update($validatedData);
+
         return response()->json(['user' => $user, 'message' => 'Updated successfully']);
+    }
+
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'tel' => 'required|string|max:60',
+            'birthdate' => 'required|date',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $validatedData['password'] = Hash::make($request->password);
+
+        User::create($validatedData);
+
+        return response()->json(['message' => 'User created successfully']);
     }
 
     public function show(User $user)

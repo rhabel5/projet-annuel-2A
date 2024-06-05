@@ -8,7 +8,7 @@
     @vite('resources/js/dark-mode.js')
     @vite('resources/js/language-menu.js')
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 font-sans">
+<body class="bg-gray-100 dark:bg-gray-900 font-sans text-gray-900 dark:text-gray-100">
     <header class="bg-white dark:bg-gray-800 shadow-md">
         <div class="container mx-auto px-4 py-6 flex justify-between items-center">
             <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
@@ -68,7 +68,7 @@
         </div>
     </header>
 
-    <section class="bg-cover bg-center h-screen text-white flex items-center justify-center filter brightness-100 dark:brightness-50" style="background-image: url('{{ asset('images/exemple.webp') }}');">
+    <section class="bg-cover bg-center h-screen text-white flex items-center justify-center filter brightness-100 dark:brightness-75" style="background-image: url('{{ asset('images/exemple.webp') }}');">
         <div class="bg-black bg-opacity-50 p-8 rounded-lg">
             <h1 class="text-5xl font-bold mb-4">{{ __('messages.welcome') }}</h1>
             <p class="text-2xl">{{ __('messages.manage_properties') }}</p>
