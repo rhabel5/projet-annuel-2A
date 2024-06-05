@@ -123,4 +123,13 @@ class BienController extends Controller
     {
         return view('bien.show', compact('bien'));
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $biens = Bien::where('titre', 'LIKE', "%$query%")->get();
+
+        return response()->json($biens);
+    }
+
 }

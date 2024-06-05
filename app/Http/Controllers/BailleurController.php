@@ -73,5 +73,6 @@ class BailleurController extends Controller
 
         return view('bailleur/dashboard', compact('user', 'biens'));
     }
+    
 
 }

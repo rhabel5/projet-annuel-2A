@@ -104,3 +104,5 @@ Route::middleware(['auth'])->group(function () {
 
 //Route dashboard bailleur 
 Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth');
+//Route::get('/search-biens', [BienController::class, 'search'])->name('biens.search');
+
