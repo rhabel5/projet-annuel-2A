@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminBienController;
 use App\Http\Controllers\Admin\AdminServiceController;
 use App\Http\Controllers\Admin\AdminTicketController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\EquipementsController;
 
 Route::get('/', [BienController::class, 'index'])->name('home');
 Route::get('/biens/{bien}', [BienController::class, 'show'])->name('biens.show');
@@ -92,6 +93,10 @@ Route::get('/bien_add', function () {
 Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
 
 Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');
+
+Route::get('/equipements/create', [EquipementsController::class, 'create'])->name('equipements.create');
+Route::post('/equipements', [EquipementsController::class, 'store'])->name('equipements.store');
+
 
 require __DIR__.'/auth.php';
 
