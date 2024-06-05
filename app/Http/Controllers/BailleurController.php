@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Bailleur; // Make sure you have a Bailleur model correctly set up
 use App\Models\User;
+use App\Models\Bien;
+use App\Http\Controllers\BienController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class BailleurController extends Controller
@@ -61,4 +64,23 @@ class BailleurController extends Controller
 
         return redirect()->route('bailleur.index');
     }
+
+    public function dashboard(Request $request)
+    {
+        $user = Auth::user();
+        $query = $request->input('query');
+
+        
+        if ($query) {
+            $biens = Bien::where('id_bailleur', $user->id)
+                          ->where('titre', 'LIKE', "%$query%")
+                          ->get();
+            return response()->json($biens);
+        } else {
+            $biens = Bien::where('id_bailleur', $user->id)->get();
+            return view('bailleur.dashboard', compact('user', 'biens'));
+        }
+    }
+    
+
 }

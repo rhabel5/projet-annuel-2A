@@ -17,4 +17,9 @@ class Bailleur extends Model
     protected $fillable = [
         'user_id', 'rib', 'prestataire_favoris', 'voyageurs_bloques'
     ];
+
+    public function biens()
+    {
+        return $this->hasMany(Bien::class, 'id_bailleur');
+    }
 }
