@@ -9,7 +9,7 @@
         <p class="text-gray-700 dark:text-gray-300">Bienvenue sur votre tableau de bord, {{ $user->firstname }} !</p>
 
         <!-- Barre de recherche -->
-        <input type="text" id="search" placeholder="Rechercher des biens par titre" class="w-full p-2 mb-6 rounded-lg shadow-md">
+        <input type="text" id="search" placeholder="Recherche tes biens par titre" class="w-full p-2 mb-6 rounded-lg shadow-md">
 
         <!-- Conteneur des biens -->
         <div id="biens-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
