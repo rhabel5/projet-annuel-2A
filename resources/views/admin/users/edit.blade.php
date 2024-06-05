@@ -36,6 +36,17 @@
                 <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full rounded-md bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500">
             </div>
             <div>
+                <label for="roles" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Rôles</label>
+                <div class="mt-1 block w-full rounded-md bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 p-4">
+                    @foreach($roles as $role)
+                        <div class="flex items-center mb-2">
+                            <input type="checkbox" id="role-{{ $role->id }}" name="roles[]" value="{{ $role->id }}" @if($user->roles->contains($role->id)) checked @endif class="mr-2">
+                            <label for="role-{{ $role->id }}" class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $role->name }}</label>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div>
                 <button type="submit" class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md">Mettre à jour</button>
             </div>
         </div>

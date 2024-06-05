@@ -44,4 +44,13 @@ class User extends Authenticatable
         return $this->hasMany(Reservation::class, 'id_client');
     }
 
+    public function assignRole($role)
+    {
+        $this->roles()->attach($role);
+    }
+
+    public function removeRole($role)
+    {
+        $this->roles()->detach($role);
+    }
 }
