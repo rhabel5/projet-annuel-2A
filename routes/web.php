@@ -91,9 +91,11 @@ Route::get('/bien_add', function () {
 
 Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
 
+Route::get('/bien/{bien}', [BienController::class, 'show'])->name('biens.equipement');
+
 require __DIR__.'/auth.php';
 
-//Route dashboard 
+//Route dashboard
 Route::middleware(['auth'])->group(function () {
     Route::get('/voyageur/dashboard', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
     Route::put('/voyageur/update', [VoyageurController::class, 'update'])->name('voyageur.update');
