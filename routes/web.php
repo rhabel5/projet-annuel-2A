@@ -10,6 +10,9 @@ use App\Http\Controllers\Admin\AdminBienController;
 use App\Http\Controllers\Admin\AdminServiceController;
 use App\Http\Controllers\Admin\AdminTicketController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\VoyageurController;
+use App\Http\Controllers\BailleurController;
+
 
 Route::get('/', [BienController::class, 'index'])->name('home');
 Route::get('/biens/{bien}', [BienController::class, 'show'])->name('biens.show');
@@ -93,8 +96,11 @@ Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store
 
 require __DIR__.'/auth.php';
 
-//Route dashboard 
+//Route dashboard voyageur
 Route::middleware(['auth'])->group(function () {
     Route::get('/voyageur/dashboard', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
     Route::put('/voyageur/update', [VoyageurController::class, 'update'])->name('voyageur.update');
 });
+
+//Route dashboard bailleur 
+Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth');

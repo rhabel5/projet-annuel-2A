@@ -42,4 +42,9 @@ class Bien extends Model
         return $this->hasMany(Reservation::class, 'id_bien');
     }
 
+    public function bailleur()
+    {
+        return $this->belongsTo(Bailleur::class, 'id_bailleur');
+    }
+
 }
