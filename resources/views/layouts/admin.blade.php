@@ -10,7 +10,9 @@
     <!-- Navbar -->
     <header class="bg-white dark:bg-gray-800 shadow-md">
         <div class="container mx-auto px-4 py-6 flex justify-between items-center">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
+            <a href="{{ route('admin.dashboard') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10">
+            </a>
             <nav class="flex items-center">
                 <span class="text-gray-700 dark:text-gray-300 mx-2">Bonjour {{ Auth::user()->firstname }}</span>
                 <div class="relative" x-data="{ open: false }">
@@ -41,7 +43,9 @@
                     <button @click="open = ! open" class="flex items-center focus:outline-none">
                         <img src="{{ asset('images/flags/' . $currentFlag) }}" alt="{{ $languages[$currentLang]['name'] }}" class="h-5 w-5 mr-2">
                         <span class="text-gray-700 dark:text-gray-300">{{ $languages[$currentLang]['name'] }}</span>
-                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
                     </button>
                     <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 shadow-md rounded-md overflow-hidden z-20">
                         @foreach ($languages as $lang => $language)
@@ -59,11 +63,8 @@
     <div class="flex h-screen">
         <!-- Sidebar -->
         <div class="bg-gray-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
-            <div class="px-4 py-2">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-12 h-12">
-                <h1 class="text-white text-2xl font-semibold mt-2">PCS Backoffice</h1>
-            </div>
-            <nav>
+            <h1 class="text-white text-2xl font-semibold mt-2 px-4">PCS Backoffice</h1>
+            <nav class="px-4">
                 <a href="{{ route('admin.users.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Utilisateurs</a>
                 <a href="{{ route('admin.biens.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Biens</a>
                 <a href="{{ route('admin.services.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Commentaires</a>

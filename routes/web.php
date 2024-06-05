@@ -25,7 +25,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // Backoffice users management
     Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
     Route::get('/admin/users/create', [AdminUserController::class, 'create'])->name('admin.users.create');
     Route::post('/admin/users', [AdminUserController::class, 'store'])->name('admin.users.store');
@@ -33,8 +36,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/admin/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+
+    // Backoffice biens management
     Route::get('/admin/biens', [AdminBienController::class, 'index'])->name('admin.biens.index');
+    Route::get('/admin/biens/create', [AdminBienController::class, 'create'])->name('admin.biens.create');
+    Route::post('/admin/biens', [AdminBienController::class, 'store'])->name('admin.biens.store');
+    Route::get('/admin/biens/{bien}/edit', [AdminBienController::class, 'edit'])->name('admin.biens.edit');
+    Route::put('/admin/biens/{bien}', [AdminBienController::class, 'update'])->name('admin.biens.update');
+    Route::delete('/admin/biens/{bien}', [AdminBienController::class, 'destroy'])->name('admin.biens.destroy');
+
+    // Backoffice services management
     Route::get('/admin/services', [AdminServiceController::class, 'index'])->name('admin.services.index');
+
+    // Backoffice tickets management
     Route::get('/admin/tickets', [AdminTicketController::class, 'index'])->name('admin.tickets.index');
 });
 
