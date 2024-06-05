@@ -65,13 +65,21 @@ class BailleurController extends Controller
         return redirect()->route('bailleur.index');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $user = Auth::user();
-        $bailleur_id = Auth::id();
-        $biens = Bien::where('id_bailleur', $bailleur_id)->get();
+        $query = $request->input('query');
 
-        return view('bailleur/dashboard', compact('user', 'biens'));
+        
+        if ($query) {
+            $biens = Bien::where('id_bailleur', $user->id)
+                          ->where('titre', 'LIKE', "%$query%")
+                          ->get();
+            return response()->json($biens);
+        } else {
+            $biens = Bien::where('id_bailleur', $user->id)->get();
+            return view('bailleur.dashboard', compact('user', 'biens'));
+        }
     }
     
 
