@@ -21,4 +21,6 @@ return [
     'use_simulator' => 'Use our simulator to estimate the potential income of your property.',
     'start_simulation' => 'Start the simulation',
     'all_rights_reserved' => 'All rights reserved.',
+    'contact_us' => 'Contact us',
+    'help' => 'Help',
 ];

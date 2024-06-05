@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminBienController;
@@ -14,16 +15,35 @@ use App\Http\Controllers\LanguageController;
 Route::get('/', [BienController::class, 'index'])->name('home');
 Route::get('/biens/{bien}', [BienController::class, 'show'])->name('biens.show');
 
+//User
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Tickets
+    Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
+    Route::get('/tickets/create', [TicketController::class, 'create'])->name('tickets.create');
+    Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
+    Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
+
+    // Biens
+    Route::resource('biens', BienController::class);
 });
 
+Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
+Route::get('/simulation', function () {
+    return view('simulation');
+})->name('simulation');
+
+//Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
@@ -50,6 +70,8 @@ Route::middleware('auth')->group(function () {
 
     // Backoffice tickets management
     Route::get('/admin/tickets', [AdminTicketController::class, 'index'])->name('admin.tickets.index');
+    Route::get('/admin/tickets/{ticket}', [AdminTicketController::class, 'show'])->name('admin.tickets.show');
+    Route::put('/admin/tickets/{ticket}', [AdminTicketController::class, 'update'])->name('admin.tickets.update');
 });
 
 Route::middleware(['auth', 'role:voyageur'])->group(function () {
@@ -70,14 +92,9 @@ Route::middleware(['auth', 'role:bailleur'])->group(function () {
     })->name('bailleur.dashboard');
 });
 
-Route::get('/simulation', function () {
-    return view('simulation');
-})->name('simulation');
-
 Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
-Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
 //Routes biens
 

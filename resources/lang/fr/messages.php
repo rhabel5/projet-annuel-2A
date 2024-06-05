@@ -21,4 +21,6 @@ return [
     'use_simulator' => 'Utilisez notre simulateur pour estimer les revenus potentiels de votre propriété.',
     'start_simulation' => 'Commencer la simulation',
     'all_rights_reserved' => 'Tous droits réservés.',
+    'contact_us' => 'Contactez-nous',
+    'help' => 'Aide',
 ];

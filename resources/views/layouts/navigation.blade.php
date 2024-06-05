@@ -5,21 +5,54 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="{{ route('home') }}">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="block h-9 w-auto" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('biens.index')" :active="request()->routeIs('biens.index')">
+                        {{ __('Nos Biens') }}
                     </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
+                <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Devenir Bailleur</a>
+
+                <!-- Theme Toggle -->
+                <div class="relative ml-4">
+                    <input type="checkbox" id="toggle-theme" class="toggle-checkbox sr-only">
+                    <label for="toggle-theme" class="toggle-checkbox-container"></label>
+                </div>
+
+                <!-- Language Switcher -->
+                <div class="relative ml-4">
+                    @php
+                        $currentLang = session('applocale', config('app.locale'));
+                        $currentFlag = config('languages')[$currentLang]['flag'];
+                        $languages = config('languages');
+                    @endphp
+                    <button class="flex items-center focus:outline-none" id="language-menu-button">
+                        <img src="{{ asset('images/flags/' . $currentFlag) }}" alt="{{ $languages[$currentLang]['name'] }}" class="h-5 w-5 mr-2">
+                        <span class="text-gray-700 dark:text-gray-300">{{ $languages[$currentLang]['name'] }}</span>
+                        <svg class="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="language-menu" class="hidden absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 shadow-md rounded-md overflow-hidden z-20">
+                        @foreach ($languages as $lang => $language)
+                            <a href="{{ route('lang.switch', $lang) }}" class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <img src="{{ asset('images/flags/' . $language['flag']) }}" alt="{{ $language['name'] }}" class="h-5 w-5 mr-2">
+                                <span>{{ $language['name'] }}</span>
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
                 @auth
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
@@ -28,7 +61,7 @@
 
                                 <div class="ml-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z" clip-rule="evenodd" />
                                     </svg>
                                 </div>
                             </button>
@@ -38,7 +71,9 @@
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
-
+                            <x-dropdown-link :href="route('tickets.index')">
+                                {{ __('Help Center') }}
+                            </x-dropdown-link>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"
@@ -50,13 +85,13 @@
                         </x-slot>
                     </x-dropdown>
                 @else
-                    <a href="{{ route('login') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Se connecter</a>
-                    <a href="{{ route('register') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">Créer un compte</a>
+                    <a href="{{ route('login') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">{{ __('Se connecter') }}</a>
+                    <a href="{{ route('register') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2">{{ __('Créer un compte') }}</a>
                 @endauth
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
+            <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -91,6 +126,10 @@
                 @auth
                     <x-responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link :href="route('tickets.index')">
+                        {{ __('Help Center') }}
                     </x-responsive-nav-link>
 
                     <!-- Authentication -->
