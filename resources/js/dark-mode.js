@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var toggleTheme = document.getElementById('toggle-theme');
+    const toggleTheme = document.getElementById('toggle-theme');
 
     if (toggleTheme) {
-        toggleTheme.checked = (localStorage.getItem('theme') === 'dark');
+        // Initial state
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            toggleTheme.checked = true;
+        }
 
+        // Toggle event
         toggleTheme.addEventListener('change', function() {
             if (toggleTheme.checked) {
                 document.documentElement.classList.add('dark');
@@ -13,11 +18,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('theme', 'light');
             }
         });
-
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
     }
 });

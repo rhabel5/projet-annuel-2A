@@ -43,3 +43,15 @@
 .dark .toggle-checkbox::after {
     transform: translateX(100%);
 }
+
+.toggle-checkbox-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 50px;
+}
+
+.toggle-checkbox-label {
+    display: block;
+    font-size: 0.875rem;
+}
