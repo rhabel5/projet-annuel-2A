@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Equipement_biens;
+use App\Models\Equipements_biens;
 use Illuminate\Http\Request;
 use App\Models\Equipements;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Bien;
 
 class EquipementsController extends Controller
 {
@@ -60,7 +62,7 @@ class EquipementsController extends Controller
                         $equipement_id = Equipements::where('nom', $nom)->first()->id;
 
                         // Insérer une nouvelle ligne dans la table equipement_biens
-                        Equipement_biens::create(['id_bien' => $bien_id, 'id_equipement' => $equipement_id]);
+                        Equipements_biens::create(['id_bien' => $bien_id, 'id_equipement' => $equipement_id]);
                     }
                 }
             }

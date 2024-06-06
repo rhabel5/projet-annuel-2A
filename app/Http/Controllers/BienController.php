@@ -61,7 +61,7 @@ class BienController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('biens_views.selection_equipement', ['id' => $bien->id]);
+            return redirect()->route('equipements.select', ['id' => $bien->id]);
 
         } catch (\Exception $e) {
             DB::rollBack();
