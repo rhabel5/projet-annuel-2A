@@ -22,7 +22,7 @@
             @foreach(\App\Models\Equipements::all() as $equipment)
                 <div class="icon-container p-4 border rounded cursor-pointer text-center" data-equipment="{{ $equipment->nom }}">
                     <input type="hidden" name="equipment[{{ $equipment->nom }}]" value="0">
-                    <img src="{{ $equipment->image_url }}" alt="{{ $equipment->nom }}" class="mx-auto mb-2">
+                    <img src="{{asset($equipment->image_url)  }}" alt="{{ $equipment->nom }}" class="mx-auto mb-2">
                     <span class="block text-gray-700">{{ ucfirst($equipment->nom) }}</span>
                 </div>
             @endforeach

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EquipementsController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BienController;
@@ -101,10 +103,6 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->middleware
 
 //Routes biens
 
-Route::get('/biens/ajout', function () {
-    return view('biens_views/addbien');
-})->name('biens.ajout');
-
 Route::get('/bien_add', function () {
     return view('biens_views/addbien');
 })->name('biens.ajout');
@@ -112,11 +110,18 @@ Route::get('/bien_add', function () {
 Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
 
 Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');
-
 Route::get('/equipements/create', [EquipementsController::class, 'create'])->name('equipements.create');
 Route::post('/equipements', [EquipementsController::class, 'store'])->name('equipements.store');
 Route::get('/equipements/selection', [EquipementsController::class, 'select'])->name('equipements.select');
 Route::post('/equipements/selection', [EquipementsController::class, 'postselect'])->name('equipements.postselect');
+
+
+Route::get('/bien/{id}/ajout_image', function () {
+    return view('biens_views.ajout_image');
+})->name('biens.image');
+
+Route::post('/bien/ajout_image', [ImageController::Class, 'store'])->name('biens.image.post');
+
 
 
 require __DIR__.'/auth.php';
