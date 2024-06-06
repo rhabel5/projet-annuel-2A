@@ -16,7 +16,7 @@
     <div class="breadcrumb mb-4 text-gray-600">
         <span>Sélection d'Équipements</span>
     </div>
-    <form id="equipment-form" action="" method="POST">
+    <form id="equipment-form" action="{{route('equipements.postselect')}}" method="POST">
         @csrf
         <div class="grid grid-cols-3 gap-4">
             @foreach(\App\Models\Equipements::all() as $equipment)
@@ -26,6 +26,7 @@
                     <span class="block text-gray-700">{{ ucfirst($equipment->nom) }}</span>
                 </div>
             @endforeach
+                <input type="hidden" name="id_bien" value="{{ request()->get('id') }}">
         </div>
         <button type="submit" class="mt-6 px-4 py-2 bg-blue-500 text-white rounded">Terminer</button>
     </form>
