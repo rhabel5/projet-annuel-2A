@@ -61,12 +61,13 @@ class BienController extends Controller
             }
 
             DB::commit();
-            return response()->json(['bien' => $bien, 'message' => 'Property created successfully'], 201);
+            return redirect()->route('equipements.select', ['id' => $bien->id]);
+
         } catch (\Exception $e) {
             DB::rollBack();
 
             return response()->json([
-                'message' => 'An error occurred while creating the property:',
+                'message' => 'Une erreur est survenue lors de l\ajout du bien:',
                 'error' => $e->getMessage()
             ], 500);
         }

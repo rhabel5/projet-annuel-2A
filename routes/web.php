@@ -111,6 +111,14 @@ Route::get('/bien_add', function () {
 
 Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
 
+Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');
+
+Route::get('/equipements/create', [EquipementsController::class, 'create'])->name('equipements.create');
+Route::post('/equipements', [EquipementsController::class, 'store'])->name('equipements.store');
+Route::get('/equipements/selection', [EquipementsController::class, 'select'])->name('equipements.select');
+Route::post('/equipements/selection', [EquipementsController::class, 'postselect'])->name('equipements.postselect');
+
+
 require __DIR__.'/auth.php';
 
 //Route dashboard voyageur
@@ -119,7 +127,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/voyageur/update', [VoyageurController::class, 'update'])->name('voyageur.update');
 });
 
-//Route dashboard bailleur 
+//Route dashboard bailleur
 Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth');
 Route::get('/bailleur/dashboard', [BailleurController::class, 'dashboard'])->name('bailleur.dashboard');
 
