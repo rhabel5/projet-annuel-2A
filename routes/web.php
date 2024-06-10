@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\AdminTicketController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\VoyageurController;
 use App\Http\Controllers\BailleurController;
+use App\Http\Controllers\EquipementsController;
 
 
 Route::get('/', [BienController::class, 'index'])->name('home');
