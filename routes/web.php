@@ -124,8 +124,8 @@ require __DIR__.'/auth.php';
 
 //Route dashboard voyageur
 Route::middleware(['auth'])->group(function () {
-    Route::get('/voyageur/dashboard', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
-    Route::put('/voyageur/update', [VoyageurController::class, 'update'])->name('voyageur.update');
+    Route::get('/profile', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
+    Route::put('/profile', [VoyageurController::class, 'update'])->name('voyageur.dashboard');
 });
 
 //Route dashboard bailleur

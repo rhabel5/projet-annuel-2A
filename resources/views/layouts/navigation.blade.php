@@ -68,7 +68,7 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')" class="transition duration-500 ease-in-out">
+                            <x-dropdown-link :href="route('voyageur.dashboard')" class="transition duration-500 ease-in-out">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('tickets.index')" class="transition duration-500 ease-in-out">
@@ -124,7 +124,7 @@
 
             <div class="mt-3 space-y-1 transition duration-500 ease-in-out">
                 @auth
-                    <x-responsive-nav-link :href="route('profile.edit')" class="transition duration-500 ease-in-out">
+                    <x-responsive-nav-link :href="route('voyageur.dashboard')" class="transition duration-500 ease-in-out">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 

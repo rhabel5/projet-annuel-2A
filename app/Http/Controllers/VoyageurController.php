@@ -42,6 +42,11 @@ class VoyageurController extends Controller
         return view('voyageur.dashboard', compact('user', 'reservationsAVenir', 'reservationsPassees'));
     }
 
+    public function profile()
+    {
+        return view('profile'); // Assurez-vous d'avoir une vue nommée 'profile.blade.php' dans resources/views
+    }
+
     public function update(Request $request)
     {
         $user = Auth::user();
