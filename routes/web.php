@@ -131,4 +131,3 @@ Route::middleware(['auth'])->group(function () {
 Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth');
 Route::get('/bailleur/dashboard', [BailleurController::class, 'dashboard'])->name('bailleur.dashboard');
 
-
