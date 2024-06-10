@@ -11,7 +11,7 @@
         <!-- Informations de profil -->
         <div class="mt-8">
             <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Informations du Profil</h2>
-            <form action="{{ route('voyageur.update') }}" method="POST">
+            <form action="{{ route('voyageur.dashboard') }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-4">

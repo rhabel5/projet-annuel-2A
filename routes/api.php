@@ -6,6 +6,11 @@ use App\Http\Controllers\BienController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\TicketController;
+
+Route::get('/test', function () {
+    return response()->json(['message' => 'API is working']);
+});
 
 // Routes for Bailleurs
 Route::prefix('bailleurs')->group(function () {
@@ -38,3 +43,15 @@ Route::prefix('users')->group(function () {
 // Routes for login
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [RegisterController::class, 'register']);
+
+//Ticket
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/tickets', [TicketController::class, 'index']);
+    Route::get('/tickets/{ticket}', [TicketController::class, 'show']);
+    Route::post('/tickets', [TicketController::class, 'store']);
+    Route::put('/tickets/{ticket}', [TicketController::class, 'update']);
+    Route::delete('/tickets/{ticket}', [TicketController::class, 'destroy']);
+    Route::put('/tickets/{ticket}/status', [TicketController::class, 'changeStatus']);
+    Route::post('/tickets/{ticket}/response', [TicketController::class, 'respond']);
+});

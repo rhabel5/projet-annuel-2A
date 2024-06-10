@@ -70,15 +70,18 @@ class BailleurController extends Controller
         $user = Auth::user();
         $query = $request->input('query');
 
-        
         if ($query) {
             $biens = Bien::where('id_bailleur', $user->id)
-                          ->where('titre', 'LIKE', "%$query%")
+                          ->where('titre', 'LIKE', "$query%") // Utilisation de LIKE pour les titres commençant par $query
                           ->get();
             return response()->json($biens);
         } else {
             $biens = Bien::where('id_bailleur', $user->id)->get();
-            return view('bailleur.dashboard', compact('user', 'biens'));
+            if ($request->ajax()) {
+                return response()->json($biens);
+            } else {
+                return view('bailleur.dashboard', compact('user', 'biens'));
+            }
         }
     }
     
