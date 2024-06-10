@@ -5,23 +5,24 @@ use App\Models\Equipements;
 use App\Models\Image;
 use Illuminate\Http\Request;
 
-class ImageController
+class ImageController extends Controller
 {
     public function store(Request $request)
     {
+
         try {
-            for($i = 0; $i < 5; $i++) {
-                $fileKey = "file-upload{$i}";
+            for($i = 1; $i <= 5; $i++) {
+                $fileKey = "image{$i}";
                 if($request->hasFile($fileKey)) {
                     $request->validate([
-                        $fileKey => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                      $fileKey => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     ]);
 
-                    $imageName = time() . $request->nom . '.' . $request->$fileKey->extension();
-                    $request->$fileKey->move(public_path('images'), $imageName);
-
+                    $imageName = time(). '_' .$i . '.'. $request->file($fileKey)->extension();
+                    $request->file($fileKey)->move(public_path('images'), $imageName);
+                    echo $imageName;
                     $Image = Image::create([
-                        'id_bien' => $request->id,
+                        'id_bien' => $request->get('id_bien'),
                         'chemin' => 'public/images/'.$imageName,
                     ]);
                 }
@@ -36,4 +37,5 @@ class ImageController
                 ->with('error', 'Une erreur s\'est produite lors de l\'ajout des images : ' . $e->getMessage());
         }
     }
+
 }

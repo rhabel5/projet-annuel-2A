@@ -116,8 +116,8 @@ Route::get('/equipements/selection', [EquipementsController::class, 'select'])->
 Route::post('/equipements/selection', [EquipementsController::class, 'postselect'])->name('equipements.postselect');
 
 
-Route::get('/bien/{id}/ajout_image', function () {
-    return view('biens_views.ajout_image');
+Route::get('/bien/{id}/ajout_image', function ($id) {
+    return view('biens_views.ajout_image', ['id_bien' => $id]);
 })->name('biens.image');
 
 Route::post('/bien/ajout_image', [ImageController::Class, 'store'])->name('biens.image.post');
