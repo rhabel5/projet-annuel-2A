@@ -8,6 +8,7 @@ use App\Models\Equipements;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Bien;
+use App\Models\Image;
 
 class EquipementsController extends Controller
 {
@@ -28,7 +29,7 @@ class EquipementsController extends Controller
 
         $Equipement = Equipements::create([
             'nom' => $request->nom,
-            'image_url' => 'images/'.$imageName,
+            'image_url' => 'public/images/'.$imageName,
         ]);
 
         return back()
@@ -63,6 +64,12 @@ class EquipementsController extends Controller
 
                         // Insérer une nouvelle ligne dans la table equipement_biens
                         Equipements_biens::create(['id_bien' => $bien_id, 'id_equipement' => $equipement_id]);
+
+                        $image = Image::where('id_bien', $bien_id)->first();
+                        if(!$image){
+                            return redirect()->route('biens.image', ['id' => $bien_id]);
+                        }
+
                     }
                 }
             }
