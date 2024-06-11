@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BailleurController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ApiAuthenticatedSessionController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\TicketController;
 
 // Route par défaut
@@ -20,35 +22,40 @@ Route::get('/test', function () {
 
 // Routes pour les Bailleurs
 Route::prefix('bailleurs')->group(function () {
-    Route::post('/', [BailleurController::class, 'store'])->name('bailleurs.store');
-    Route::get('/', [BailleurController::class, 'index'])->name('bailleurs.index');
-    Route::put('/{bailleur}', [BailleurController::class, 'update'])->name('bailleurs.update');
-    Route::delete('/{bailleur}', [BailleurController::class, 'destroy'])->name('bailleurs.destroy');
+    Route::post('/', [BailleurController::class, 'store'])->name('api.bailleurs.store');
+    Route::get('/', [BailleurController::class, 'index'])->name('api.bailleurs.index');
+    Route::put('/{bailleur}', [BailleurController::class, 'update'])->name('api.bailleurs.update');
+    Route::delete('/{bailleur}', [BailleurController::class, 'destroy'])->name('api.bailleurs.destroy');
 });
 
 // Routes pour les Biens
 Route::prefix('biens')->group(function () {
-    Route::post('/', [BienController::class, 'store'])->name('api.biens.store'); // Renommé pour éviter les conflits
+    Route::post('/', [BienController::class, 'store'])->name('api.biens.store');
     Route::get('/', [BienController::class, 'index'])->name('api.biens.index');
     Route::put('/{bien}', [BienController::class, 'update'])->name('api.biens.update');
     Route::delete('/{bien}', [BienController::class, 'destroy'])->name('api.biens.destroy');
 });
 
-// Routes pour les Utilisateurs
-Route::prefix('users')->group(function () {
-    Route::post('/', [UserController::class, 'store'])->name('users.store');
-    Route::get('/', [UserController::class, 'index'])->name('users.index');
-    Route::get('/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-    Route::post('/login', [UserController::class, 'login'])->name('users.login');
-    Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
-    Route::get('/check', [UserController::class, 'isConnected'])->name('users.check');
+
+Route::middleware('guest')->group(function () {
+    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('login', [ApiAuthenticatedSessionController::class, 'store']);
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
+});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [ApiAuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
-// Routes pour la connexion
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/register', [RegisterController::class, 'register']);
+// Routes protégées pour les Utilisateurs
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('api.users.index');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('api.users.show');
+    Route::post('/users', [UserController::class, 'store'])->name('api.users.store');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('api.users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('api.users.destroy');
+    Route::get('/check', [UserController::class, 'isConnected'])->name('api.users.check');
+});
 
 // Routes pour les Tickets (protégées par auth:sanctum middleware)
 Route::middleware('auth:sanctum')->group(function () {
@@ -59,9 +66,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/tickets/{ticket}', [TicketController::class, 'destroy'])->name('api.tickets.destroy');
     Route::put('/tickets/{ticket}/status', [TicketController::class, 'changeStatus'])->name('api.tickets.changeStatus');
     Route::post('/tickets/{ticket}/response', [TicketController::class, 'respond'])->name('api.tickets.respond');
-});
-
-// Route de test (duplication évitée en fusionnant les deux)
-Route::get('/test', function () {
-    return response()->json(['message' => 'API is working']);
 });

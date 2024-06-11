@@ -12,8 +12,10 @@ def login():
     try:
         response = requests.post(f"{BASE_URL}/login", json={"email": email, "password": password})
         response.raise_for_status()
-        token = response.json().get("token")
-        messagebox.showinfo("Success", "Login successful")
+        data = response.json()
+        token = data.get("token")
+        redirect_url = data.get("redirect")
+        messagebox.showinfo("Success", f"Login successful. Redirect to: {redirect_url}")
         show_ticket_management()
     except requests.exceptions.RequestException as e:
         messagebox.showerror("Error", f"Failed to login: {e}")
@@ -53,14 +55,14 @@ def change_ticket_status(status):
         selected_ticket = tickets_listbox.get(tickets_listbox.curselection())
         ticket_id = selected_ticket.split(" - ")[0]
         headers = {"Authorization": f"Bearer {token}"}
-        response = requests.put(f"{BASE_URL}/tickets/{ticket_id}", json={"status": status}, headers=headers)
+        response = requests.put(f"{BASE_URL}/tickets/{ticket_id}/status", json={"status": status}, headers=headers)
         response.raise_for_status()
         messagebox.showinfo("Success", "Ticket status updated successfully")
         show_tickets()
     except IndexError:
         messagebox.showerror("Error", "No ticket selected")
     except requests.exceptions.RequestException as e:
-        messagebox.showerror("Error", "Failed to update ticket status")
+        messagebox.showerror("Error", f"Failed to update ticket status: {e}")
 
 def respond_ticket():
     try:

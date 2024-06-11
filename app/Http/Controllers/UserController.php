@@ -53,12 +53,17 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
         $credentials = $request->only('email', 'password');
+        
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return Auth::user()->role === 'admin' ?
-                redirect()->route('admin.dashboard') :
-                redirect('/home');
+            $user = Auth::user();
+            $token = $user->createToken('authToken')->plainTextToken;
+            return response()->json(['user' => $user, 'token' => $token]);
         }
 
         return response()->json(['error' => 'The provided credentials do not match our records.'], 401);
@@ -113,9 +118,9 @@ class UserController extends Controller
 
         $validatedData['password'] = Hash::make($request->password);
 
-        User::create($validatedData);
+        $user = User::create($validatedData);
 
-        return response()->json(['message' => 'User created successfully']);
+        return response()->json(['user' => $user, 'message' => 'User created successfully']);
     }
 
     public function show(User $user)
@@ -142,8 +147,6 @@ class UserController extends Controller
             'id_role' => $idRole,
         ];
 
-
         Role_user::create($data);
     }
-
 }

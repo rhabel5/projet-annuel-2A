@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\EquipementsController;
-use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BienController;
@@ -15,12 +13,31 @@ use App\Http\Controllers\Admin\AdminTicketController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\VoyageurController;
 use App\Http\Controllers\BailleurController;
+use App\Http\Controllers\EquipementsController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
-// Home
+
+Route::middleware('guest')->group(function () {
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+});
+
 Route::get('/', [BienController::class, 'index'])->name('home');
 Route::get('/biens/{bien}', [BienController::class, 'show'])->name('biens.show');
 
-// User routes
+//User
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // Dashboard
@@ -43,18 +60,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('biens', BienController::class);
 });
 
-// Language switcher
 Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
-
-// Simulation
 Route::get('/simulation', function () {
     return view('simulation');
 })->name('simulation');
 
-// Admin routes
 Route::middleware('auth')->group(function () {
-
-    // Admin dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // Backoffice users management
@@ -83,28 +94,22 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/tickets/{ticket}', [AdminTicketController::class, 'update'])->name('admin.tickets.update');
 });
 
-// Voyageur routes
 Route::middleware(['auth', 'role:voyageur'])->group(function () {
-    Route::get('/voyageur/dashboard', function () {
-        return view('voyageur.dashboard');
-    })->name('voyageur.dashboard');
+    Route::get('/voyageur/dashboard', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
 });
 
-// Prestataire routes
 Route::middleware(['auth', 'role:prestataire'])->group(function () {
     Route::get('/prestataire/dashboard', function () {
         return view('prestataire.dashboard');
     })->name('prestataire.dashboard');
 });
 
-// Bailleur routes
 Route::middleware(['auth', 'role:bailleur'])->group(function () {
     Route::get('/bailleur/dashboard', function () {
         return view('bailleur.dashboard');
     })->name('bailleur.dashboard');
 });
 
-// Guest routes
 Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
@@ -113,6 +118,7 @@ Route::get('/biens/ajout', function () {
     return view('biens_views/addbien');
 })->name('biens.ajout');
 
+// Evitez les duplications
 Route::get('/bien_add', function () {
     return view('biens_views/addbien');
 })->name('biens.create_view');
@@ -121,7 +127,6 @@ Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.creat
 
 Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');
 
-// Equipements routes
 Route::get('/equipements/create', [EquipementsController::class, 'create'])->name('equipements.create');
 Route::post('/equipements', [EquipementsController::class, 'store'])->name('equipements.store');
 Route::get('/equipements/selection', [EquipementsController::class, 'select'])->name('equipements.select');
@@ -129,12 +134,11 @@ Route::post('/equipements/selection', [EquipementsController::class, 'postselect
 
 require __DIR__.'/auth.php';
 
-// Additional voyageur routes
+// Route dashboard voyageur (Retirer les duplications)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
-    Route::put('/profile', [VoyageurController::class, 'update'])->name('voyageur.dashboard');
+    Route::get('/voyageur/dashboard', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
+    Route::put('/voyageur/update', [VoyageurController::class, 'update'])->name('voyageur.update');
 });
 
-// Additional bailleur routes
-Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth');
-Route::get('/bailleur/dashboard', [BailleurController::class, 'dashboard'])->name('bailleur.dashboard');
+// Route dashboard bailleur
+Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth')->name('bailleur.dashboard');
