@@ -16,11 +16,11 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\VoyageurController;
 use App\Http\Controllers\BailleurController;
 
-
+// Home
 Route::get('/', [BienController::class, 'index'])->name('home');
 Route::get('/biens/{bien}', [BienController::class, 'show'])->name('biens.show');
 
-//User
+// User routes
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // Dashboard
@@ -43,14 +43,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('biens', BienController::class);
 });
 
+// Language switcher
 Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
+
+// Simulation
 Route::get('/simulation', function () {
     return view('simulation');
 })->name('simulation');
 
-//Route::middleware(['auth', 'role:admin'])->group(function () {
+// Admin routes
 Route::middleware('auth')->group(function () {
 
+    // Admin dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // Backoffice users management
@@ -79,60 +83,58 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/tickets/{ticket}', [AdminTicketController::class, 'update'])->name('admin.tickets.update');
 });
 
+// Voyageur routes
 Route::middleware(['auth', 'role:voyageur'])->group(function () {
     Route::get('/voyageur/dashboard', function () {
         return view('voyageur.dashboard');
     })->name('voyageur.dashboard');
 });
 
+// Prestataire routes
 Route::middleware(['auth', 'role:prestataire'])->group(function () {
     Route::get('/prestataire/dashboard', function () {
         return view('prestataire.dashboard');
     })->name('prestataire.dashboard');
 });
 
+// Bailleur routes
 Route::middleware(['auth', 'role:bailleur'])->group(function () {
     Route::get('/bailleur/dashboard', function () {
         return view('bailleur.dashboard');
     })->name('bailleur.dashboard');
 });
 
+// Guest routes
 Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
-
-//Routes biens
-
-Route::get('/bien_add', function () {
+// Routes biens
+Route::get('/biens/ajout', function () {
     return view('biens_views/addbien');
 })->name('biens.ajout');
 
-Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.store');
+Route::get('/bien_add', function () {
+    return view('biens_views/addbien');
+})->name('biens.create_view');
+
+Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.create_store');
 
 Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');
+
+// Equipements routes
 Route::get('/equipements/create', [EquipementsController::class, 'create'])->name('equipements.create');
 Route::post('/equipements', [EquipementsController::class, 'store'])->name('equipements.store');
 Route::get('/equipements/selection', [EquipementsController::class, 'select'])->name('equipements.select');
 Route::post('/equipements/selection', [EquipementsController::class, 'postselect'])->name('equipements.postselect');
 
-
-Route::get('/bien/{id}/ajout_image', function ($id) {
-    return view('biens_views.ajout_image', ['id_bien' => $id]);
-})->name('biens.image');
-
-Route::post('/bien/ajout_image', [ImageController::Class, 'store'])->name('biens.image.post');
-
-
-
 require __DIR__.'/auth.php';
 
-//Route dashboard voyageur
+// Additional voyageur routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
     Route::put('/profile', [VoyageurController::class, 'update'])->name('voyageur.dashboard');
 });
 
-//Route dashboard bailleur
+// Additional bailleur routes
 Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth');
 Route::get('/bailleur/dashboard', [BailleurController::class, 'dashboard'])->name('bailleur.dashboard');
-
