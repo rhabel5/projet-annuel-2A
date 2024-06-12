@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BienController;
@@ -142,3 +143,7 @@ Route::middleware(['auth'])->group(function () {
 
 // Route dashboard bailleur
 Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth')->name('bailleur.dashboard');
+
+//Route Réservation
+
+Route::get('reserver/{bien}', [ReservationController::class, 'reserverform'])->middleware('auth')->name('reserver');
