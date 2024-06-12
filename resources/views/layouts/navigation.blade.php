@@ -27,7 +27,7 @@
 
                 <!-- Theme Toggle -->
 
-                <!-- Bailler -->
+                <!-- Bailleur -->
                 <div class="relative ml-4 transition duration-500 ease-in-out">
                     <input type="checkbox" id="toggle-theme" class="toggle-checkbox sr-only">
                     <label for="toggle-theme" class="toggle-checkbox-container"></label>

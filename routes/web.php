@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\BotManController;
+use App\Http\Controllers\VIPController;
 
 
 Route::middleware('guest')->group(function () {
@@ -98,6 +99,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:voyageur'])->group(function () {
     Route::get('/voyageur/dashboard', [VoyageurController::class, 'dashboard'])->name('voyageur.dashboard');
+    Route::get('/vip/subscription', function () {
+        return view('vip.subscription');
+    })->name('vip.subscription');
+    Route::post('/vip/subscribe', [VIPController::class, 'subscribe'])->name('vip.subscribe');
 });
 
 Route::middleware(['auth', 'role:prestataire'])->group(function () {
