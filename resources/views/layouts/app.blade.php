@@ -28,6 +28,7 @@
         <!-- Page Content -->
         <main class="transition duration-500 ease-in-out">
             @yield('content')
+            @include('layouts.chatbot')
         </main>
     </div>
 

@@ -26,9 +26,16 @@
                 <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Devenir Bailleur</a>
 
                 <!-- Theme Toggle -->
+
+                <!-- Bailleur -->
                 <div class="relative ml-4 transition duration-500 ease-in-out">
                     <input type="checkbox" id="toggle-theme" class="toggle-checkbox sr-only">
                     <label for="toggle-theme" class="toggle-checkbox-container"></label>
+                </div>
+
+                <!-- Voyageurs VIP -->
+                <div class="relative ml-4 transition duration-500 ease-in-out">
+                    <a href="{{ route('vip.subscription') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-9000 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Devenir VIP</a>
                 </div>
 
                 <!-- Language Switcher -->
