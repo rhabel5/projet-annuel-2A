@@ -12,9 +12,10 @@ class Reservation extends Model
     protected $fillable = [
         'id_client',
         'id_bien',
+        'id_bailleur',
         'date_debut',
         'date_fin',
-        'status',
+        'nb_adulte',
         'prix_total',
     ];
 
