@@ -17,6 +17,7 @@ use App\Http\Controllers\EquipementsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\BotManController;
 
 
 Route::middleware('guest')->group(function () {
@@ -32,6 +33,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
 });
 
 Route::get('/', [BienController::class, 'index'])->name('home');
