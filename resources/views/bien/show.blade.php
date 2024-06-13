@@ -25,7 +25,7 @@
         </div>
         <div class="mt-6 flex justify-between">
             <a href="{{ route('home') }}" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">{{ __('Retour à l\'accueil') }}</a>
-            <a href="{{ route('reserver', ['bien' => $bien->id]) }}" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">{{ __('Réserver') }}</a>
+            <a href="{{ route('reserver.get', ['bien' => $bien]) }}" class="inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">{{ __('Réserver') }}</a>
         </div>
     </div>
 </div>

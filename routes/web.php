@@ -153,6 +153,5 @@ Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->midd
 
 //Route Réservation
 
-Route::get('reserver/{bien}', [ReservationController::class, 'reserverform'])->middleware('auth')->name('reserver');
-Route::post('reserver/{bien}', [ReservationController::class, 'reserver'])->middleware('auth')->name('reserver');
-Route::post('reserver', [ReservationController::class, 'reserver'])->middleware('auth')->name('reserver');
+Route::get('reserver/{bien}', [ReservationController::class, 'reserverform'])->middleware('auth')->name('reserver.get');
+Route::post('reserver/{bien}', [ReservationController::class, 'reserver'])->middleware('auth')->name('reserver.post');

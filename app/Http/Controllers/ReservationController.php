@@ -23,8 +23,9 @@ class ReservationController extends Controller
 
     public function reserver(Request $request){
 
-        //Récupère l'id du bien on utilise json decode car dans la requête nous renvoie un json
-        $bien = json_decode($request->input('bien_id'));
+        $bien_id = $request->input('bien_id');
+        $bien = Bien::find($bien_id);
+
 
         //On récupère le nombre de jours
         $dateDebut = new DateTime($request->input('date_debut'));
@@ -32,13 +33,26 @@ class ReservationController extends Controller
         $intervale = $dateDebut->diff($dateFin);
         $jours = $intervale->days;
 
+        $anciennesReservations = Reservation::where('id_bien', $bien_id)->get();
+
+        foreach ($anciennesReservations as $anciennereservation) {
+            if (($anciennereservation->date_debut >= $dateDebut && $anciennereservation->date_debut <= $dateFin) ||
+                ($anciennereservation->date_fin >= $dateDebut && $anciennereservation->date_fin <= $dateFin) ||
+                ($anciennereservation->date_debut <= $dateDebut && $anciennereservation->date_fin >= $dateFin)
+            ) {
+                return redirect()->back()->with('error', 'La période de réservation est déjà prise.');
+            }
+        }
+
+        //On calcule le prix total de la réservation
         $prix_total = $bien->prix_adulte * $jours * $request->input('nombre_adultes');
+
 
 
 
         $reservation = new Reservation();
         $reservation->id_client = Auth::user()->id;
-        $reservation->id_bien = $bien->id;
+        $reservation->id_bien = $bien_id;
         $reservation->id_bailleur = $bien->id_bailleur;
         $reservation->date_debut = $request->input('date_debut');
         $reservation->date_fin = $request->input('date_fin');
