@@ -48,6 +48,9 @@ class ReservationController extends Controller
         $prix_total = $bien->prix_adulte * $jours * $request->input('nombre_adultes');
 
 
+        if(Auth::user()->id == $bien->id_bailleur ){
+            return redirect()->back()->with('error', 'Vous ne pouvez pas réserver votre propre bien.');
+        }
 
 
         $reservation = new Reservation();
