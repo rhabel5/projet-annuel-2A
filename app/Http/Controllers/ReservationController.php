@@ -66,4 +66,8 @@ class ReservationController extends Controller
     }
 
 
+    public function mesreservations(){
+        return view('bailleur.mesreservations');
+    }
+
 }
