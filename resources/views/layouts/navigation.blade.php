@@ -29,7 +29,7 @@
                 @endphp
 
                 @if($estBailleur)
-                    <a href="{{ route('mesbiens.blade.php') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Biens</a>
+                    <a href="{{ route('mesbiens') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Biens</a>
                     <a href="{{ route('mesreservations') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Reservations</a>
                 @else
                     <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Devenir Bailleur</a>

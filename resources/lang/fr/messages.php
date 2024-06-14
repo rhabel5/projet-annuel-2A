@@ -23,4 +23,5 @@ return [
     'all_rights_reserved' => 'Tous droits réservés.',
     'contact_us' => 'Contactez-nous',
     'help' => 'Aide',
+    'mes_reservations' => 'Mes Résevations',
 ];
