@@ -55,7 +55,7 @@ class BienController extends Controller
             if (!$dejaBailleur) {
                 // Assigner le rôle de bailleur à l'utilisateur
                 $roleUser = new Role_user;
-                $roleUser->role_id = 4;
+                $roleUser->role_id = 3;
                 $roleUser->user_id = Auth::id();
                 $roleUser->save();
             }
@@ -131,6 +131,10 @@ class BienController extends Controller
         $biens = Bien::where('titre', 'LIKE', "%$query%")->get();
 
         return response()->json($biens);
+    }
+
+    public function mesbiens(){
+       return view('bien.mesbiens');
     }
 
 }

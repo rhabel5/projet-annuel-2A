@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 transition duration-500 ease-in-out">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 transition duration-500 ease-in-out">
@@ -23,8 +24,16 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Devenir Bailleur</a>
+                @php
+                    $estBailleur = \App\Models\Role_user::where('user_id', Auth::id())->where('role_id', 3)->first();
+                @endphp
 
+                @if($estBailleur)
+                    <a href="{{ route('mesbiens.blade.php') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Biens</a>
+                    <a href="{{ route('mesreservations') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Reservations</a>
+                @else
+                    <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Devenir Bailleur</a>
+                @endif
                 <!-- Theme Toggle -->
 
                 <!-- Bailleur -->

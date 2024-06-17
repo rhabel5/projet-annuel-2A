@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateVoyageursTable extends Migration
 {
+
     public function up()
     {
         Schema::create('voyageurs', function (Blueprint $table) {
