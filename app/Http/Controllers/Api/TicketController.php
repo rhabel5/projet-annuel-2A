@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
@@ -14,8 +15,13 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::where('user_id', Auth::id())->get();
-        return response()->json($tickets, 200);
+        try {
+            $tickets = Ticket::where('user_id', Auth::id())->get();
+            return response()->json($tickets, 200);
+        } catch (\Exception $e) {
+            Log::error('Error fetching tickets: ' . $e->getMessage());
+            return response()->json(['message' => 'Internal Server Error'], 500);
+        }
     }
 
     /**
