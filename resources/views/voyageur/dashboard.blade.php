@@ -11,7 +11,7 @@
         <!-- Informations de profil -->
         <div class="mt-8">
             <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Informations du Profil</h2>
-            <form action="{{ route('voyageur.dashboard') }}" method="POST">
+            <form action="{{ route('voyageur.update') }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-4">
@@ -41,63 +41,51 @@
         </div>
 
         <div class="mt-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Mes Réservations</h2>
+            <h3 class="text-2xl font-semibold mb-4 text-gray-900 dark:text-gray-100">Réservations à venir</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @if($reservationsAVenir->isEmpty())
+                    <p class="col-span-full text-center">Vous n'avez aucune réservation à venir.</p>
+                @else
+                    @foreach($reservationsAVenir as $reservation)
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                            @if($reservation->bien && $reservation->bien->image_url)
+                                <img class="w-full h-48 object-cover" src="{{ $reservation->bien->image_url }}" alt="{{ $reservation->bien->titre }}">
+                            @endif
+                            <div class="p-4">
+                                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ $reservation->bien->titre }}</h2>
+                                <p class="text-gray-700 dark:text-gray-300">{{ $reservation->bien->description }}</p>
+                                <p class="text-gray-700 dark:text-gray-300"><strong>Adresse:</strong> {{ $reservation->bien->adresse }}</p>
+                                <p class="text-gray-700 dark:text-gray-300"><strong>Date de début:</strong> {{ $reservation->date_debut }}</p>
+                                <p class="text-gray-700 dark:text-gray-300"><strong>Date de fin:</strong> {{ $reservation->date_fin }}</p>
+                                <p class="text-gray-700 dark:text-gray-300"><strong>Status:</strong> {{ $reservation->status }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
 
-            <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100">Réservations à venir</h3>
-            @if($reservationsAVenir->isEmpty())
-                <p>Vous n'avez aucune réservation à venir.</p>
-            @else
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Bien</th>
-                            <th>Date de début</th>
-                            <th>Date de fin</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($reservationsAVenir as $reservation)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('voyageur.dashboard', $reservationsAVenir->bien) }}" class="text-blue-500 dark:text-blue-300 hover:underline">{{ $reservationsAVenir->bien->nom }}</a>
-                                </td>
-                                <td>{{ $reservation->date_debut }}</td>
-                                <td>{{ $reservation->date_fin }}</td>
-                                <td>{{ $reservation->status }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @endif
-
-            <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 mt-8">Réservations passées</h3>
-            @if($reservationsPassees->isEmpty())
-                <p>Vous n'avez aucune réservation passée.</p>
-            @else
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Bien</th>
-                            <th>Date de début</th>
-                            <th>Date de fin</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($reservationsPassees as $reservation)
-                            <tr>
-                                <td>
-                                    <a href="{{ route('voyageur.dashboard', $reservationsPassees->bien) }}" class="text-blue-500 dark:text-blue-300 hover:underline">{{ $reservation->bien->nom }}</a>
-                                </td>
-                                <td>{{ $reservation->date_debut }}</td>
-                                <td>{{ $reservation->date_fin }}</td>
-                                <td>{{ $reservation->status }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @endif
+            <h3 class="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-gray-100">Réservations Passées</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @if($reservationsPassees->isEmpty())
+                    <p class="col-span-full text-center">Vous n'avez aucune réservation passée.</p>
+                @else
+                    @foreach($reservationsPassees as $reservation)
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                            @if($reservation->bien && $reservation->bien->image_url)
+                                <img class="w-full h-48 object-cover" src="{{ $reservation->bien->image_url }}" alt="{{ $reservation->bien->titre }}">
+                            @endif
+                            <div class="p-4">
+                                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ $reservation->bien->titre }}</h2>
+                                <p class="text-gray-700 dark:text-gray-300">{{ $reservation->bien->description }}</p>
+                                <p class="text-gray-700 dark:text-gray-300"><strong>Adresse:</strong> {{ $reservation->bien->adresse }}</p>
+                                <p class="text-gray-700 dark:text-gray-300"><strong>Date de début:</strong> {{ $reservation->date_debut }}</p>
+                                <p class="text-gray-700 dark:text-gray-300"><strong>Date de fin:</strong> {{ $reservation->date_fin }}</p>
+                                <p class="text-gray-700 dark:text-gray-300"><strong>Status:</strong> {{ $reservation->status }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
         </div>
     </div>
 </div>
