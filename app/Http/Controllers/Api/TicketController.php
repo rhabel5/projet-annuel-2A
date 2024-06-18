@@ -16,8 +16,16 @@ class TicketController extends Controller
     public function index()
     {
         try {
-            $tickets = Ticket::where('user_id', Auth::id())->get();
-            return response()->json($tickets, 200);
+            $user = Auth::user();
+            Log::info('Authenticated user', ['user' => $user]);
+            if ($user) {
+                $tickets = Ticket::where('user_id', $user->id)->get();
+                Log::info('Tickets fetched successfully', ['tickets' => $tickets]);
+                return response()->json($tickets, 200);
+            } else {
+                Log::warning('User not authenticated');
+                return response()->json(['message' => 'User not authenticated'], 401);
+            }
         } catch (\Exception $e) {
             Log::error('Error fetching tickets: ' . $e->getMessage());
             return response()->json(['message' => 'Internal Server Error'], 500);
