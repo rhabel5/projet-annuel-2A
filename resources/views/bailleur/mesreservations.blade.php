@@ -18,7 +18,7 @@
                 $dateDebut = \Carbon\Carbon::parse($reservation->date_debut)->toFormattedDateString();
                 $dateFin = \Carbon\Carbon::parse($reservation->date_fin)->toFormattedDateString();
             @endphp
-
+<!-- Faire une partie en cours, à venir et passées -->
             @if ($bien)
     <section class="container mx-auto px-4 py-16 transition duration-500 ease-in-out">
 
