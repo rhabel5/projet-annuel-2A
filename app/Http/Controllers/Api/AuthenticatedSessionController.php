@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
-class ApiAuthenticatedSessionController extends Controller
+class AuthenticatedSessionController extends Controller
 {
     use HasApiTokens;
 
@@ -18,17 +18,18 @@ class ApiAuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
-
+    
         if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
-
+    
         $user = Auth::user();
         $token = $user->createToken('Personal Access Token')->plainTextToken;
-
+    
         return response()->json([
             'token' => $token,
-            'user' => $user
+            'user' => $user,
+            'redirect' => 'home'
         ], 200);
     }
 

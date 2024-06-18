@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BailleurController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Auth\ApiAuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\TicketController;
+use App\Http\Controllers\Api\TicketController;
+use App\Http\Controllers\Api\AuthenticatedSessionController;
 
 // Route par défaut
 Route::get('/', function () {
@@ -39,16 +39,15 @@ Route::prefix('biens')->group(function () {
 
 Route::middleware('guest')->group(function () {
     Route::post('register', [RegisteredUserController::class, 'store']);
-    Route::post('login', [ApiAuthenticatedSessionController::class, 'store']);
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
-});
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [ApiAuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
 // Routes protégées pour les Utilisateurs
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
     Route::get('/users', [UserController::class, 'index'])->name('api.users.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('api.users.show');
     Route::post('/users', [UserController::class, 'store'])->name('api.users.store');
@@ -60,8 +59,8 @@ Route::middleware('auth:sanctum')->group(function () {
 // Routes pour les Tickets (protégées par auth:sanctum middleware)
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/tickets', [TicketController::class, 'index'])->name('api.tickets.index');
-    Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('api.tickets.show');
     Route::post('/tickets', [TicketController::class, 'store'])->name('api.tickets.store');
+    Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('api.tickets.show');
     Route::put('/tickets/{ticket}', [TicketController::class, 'update'])->name('api.tickets.update');
     Route::delete('/tickets/{ticket}', [TicketController::class, 'destroy'])->name('api.tickets.destroy');
     Route::put('/tickets/{ticket}/status', [TicketController::class, 'changeStatus'])->name('api.tickets.changeStatus');
