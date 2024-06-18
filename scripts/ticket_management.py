@@ -25,9 +25,13 @@ def fetch_tickets():
         headers = {"Authorization": f"Bearer {token}"}
         response = requests.get(f"{BASE_URL}/tickets", headers=headers)
         response.raise_for_status()
+        print(response.text)  # Affiche le contenu brut de la réponse
         return response.json()
     except requests.exceptions.RequestException as e:
         messagebox.showerror("Error", f"Failed to fetch tickets: {e}")
+        return []
+    except ValueError as e:
+        messagebox.showerror("Error", f"Failed to parse response: {e}\nResponse text: {response.text}")
         return []
 
 def show_tickets():

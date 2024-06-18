@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BailleurController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Api\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\TicketController;
+use App\Http\Controllers\Api\TicketController;
+use App\Http\Controllers\Api\AuthenticatedSessionController;
 
 // Route par défaut
 Route::get('/', function () {

@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             $existingUser->delete();
         }
 
-        // Créer un utilisateur spécifique
+        // Créer un admin spécifique
         $user = User::create([
             'firstname' => 'Rayane',
             'lastname' => 'Habel',
@@ -35,6 +35,17 @@ class DatabaseSeeder extends Seeder
             'birthdate' => '2004-01-05', // Ajouter la date de naissance
         ]);
         $user->roles()->attach(Role::where('name', 'admin')->first());
+
+        // Créer un voyageur spécifique
+        $user = User::create([
+            'firstname' => 'Test',
+            'lastname' => 'Test',
+            'email' => 'test@test.fr',
+            'password' => Hash::make('Azerty01'),
+            'tel' => '0612345678',
+            'birthdate' => '2004-01-05', // Ajouter la date de naissance
+        ]);
+        $user->roles()->attach(Role::where('name', 'voyageur')->first());
 
         // Créer des utilisateurs aléatoires
         $faker = Faker::create();
