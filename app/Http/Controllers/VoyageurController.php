@@ -8,9 +8,6 @@ use App\Models\User;
 use App\Models\Voyageur;
 use App\Models\Reservation;
 
-// Make sure you have a Bailleur model correctly set up
-
-
 class VoyageurController extends Controller
 {
     public function allVoyageurs(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
