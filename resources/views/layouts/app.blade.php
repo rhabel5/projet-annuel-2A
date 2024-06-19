@@ -10,7 +10,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dark-mode.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/chatbot.js', 'resources/js/dark-mode.js'])
 </head>
 <body class="font-sans antialiased transition duration-500 ease-in-out">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 transition duration-500 ease-in-out">
@@ -28,9 +28,10 @@
         <!-- Page Content -->
         <main class="transition duration-500 ease-in-out">
             @yield('content')
-            @include('layouts.chatbot')
         </main>
     </div>
+
+    @include('layouts.chatbot')
 
     <footer class="bg-white dark:bg-gray-800 py-6 transition duration-500 ease-in-out">
         <div class="container mx-auto px-4 text-center text-gray-600 dark:text-gray-300">

@@ -34,8 +34,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle']);
+    Route::get('/botman/widget', [BotManController::class, 'widget']);
 });
 
 Route::get('/', [BienController::class, 'index'])->name('home');
