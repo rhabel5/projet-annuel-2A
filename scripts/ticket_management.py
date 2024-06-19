@@ -25,13 +25,9 @@ def fetch_tickets():
         headers = {"Authorization": f"Bearer {token}"}
         response = requests.get(f"{BASE_URL}/tickets", headers=headers)
         response.raise_for_status()
-        print(response.text)  # Affiche le contenu brut de la réponse
         return response.json()
     except requests.exceptions.RequestException as e:
         messagebox.showerror("Error", f"Failed to fetch tickets: {e}")
-        return []
-    except ValueError as e:
-        messagebox.showerror("Error", f"Failed to parse response: {e}\nResponse text: {response.text}")
         return []
 
 def show_tickets():
@@ -87,9 +83,19 @@ def show_ticket_management():
     login_frame.pack_forget()
     ticket_frame.pack(expand=True, fill="both")
 
+def logout():
+    global token
+    token = None
+    messagebox.showinfo("Success", "Logged out successfully")
+    ticket_frame.pack_forget()
+    login_frame.pack(expand=True, fill="both")
+
+def quit_application():
+    root.destroy()
+
 # GUI Setup
 root = tk.Tk()
-root.title("Ticket Management")
+root.title("Ticket Management System")
 root.geometry("600x600")
 root.config(bg="#f0f0f0")
 
@@ -125,8 +131,8 @@ tickets_listbox.pack(pady=10)
 button_frame = tk.Frame(content_frame, bg="#f0f0f0")
 button_frame.pack(pady=10)
 
-show_button = tk.Button(button_frame, text="Show Tickets", command=show_tickets, font=("Arial", 12), bg="#2196F3", fg="white")
-show_button.grid(row=0, column=0, padx=5, pady=5)
+refresh_button = tk.Button(button_frame, text="Refresh Tickets", command=show_tickets, font=("Arial", 12), bg="#2196F3", fg="white")
+refresh_button.grid(row=0, column=0, padx=5, pady=5)
 
 view_button = tk.Button(button_frame, text="View Ticket", command=view_ticket, font=("Arial", 12), bg="#2196F3", fg="white")
 view_button.grid(row=0, column=1, padx=5, pady=5)
@@ -139,5 +145,11 @@ hold_button.grid(row=0, column=3, padx=5, pady=5)
 
 respond_button = tk.Button(button_frame, text="Respond to Ticket", command=respond_ticket, font=("Arial", 12), bg="#4CAF50", fg="white")
 respond_button.grid(row=0, column=4, padx=5, pady=5)
+
+logout_button = tk.Button(button_frame, text="Déconnexion", command=logout, font=("Arial", 12), bg="#FF5722", fg="white")
+logout_button.grid(row=1, column=0, padx=5, pady=5)
+
+quit_button = tk.Button(button_frame, text="Quitter", command=quit_application, font=("Arial", 12), bg="#607D8B", fg="white")
+quit_button.grid(row=1, column=1, padx=5, pady=5)
 
 root.mainloop()
