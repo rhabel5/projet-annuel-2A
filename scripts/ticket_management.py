@@ -49,6 +49,7 @@ def view_ticket():
         response.raise_for_status()
         ticket = response.json()
         messagebox.showinfo("Ticket Details", f"Title: {ticket['title']}\nMessage: {ticket['message']}\nStatus: {ticket['status']}")
+        enable_ticket_actions()
     except IndexError:
         messagebox.showerror("Error", "No ticket selected")
     except requests.exceptions.RequestException as e:
@@ -86,6 +87,29 @@ def respond_ticket():
 def show_ticket_management():
     login_frame.pack_forget()
     ticket_frame.pack(expand=True, fill="both")
+    show_tickets()
+
+def logout():
+    global token
+    token = None
+    messagebox.showinfo("Success", "Logged out successfully")
+    ticket_frame.pack_forget()
+    login_frame.pack(expand=True, fill="both")
+
+def quit_application():
+    root.destroy()
+
+def enable_ticket_actions():
+    view_button.config(state=tk.NORMAL)
+    close_button.config(state=tk.NORMAL)
+    hold_button.config(state=tk.NORMAL)
+    respond_button.config(state=tk.NORMAL)
+
+def disable_ticket_actions():
+    view_button.config(state=tk.DISABLED)
+    close_button.config(state=tk.DISABLED)
+    hold_button.config(state=tk.DISABLED)
+    respond_button.config(state=tk.DISABLED)
 
 # GUI Setup
 root = tk.Tk()
@@ -125,19 +149,27 @@ tickets_listbox.pack(pady=10)
 button_frame = tk.Frame(content_frame, bg="#f0f0f0")
 button_frame.pack(pady=10)
 
-show_button = tk.Button(button_frame, text="Show Tickets", command=show_tickets, font=("Arial", 12), bg="#2196F3", fg="white")
-show_button.grid(row=0, column=0, padx=5, pady=5)
+refresh_button = tk.Button(button_frame, text="Refresh", command=show_tickets, font=("Arial", 12), bg="#2196F3", fg="white")
+refresh_button.grid(row=0, column=0, padx=5, pady=5)
 
-view_button = tk.Button(button_frame, text="View Ticket", command=view_ticket, font=("Arial", 12), bg="#2196F3", fg="white")
+view_button = tk.Button(button_frame, text="View Ticket", command=view_ticket, font=("Arial", 12), bg="#2196F3", fg="white", state=tk.DISABLED)
 view_button.grid(row=0, column=1, padx=5, pady=5)
 
-close_button = tk.Button(button_frame, text="Close Ticket", command=lambda: change_ticket_status('closed'), font=("Arial", 12), bg="#f44336", fg="white")
+close_button = tk.Button(button_frame, text="Close Ticket", command=lambda: change_ticket_status('closed'), font=("Arial", 12), bg="#f44336", fg="white", state=tk.DISABLED)
 close_button.grid(row=0, column=2, padx=5, pady=5)
 
-hold_button = tk.Button(button_frame, text="Hold Ticket", command=lambda: change_ticket_status('on hold'), font=("Arial", 12), bg="#FFC107", fg="white")
+hold_button = tk.Button(button_frame, text="Hold Ticket", command=lambda: change_ticket_status('on hold'), font=("Arial", 12), bg="#FFC107", fg="white", state=tk.DISABLED)
 hold_button.grid(row=0, column=3, padx=5, pady=5)
 
-respond_button = tk.Button(button_frame, text="Respond to Ticket", command=respond_ticket, font=("Arial", 12), bg="#4CAF50", fg="white")
+respond_button = tk.Button(button_frame, text="Respond to Ticket", command=respond_ticket, font=("Arial", 12), bg="#4CAF50", fg="white", state=tk.DISABLED)
 respond_button.grid(row=0, column=4, padx=5, pady=5)
+
+logout_button = tk.Button(button_frame, text="Déconnexion", command=logout, font=("Arial", 12), bg="#FF5722", fg="white")
+logout_button.grid(row=1, column=0, padx=5, pady=5)
+
+quit_button = tk.Button(button_frame, text="Quitter", command=quit_application, font=("Arial", 12), bg="#607D8B", fg="white")
+quit_button.grid(row=1, column=1, padx=5, pady=5)
+
+tickets_listbox.bind('<<ListboxSelect>>', lambda event: enable_ticket_actions())
 
 root.mainloop()
