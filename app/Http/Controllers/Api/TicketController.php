@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Models\TicketResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class TicketController extends Controller
 {
-    /**
-     * Display a listing of the tickets.
-     */
     public function index()
     {
         try {
@@ -20,9 +18,9 @@ class TicketController extends Controller
             Log::info('Authenticated user', ['user' => $user]);
             if ($user) {
                 if ($user->hasRole('admin')) {
-                    $tickets = Ticket::all();
+                    $tickets = Ticket::with('user')->get();
                 } else {
-                    $tickets = Ticket::where('user_id', $user->id)->get();
+                    $tickets = Ticket::where('user_id', $user->id)->with('user')->get();
                 }
                 Log::info('Tickets fetched successfully', ['tickets' => $tickets]);
                 return response()->json($tickets, 200);
@@ -36,9 +34,6 @@ class TicketController extends Controller
         }
     }
 
-    /**
-     * Store a newly created ticket in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -56,21 +51,15 @@ class TicketController extends Controller
         return response()->json($ticket, 201);
     }
 
-    /**
-     * Display the specified ticket.
-     */
     public function show(Ticket $ticket)
     {
         $user = Auth::user();
         if ($user->hasRole('admin') || $ticket->user_id === $user->id) {
-            return response()->json($ticket, 200);
+            return response()->json($ticket->load('user'), 200);
         }
         return response()->json(['message' => 'Unauthorized'], 403);
     }
 
-    /**
-     * Update the specified ticket in storage.
-     */
     public function update(Request $request, Ticket $ticket)
     {
         $user = Auth::user();
@@ -87,9 +76,6 @@ class TicketController extends Controller
         return response()->json(['message' => 'Unauthorized'], 403);
     }
 
-    /**
-     * Remove the specified ticket from storage.
-     */
     public function destroy(Ticket $ticket)
     {
         $user = Auth::user();
@@ -100,15 +86,12 @@ class TicketController extends Controller
         return response()->json(['message' => 'Unauthorized'], 403);
     }
 
-    /**
-     * Change the status of the specified ticket.
-     */
     public function changeStatus(Request $request, Ticket $ticket)
     {
         $user = Auth::user();
         if ($user->hasRole('admin') || $ticket->user_id === $user->id) {
             $request->validate([
-                'status' => 'required|in:open,closed,on hold',
+                'status' => 'required|in:open,closed,on hold,resolved',
             ]);
 
             $ticket->update(['status' => $request->status]);
@@ -118,9 +101,6 @@ class TicketController extends Controller
         return response()->json(['message' => 'Unauthorized'], 403);
     }
 
-    /**
-     * Respond to a ticket.
-     */
     public function respond(Request $request, Ticket $ticket)
     {
         $user = Auth::user();
@@ -129,13 +109,28 @@ class TicketController extends Controller
                 'message' => 'required|string',
             ]);
 
-            $ticket->responses()->create([
+            TicketResponse::create([
                 'message' => $request->message,
-                'user_id' => Auth::id(),
+                'user_id' => $user->id,
+                'ticket_id' => $ticket->id,
             ]);
 
             return response()->json(['message' => 'Response sent successfully'], 200);
         }
+
         return response()->json(['message' => 'Unauthorized'], 403);
     }
+
+    public function assign(Request $request, Ticket $ticket)
+    {
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            $ticket->assigned_to = $user->id;
+            $ticket->save();
+    
+            return response()->json(['message' => 'Ticket assigned successfully'], 200);
+        }
+    
+        return response()->json(['message' => 'Unauthorized'], 403);
+    }    
 }

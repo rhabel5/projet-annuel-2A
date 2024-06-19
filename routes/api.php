@@ -53,7 +53,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users', [UserController::class, 'store'])->name('api.users.store');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('api.users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('api.users.destroy');
+
     Route::get('/check', [UserController::class, 'isConnected'])->name('api.users.check');
+    Route::get('/check-role', [AuthenticatedSessionController::class, 'checkRole'])->name('api.users.role');
+
+    Route::get('/user', [AuthenticatedSessionController::class, 'getUser'])->name('api.users.user');
 });
 
 // Routes pour les Tickets (protégées par auth:sanctum middleware)
@@ -65,4 +69,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/tickets/{ticket}', [TicketController::class, 'destroy'])->name('api.tickets.destroy');
     Route::put('/tickets/{ticket}/status', [TicketController::class, 'changeStatus'])->name('api.tickets.changeStatus');
     Route::post('/tickets/{ticket}/response', [TicketController::class, 'respond'])->name('api.tickets.respond');
+    Route::put('/tickets/{ticket}/assign', [TicketController::class, 'assign'])->name('api.tickets.assign');
 });

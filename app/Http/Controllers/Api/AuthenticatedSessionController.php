@@ -42,4 +42,22 @@ class AuthenticatedSessionController extends Controller
 
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
+
+    /**
+     * Check the role of the authenticated user.
+     */
+    public function checkRole()
+    {
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            return response()->json(['role' => 'admin'], 200);
+        } else {
+            return response()->json(['role' => 'user'], 403);
+        }
+    }
+
+    public function getUser()
+    {
+        return response()->json(Auth::user()->load('roles'));
+    }
 }

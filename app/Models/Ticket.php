@@ -24,5 +24,5 @@ class Ticket extends Model
     public function responses()
     {
         return $this->hasMany(TicketResponse::class);
-    }
+    }    
 }
