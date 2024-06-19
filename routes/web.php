@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PrestataireController;
+use App\Http\Controllers\PrestationTypeController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -161,3 +163,11 @@ Route::post('reserver/{bien}', [ReservationController::class, 'reserver'])->midd
 
 Route::get('mesbiens.blade.php', [BienController::class, 'mesbiens'])->middleware('auth')->name('mesbiens');
 Route::get('mesreservations', [ReservationController::class, 'mesreservations'])->middleware('auth')->name('mesreservations');
+
+//Routes Prestataires
+Route::get('prestataire/inscritpion', [PrestataireController::class, 'inscription'])->middleware('auth')->name('prestataire.inscription');
+
+
+//Routes Prestatations
+Route::get('prestation/type/ajout', [PrestationTypeController::class, 'form'])->middleware('auth')->name('prestation.type');
+Route::post('prestation/type/ajout', [PrestationTypeController::class, 'store'])->middleware('auth')->name('prestation.type.post');

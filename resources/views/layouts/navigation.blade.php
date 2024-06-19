@@ -87,6 +87,9 @@
                             <x-dropdown-link :href="route('voyageur.dashboard')" class="transition duration-500 ease-in-out">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                            <x-dropdown-link :href="route('prestataire.inscription')" class="transition duration-500 ease-in-out">
+                                {{ __('Devenir Prestataire') }}
+                            </x-dropdown-link>
                             <x-dropdown-link :href="route('tickets.index')" class="transition duration-500 ease-in-out">
                                 {{ __('Help Center') }}
                             </x-dropdown-link>

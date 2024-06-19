@@ -52,7 +52,8 @@ class AuthenticatedSessionController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->hasRole('admin')) {
+        //cause une erreur de redirection car changement de la gestion des roles
+        /*if ($user->hasRole('admin')) {
             return redirect()->route('admin.dashboard');
         } elseif ($user->hasRole('voyageur')) {
             return redirect()->route('voyageur.dashboard');
@@ -60,7 +61,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('prestataire.dashboard');
         } elseif ($user->hasRole('bailleur')) {
             return redirect()->route('bailleur.dashboard');
-        }
+        }*/
 
         return redirect()->route('home');
     }
