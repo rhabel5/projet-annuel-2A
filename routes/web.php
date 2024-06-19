@@ -166,6 +166,7 @@ Route::get('mesreservations', [ReservationController::class, 'mesreservations'])
 
 //Routes Prestataires
 Route::get('prestataire/inscritpion', [PrestataireController::class, 'inscription'])->middleware('auth')->name('prestataire.inscription');
+Route::post('prestataire/inscritpion', [PrestataireController::class, 'create'])->middleware('auth')->name('prestataire.inscription');
 
 
 //Routes Prestatations

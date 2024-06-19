@@ -19,11 +19,14 @@ class PrestataireController extends Controller
     }
 
     public function create(Request $request){
-        $prestataire = User::create($request->all());
+
+ print_r($request->all());
+
+        /*$prestataire = User::create($request->all());
         $roleUser = new Role_user;
         $roleUser->role_id = 4;
         $roleUser->user_id = Auth::id();
-        $roleUser->save();
+        $roleUser->save();*/
     }
 
 
