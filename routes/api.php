@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\ReservationController;
+
 
 // Route par défaut
 Route::get('/', function () {
@@ -66,3 +68,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/tickets/{ticket}/status', [TicketController::class, 'changeStatus'])->name('api.tickets.changeStatus');
     Route::post('/tickets/{ticket}/response', [TicketController::class, 'respond'])->name('api.tickets.respond');
 });
+
+// Routes pour les réservations 
+Route::middleware('auth:sanctum')->get('/reservations', [ReservationController::class, 'show']);

@@ -57,7 +57,6 @@
                                 <p class="text-gray-700 dark:text-gray-300"><strong>Adresse:</strong> {{ $reservation->bien->adresse }}</p>
                                 <p class="text-gray-700 dark:text-gray-300"><strong>Date de début:</strong> {{ $reservation->date_debut }}</p>
                                 <p class="text-gray-700 dark:text-gray-300"><strong>Date de fin:</strong> {{ $reservation->date_fin }}</p>
-                                <p class="text-gray-700 dark:text-gray-300"><strong>Status:</strong> {{ $reservation->status }}</p>
                             </div>
                         </div>
                     @endforeach
@@ -80,7 +79,6 @@
                                 <p class="text-gray-700 dark:text-gray-300"><strong>Adresse:</strong> {{ $reservation->bien->adresse }}</p>
                                 <p class="text-gray-700 dark:text-gray-300"><strong>Date de début:</strong> {{ $reservation->date_debut }}</p>
                                 <p class="text-gray-700 dark:text-gray-300"><strong>Date de fin:</strong> {{ $reservation->date_fin }}</p>
-                                <p class="text-gray-700 dark:text-gray-300"><strong>Status:</strong> {{ $reservation->status }}</p>
                             </div>
                         </div>
                     @endforeach
