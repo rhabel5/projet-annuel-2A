@@ -14,6 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'login',
         'api/login', // Ajoutez d'autres routes API si nécessaire
-        'api/reservations',
+        'api/voyageur/dashboard',
     ];
 }

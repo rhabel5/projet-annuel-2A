@@ -70,4 +70,4 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 // Routes pour les réservations 
-Route::middleware('auth:sanctum')->get('/reservations', [ReservationController::class, 'show']);
+Route::middleware('auth:sanctum')->get('/voyageur/dashboard', [ReservationController::class, 'show']);
