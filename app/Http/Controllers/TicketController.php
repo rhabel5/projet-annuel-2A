@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Tag;
 
 class TicketController extends Controller
 {
@@ -16,7 +17,8 @@ class TicketController extends Controller
 
     public function create()
     {
-        return view('tickets.create');
+        $tags = Tag::all(); // Récupère tous les tags
+        return view('tickets.create', compact('tags'));
     }
 
     public function store(Request $request)
@@ -24,17 +26,25 @@ class TicketController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'message' => 'required|string',
+            'priority' => 'required|string|in:low,medium,high',
+            'tags' => 'array'
         ]);
-
-        Ticket::create([
+    
+        $ticket = Ticket::create([
             'title' => $request->title,
             'message' => $request->message,
             'status' => 'open',
+            'priority' => $request->priority,
             'user_id' => Auth::id(),
         ]);
-
+    
+        if ($request->has('tags')) {
+            $tags = Tag::find($request->tags);
+            $ticket->tags()->sync($tags);
+        }
+    
         return redirect()->route('tickets.index')->with('success', 'Ticket created successfully.');
-    }
+    }    
 
     public function show(Ticket $ticket)
     {

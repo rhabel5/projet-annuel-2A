@@ -13,7 +13,9 @@ class Ticket extends Model
         'title',
         'message',
         'status',
-        'user_id'
+        'priority',
+        'user_id',
+        'assigned_to'
     ];
 
     public function user()
@@ -24,5 +26,10 @@ class Ticket extends Model
     public function responses()
     {
         return $this->hasMany(TicketResponse::class);
-    }    
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'ticket_tag');
+    }
 }

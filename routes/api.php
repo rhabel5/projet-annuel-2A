@@ -70,4 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/tickets/{ticket}/status', [TicketController::class, 'changeStatus'])->name('api.tickets.changeStatus');
     Route::post('/tickets/{ticket}/response', [TicketController::class, 'respond'])->name('api.tickets.respond');
     Route::put('/tickets/{ticket}/assign', [TicketController::class, 'assign'])->name('api.tickets.assign');
+    Route::get('/tickets/{ticket}/responses', [TicketController::class, 'getResponses'])->name('api.tickets.responses');
+    Route::get('/tickets/{ticket}/tags', [TicketController::class, 'getTags'])->name('api.tickets.tags');
+    Route::post('/tickets/search', [TicketController::class, 'search'])->name('api.tickets.search');
 });

@@ -44,7 +44,7 @@ def filter_tickets(tickets, filter_type):
     elif filter_type == "assigned_to_me":
         return [ticket for ticket in tickets if ticket['assigned_to'] == user_id]
     else:
-        return [ticket for ticket in tickets if ticket['status'] == filter_type]
+        return [ticket for ticket in tickets if ticket['status'] == filter_type or filter_type in [tag['name'] for tag in ticket.get('tags', [])]]
 
 def show_tickets():
     tickets = fetch_tickets()
@@ -53,7 +53,8 @@ def show_tickets():
     tickets_listbox.delete(0, tk.END)
     for ticket in filtered_tickets:
         assigned_to = ticket['assigned_to'] if ticket['assigned_to'] else 'Unassigned'
-        ticket_text = f"{ticket['id']} - {ticket['title']} - {ticket['status']} - {ticket['user']['email']} - {assigned_to}"
+        tags = ", ".join([tag['name'] for tag in ticket.get('tags', [])])
+        ticket_text = f"{ticket['id']} - {ticket['title']} - {ticket['status']} - {ticket['priority']} - {ticket['user']['email']} - {assigned_to} - {tags}"
         tickets_listbox.insert(tk.END, ticket_text)
         if ticket['status'] == 'closed':
             tickets_listbox.itemconfig(tk.END, {'bg': 'red'})
@@ -72,7 +73,8 @@ def view_ticket():
         response = requests.get(f"{BASE_URL}/tickets/{ticket_id}", headers=headers)
         response.raise_for_status()
         ticket = response.json()
-        messagebox.showinfo("Ticket Details", f"Title: {ticket['title']}\nMessage: {ticket['message']}\nStatus: {ticket['status']}\nUser: {ticket['user']['email']}\nAssigned to: {ticket['assigned_to']}")
+        tags = ", ".join([tag['name'] for tag in ticket.get('tags', [])])
+        messagebox.showinfo("Ticket Details", f"Title: {ticket['title']}\nMessage: {ticket['message']}\nStatus: {ticket['status']}\nPriority: {ticket['priority']}\nTags: {tags}\nUser: {ticket['user']['email']}\nAssigned to: {ticket['assigned_to']}")
     except IndexError:
         messagebox.showerror("Error", "No ticket selected")
     except requests.exceptions.RequestException as e:
@@ -111,9 +113,17 @@ def create_ticket():
     try:
         title = simpledialog.askstring("Create Ticket", "Enter the ticket title:")
         message = simpledialog.askstring("Create Ticket", "Enter the ticket message:")
-        if title and message:
+        priority = simpledialog.askstring("Create Ticket", "Enter the ticket priority (low, medium, high):")
+        tags = simpledialog.askstring("Create Ticket", "Enter the tags (comma separated):")
+        if title and message and priority and tags:
+            tag_list = [tag.strip() for tag in tags.split(',')]
             headers = {"Authorization": f"Bearer {token}"}
-            response = requests.post(f"{BASE_URL}/tickets", json={"title": title, "message": message}, headers=headers)
+            response = requests.post(f"{BASE_URL}/tickets", json={
+                "title": title,
+                "message": message,
+                "priority": priority,
+                "tags": tag_list
+            }, headers=headers)
             response.raise_for_status()
             messagebox.showinfo("Success", "Ticket created successfully")
             show_tickets()

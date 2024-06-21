@@ -39,26 +39,25 @@ class TicketController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'message' => 'required|string',
+            'priority' => 'required|string|in:low,medium,high',
+            'tags' => 'array'
         ]);
-
+    
         $ticket = Ticket::create([
             'title' => $request->title,
             'message' => $request->message,
             'status' => 'open',
+            'priority' => $request->priority,
             'user_id' => Auth::id(),
         ]);
-
-        return response()->json($ticket, 201);
-    }
-
-    public function show(Ticket $ticket)
-    {
-        $user = Auth::user();
-        if ($user->hasRole('admin') || $ticket->user_id === $user->id) {
-            return response()->json($ticket->load('user'), 200);
+    
+        if ($request->has('tags')) {
+            $tags = Tag::whereIn('name', $request->tags)->get();
+            $ticket->tags()->sync($tags);
         }
-        return response()->json(['message' => 'Unauthorized'], 403);
-    }
+    
+        return response()->json($ticket, 201);
+    }    
 
     public function update(Request $request, Ticket $ticket)
     {
@@ -132,5 +131,38 @@ class TicketController extends Controller
         }
     
         return response()->json(['message' => 'Unauthorized'], 403);
-    }    
+    }
+    
+    public function search(Request $request)
+    {
+        $query = Ticket::query();
+
+        if ($request->has('title')) {
+            $query->where('title', 'like', '%' . $request->title . '%');
+        }
+
+        if ($request->has('message')) {
+            $query->where('message', 'like', '%' . $request->message . '%');
+        }
+
+        if ($request->has('tags')) {
+            $query->whereHas('tags', function($q) use ($request) {
+                $q->whereIn('name', $request->tags);
+            });
+        }
+
+        $tickets = $query->get();
+
+        return response()->json($tickets, 200);
+    }
+
+    public function show(Ticket $ticket)
+    {
+        $user = Auth::user();
+        if ($user->hasRole('admin') || $ticket->user_id === $user->id) {
+            $ticket->load('tags'); // Assurez-vous de charger les tags
+            return response()->json($ticket->load('user'), 200);
+        }
+        return response()->json(['message' => 'Unauthorized'], 403);
+    }
 }
