@@ -31,6 +31,7 @@ class PrestationController extends Controller
     public function create(Request $request)
     {
         $type = TypePrestation::find($request['type']);
+        echo $request['prix'];
         try {
             $validatedData = $request->validate([
                 'type' => 'required|string',
@@ -47,8 +48,8 @@ class PrestationController extends Controller
 
             $prestation = new Prestation;
             $prestation->fill($validatedData);
-            $prestation->paye_presta = $prestation->paye_presta * (($type->pourcentage_pcs * 0.01));
-            $prestation->paye_pcs = $prestation->paye_presta * (($type->pourcentage_pcs * 0.01));
+            $prestation->paye_presta = $prestation->prix * (1 - 0.15);
+            $prestation->paye_pcs = $prestation->prix * 0.15;
             $prestation->save();
 
             return response()->json(['message' => 'Prestation created successfully', 'data' => $prestation], 201);

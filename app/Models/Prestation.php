@@ -16,6 +16,7 @@ class Prestation extends Model
         'debut',
         'fin',
         'addresse',
+        'prix',
         'paye_presta',
         'paye_pcs',
         'description',

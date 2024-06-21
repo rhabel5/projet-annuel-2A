@@ -18,7 +18,7 @@
                 <div class="my-4">
                     <label class="inline-flex items-center">
                         <input type="checkbox" name="type_prestation[]" value="{{ $typePrestation->id }}">
-                        <a href="{{route('offreform', ['typeprestation' => $typePrestation->id, 'reservation' => $reservation->id])}}">
+                        <a href="{{route('offregetform', ['typeprestation' => $typePrestation->id, 'reservation' => $reservation->id])}}">
                             <span class="ml-2">{{ $typePrestation->nom }} - {{ $typePrestation->description }} </span>
                         </a>
                     </label>

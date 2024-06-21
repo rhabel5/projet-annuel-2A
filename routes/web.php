@@ -183,5 +183,5 @@ Route::post('/prestation/{prestation}/accept', [PrestationController::class, 'of
 //Route::get('prestation/offre/ajout', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offreprestation');
 
 Route::get('prestation/choix/{reservation}', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offre.prestation');
-Route::get('prestation/{typeprestation}/{reservation}', [PrestationController::class, 'offreform'])->middleware('auth')->name('offreform');
+Route::get('prestation/{typeprestation}/{reservation}', [PrestationController::class, 'offreform'])->middleware('auth')->name('offregetform');
 Route::post('prestation/', [PrestationController::class, 'create'])->middleware('auth')->name('offreform');
