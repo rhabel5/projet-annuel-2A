@@ -95,7 +95,10 @@
                             </x-dropdown-link>
                             @else
                                 <x-dropdown-link :href="route('prestation.offres')" class="transition duration-500 ease-in-out">
-                                    {{ __('Prestations') }}
+                                    {{ __('Offres de prestations') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('prestation.mesprestations')" class="transition duration-500 ease-in-out">
+                                    {{ __('Mes prestations') }}
                                 </x-dropdown-link>
                             @endif
 

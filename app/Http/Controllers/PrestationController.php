@@ -70,9 +70,9 @@ class PrestationController extends Controller
     }
 
 
-    public function show(string $id)
+    public function mesprestations()
     {
-        //
+        return view('prestation.mesprestations');
     }
 
 

@@ -176,6 +176,7 @@ Route::post('prestataire/inscritpion', [PrestataireController::class, 'create'])
 //Routes Prestatations
 Route::get('prestation/type/ajout', [PrestationTypeController::class, 'form'])->middleware('auth')->name('prestation.type');
 Route::post('prestation/type/ajout', [PrestationTypeController::class, 'store'])->middleware('auth')->name('prestation.type.post');
+Route::get('mesprestations', [PrestationController::class, 'mesprestations'])->middleware('auth')->name('prestation.mesprestations');
 
 Route::get('prestations', [PrestationController::class, 'prestationsOffres'])->middleware('auth')->name('prestation.offres');
 Route::post('/prestation/{prestation}/accept', [PrestationController::class, 'offresaccept'])->name('offres.accept');
