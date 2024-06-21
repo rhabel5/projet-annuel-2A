@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PrestataireController;
+use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\PrestationTypeController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
@@ -158,6 +159,9 @@ Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->midd
 Route::get('reserver/{bien}', [ReservationController::class, 'reserverform'])->middleware('auth')->name('reserver.get');
 Route::post('reserver/{bien}', [ReservationController::class, 'reserver'])->middleware('auth')->name('reserver.post');
 
+Route::get('reservation/{reservation}', [ReservationController::class, 'reservation'])->middleware('auth')->name('reservation.get');
+
+
 
 //Routes Bailleurs
 
@@ -172,3 +176,11 @@ Route::post('prestataire/inscritpion', [PrestataireController::class, 'create'])
 //Routes Prestatations
 Route::get('prestation/type/ajout', [PrestationTypeController::class, 'form'])->middleware('auth')->name('prestation.type');
 Route::post('prestation/type/ajout', [PrestationTypeController::class, 'store'])->middleware('auth')->name('prestation.type.post');
+
+Route::get('prestations', [PrestationController::class, 'prestationsOffres'])->middleware('auth')->name('prestation.offres');
+Route::post('/prestation/{prestation}/accept', [PrestationController::class, 'offresaccept'])->name('offres.accept');
+//Route::get('prestation/offre/ajout', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offreprestation');
+
+Route::get('prestation/choix/{reservation}', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offre.prestation');
+Route::get('prestation/{typeprestation}/{reservation}', [PrestationController::class, 'offreform'])->middleware('auth')->name('offreform');
+Route::post('prestation/', [PrestationController::class, 'create'])->middleware('auth')->name('offreform');

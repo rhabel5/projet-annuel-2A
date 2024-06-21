@@ -26,6 +26,8 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @php
                     $estBailleur = \App\Models\Role_user::where('user_id', Auth::id())->where('role_id', 3)->first();
+                    $estPresta = \App\Models\Role_user::where('user_id', Auth::id())->where('role_id', 4)->first();
+
                 @endphp
 
                 @if($estBailleur)
@@ -87,9 +89,16 @@
                             <x-dropdown-link :href="route('voyageur.dashboard')" class="transition duration-500 ease-in-out">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                            @if(!$estPresta)
                             <x-dropdown-link :href="route('prestataire.inscription')" class="transition duration-500 ease-in-out">
                                 {{ __('Devenir Prestataire') }}
                             </x-dropdown-link>
+                            @else
+                                <x-dropdown-link :href="route('prestation.offres')" class="transition duration-500 ease-in-out">
+                                    {{ __('Prestations') }}
+                                </x-dropdown-link>
+                            @endif
+
                             <x-dropdown-link :href="route('tickets.index')" class="transition duration-500 ease-in-out">
                                 {{ __('Help Center') }}
                             </x-dropdown-link>
