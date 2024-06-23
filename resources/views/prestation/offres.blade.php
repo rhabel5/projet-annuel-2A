@@ -39,12 +39,24 @@ $offres = Prestation::where('state', 'na')->whereIn('type', $typesdepresta)->get
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">Indications : {{ $offre->indications }}</p>
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">Rémunération : {{ $offre->paye_presta }}</p>
                             </div>
-                            <div>
-                                <form action="{{ route('offres.accept', $offre) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800"> Accepter </button>
-                                </form>
-                            </div>
+                            @if($offre->genre = 0)
+                                <div>
+                                    <form action="{{ route('offres.accept', $offre) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800"> Accepter </button>
+                                    </form>
+                                </div>
+                            @endif
+                            @if($offre->genre = 1)
+                                <div>
+                                    <form action="{{ route('offres.accept.devis', $offre) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800"> Accepter </button>
+                                    </form>
+                                </div>
+                            @endif
+
+
                     </div>
                 </div>
             @endforeach

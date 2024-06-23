@@ -18,6 +18,7 @@ class Prestation extends Model
         'addresse',
         'prix',
         'paye_presta',
+        'genre',
         'paye_pcs',
         'description',
         'indications',

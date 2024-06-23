@@ -180,6 +180,9 @@ Route::get('mesprestations', [PrestationController::class, 'mesprestations'])->m
 
 Route::get('prestations', [PrestationController::class, 'prestationsOffres'])->middleware('auth')->name('prestation.offres');
 Route::post('/prestation/{prestation}/accept', [PrestationController::class, 'offresaccept'])->name('offres.accept');
+
+
+Route::post('/prestation/{prestation}/devis', [PrestationController::class, 'offresdevis'])->name('offres.devis');
 //Route::get('prestation/offre/ajout', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offreprestation');
 
 Route::get('prestation/choix/{reservation}', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offre.prestation');

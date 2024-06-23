@@ -25,6 +25,11 @@ class PrestationController extends Controller
         ]);
     }
 
+    public function offresdevis(Prestation $prestation)
+    {
+        return view('prestatition.devis')->with('prestation', $prestation);
+    }
+
 
 
 

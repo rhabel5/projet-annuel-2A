@@ -20,6 +20,7 @@ class CreatePrestationsTable extends Migration
             $table->unsignedBigInteger('id_prestataire');
             $table->unsignedInteger('id_reservation');
             $table->id('id_voyageur');
+            $table->boolean('genre');
             $table->timestamps();
         });
     }
