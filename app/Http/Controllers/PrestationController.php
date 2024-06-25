@@ -27,7 +27,7 @@ class PrestationController extends Controller
 
     public function offresdevis(Prestation $prestation)
     {
-        return view('prestatition.devis')->with('prestation', $prestation);
+        return view('prestation.devis')->with('prestation', $prestation);
     }
 
 
