@@ -50,6 +50,8 @@ class PrestataireController extends Controller
             $roleUser->user_id = Auth::id();
             $roleUser->save();
 
+
+
             return 'Votre choix de prestation a bien été enregistré';
         }
 
