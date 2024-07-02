@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Api\TicketController;
 use App\Http\Controllers\Api\AuthenticatedSessionController;
+use App\Http\Controllers\Api\ApiLoginController;
+use App\Http\Controllers\Api\ApiReservationController;
 
 // Route par défaut
 Route::get('/', function () {
@@ -71,3 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/tickets/{ticket}/response', [TicketController::class, 'respond'])->name('api.tickets.respond');
     Route::put('/tickets/{ticket}/assign', [TicketController::class, 'assign'])->name('api.tickets.assign');
 });
+
+// routes pour récup reserv android
+Route::post('/login', [ApiLoginController::class, 'login']);
+Route::middleware('auth:sanctum')->get('/users/{userId}/reservations', [ApiReservationController::class, 'getUserReservations']);
