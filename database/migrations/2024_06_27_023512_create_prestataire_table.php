@@ -12,13 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prestataire', function (Blueprint $table) {
-            $table->id();
-            $table->nom_entreprise();
-            $table->titulaire_compte();
-            $table->adresse_facturation();
-            $table->iban();
-            $table->bic();
+            $table->id('id_prestataire');
+            $table->string('nom_entreprise');
+            $table->string('titulaire_compte');
+            $table->string('adresse_facturation');
+            $table->string('iban')->unique();
+            $table->string('bic')->unique();
             $table->timestamps();
+
+            // Définir la clé étrangère avec un nom différent de id_prestataire
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
         });
     }
 

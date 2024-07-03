@@ -134,6 +134,11 @@ Route::get('/bien_add', function () {
     return view('biens_views/addbien');
 })->name('biens.create_view');
 
+//test api siren
+Route::get('/siren', function () {
+    return view('siren_api');
+});
+
 Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.create_store');
 
 Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');
@@ -188,3 +193,7 @@ Route::get('devis', [PrestationController::class, 'devis'])->middleware('auth')-
 Route::get('prestation/choix/{reservation}', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offre.prestation');
 Route::get('prestation/{typeprestation}/{reservation}', [PrestationController::class, 'offreform'])->middleware('auth')->name('offregetform');
 Route::post('prestation/', [PrestationController::class, 'create'])->middleware('auth')->name('offreform');
+
+
+
+

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Bailleur;
 use App\Models\PrestaTypeMission;
+use App\Models\Prestataire;
 use App\Models\Role_user;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use mysql_xdevapi\Exception;
 
 
 class PrestataireController extends Controller
@@ -19,6 +21,8 @@ class PrestataireController extends Controller
         return view('prestataire.inscription');
     }
 
+
+
     public function create(Request $request){
 
         $typePrestationIds = $request->input('type_prestation');
@@ -26,6 +30,21 @@ class PrestataireController extends Controller
         $missionCount = 0;
 
         foreach($typePrestationIds as $id) {
+
+            try{
+                $prestataire = new Prestataire();
+                $prestataire->bic = $request->input('bic');
+                $prestataire->iban = $request->input('iban');
+                $prestataire->adresse_facturation = $request->input('adresse_facturation');
+                $prestataire->titulaire_compte = $request->input('titulaire_compte');
+                $prestataire->nom_entreprise = $request->input('nom_entreprise');
+                $prestataire->save();
+            }catch (\Exception $e){
+                return 'Une erreur est survenue lors de l\'enregistrement:' . $e->getMessage();
+            }
+
+
+
             $mission = new PrestaTypeMission();
             $mission->user_id = Auth::id();
             $mission->type_prestation_id = $id;
@@ -39,6 +58,8 @@ class PrestataireController extends Controller
             } elseif ($missionDejaSelectionee) {
                 $missionCount++;
             }
+
+
 
 
         }
