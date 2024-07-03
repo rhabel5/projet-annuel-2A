@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Bien;
+use App\Models\Ticket;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 
@@ -26,7 +27,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // Créer un admin spécifique
-        $user = User::create([
+        $adminUser = User::create([
             'firstname' => 'Rayane',
             'lastname' => 'Habel',
             'email' => 'rayane.habel@gmail.com',
@@ -34,10 +35,10 @@ class DatabaseSeeder extends Seeder
             'tel' => '0619978791',
             'birthdate' => '2004-01-05', // Ajouter la date de naissance
         ]);
-        $user->roles()->attach(Role::where('name', 'admin')->first());
+        $adminUser->roles()->attach(Role::where('name', 'admin')->first());
 
         // Créer un voyageur spécifique
-        $user = User::create([
+        $voyageurUser = User::create([
             'firstname' => 'Test',
             'lastname' => 'Test',
             'email' => 'test@test.fr',
@@ -45,7 +46,7 @@ class DatabaseSeeder extends Seeder
             'tel' => '0612345678',
             'birthdate' => '2004-01-05', // Ajouter la date de naissance
         ]);
-        $user->roles()->attach(Role::where('name', 'voyageur')->first());
+        $voyageurUser->roles()->attach(Role::where('name', 'voyageur')->first());
 
         // Créer des utilisateurs aléatoires
         $faker = Faker::create();
@@ -89,6 +90,18 @@ class DatabaseSeeder extends Seeder
                         'valide' => $faker->boolean,
                     ]);
                 }
+            }
+
+            // Créer des tickets aléatoires pour chaque utilisateur
+            for ($k = 0; $k < rand(1, 3); $k++) {
+                Ticket::create([
+                    'title' => $faker->sentence,
+                    'message' => $faker->paragraph,
+                    'status' => $faker->randomElement(['open', 'closed', 'on hold', 'resolved']),
+                    'priority' => $faker->randomElement(['low', 'medium', 'high']),
+                    'user_id' => $user->id,
+                    'assigned_to' => rand(0, 1) ? $adminUser->id : null, // Assigner aléatoirement à l'admin ou laisser null
+                ]);
             }
         }
     }

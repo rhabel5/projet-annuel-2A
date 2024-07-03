@@ -24,16 +24,20 @@ def view_ticket(ticket_id):
         messagebox.showerror("Error", f"Failed to fetch ticket details: {e}")
         return None
 
-def create_ticket(title, message, priority, tags):
+def create_ticket(title, message, priority, tags=None):
     try:
         headers = {"Authorization": f"Bearer {token}"}
-        response = requests.post(f"{BASE_URL}/tickets", json={
+        payload = {
             "title": title,
             "message": message,
             "priority": priority,
-            "tags": tags
-        }, headers=headers)
+        }
+        if tags:
+            payload["tags"] = tags
+
+        response = requests.post(f"{BASE_URL}/tickets", json=payload, headers=headers)
         response.raise_for_status()
+        print(response.text)
         return response.json()
     except requests.exceptions.RequestException as e:
         messagebox.showerror("Error", f"Failed to create ticket: {e}")

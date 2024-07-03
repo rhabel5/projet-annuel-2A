@@ -1,6 +1,16 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog, ttk
 from ticket import fetch_tickets, create_ticket, update_ticket_status, delete_ticket, respond_ticket, assign_ticket
+from PIL import Image, ImageTk
+import cairosvg
+import io
+import json
+import os
+
+def load_svg_as_image(svg_path, width, height):
+    png_data = cairosvg.svg2png(url=svg_path, output_width=width, output_height=height)
+    image = Image.open(io.BytesIO(png_data))
+    return ImageTk.PhotoImage(image)
 
 class TicketView(tk.Frame):
     def __init__(self, master=None):
@@ -25,14 +35,26 @@ class TicketView(tk.Frame):
         self.button_frame = tk.Frame(self, bg="#f0f0f0")
         self.button_frame.pack(pady=10)
 
-        tk.Button(self.button_frame, text="Refresh Tickets", command=self.show_tickets, font=("Arial", 12), bg="#2196F3", fg="white").grid(row=0, column=0, padx=5, pady=5)
-        tk.Button(self.button_frame, text="View Ticket", command=self.view_ticket, font=("Arial", 12), bg="#2196F3", fg="white").grid(row=0, column=1, padx=5, pady=5)
-        tk.Button(self.button_frame, text="Create Ticket", command=self.create_ticket, font=("Arial", 12), bg="#4CAF50", fg="white").grid(row=0, column=2, padx=5, pady=5)
-        tk.Button(self.button_frame, text="Close Ticket", command=lambda: self.change_ticket_status('closed'), font=("Arial", 12), bg="#f44336", fg="white").grid(row=0, column=3, padx=5, pady=5)
-        tk.Button(self.button_frame, text="Hold Ticket", command=lambda: self.change_ticket_status('on hold'), font=("Arial", 12), bg="#FFC107", fg="white").grid(row=0, column=4, padx=5, pady=5)
-        tk.Button(self.button_frame, text="Respond to Ticket", command=self.respond_ticket, font=("Arial", 12), bg="#4CAF50", fg="white").grid(row=1, column=0, padx=5, pady=5)
-        tk.Button(self.button_frame, text="Delete Ticket", command=self.delete_ticket, font=("Arial", 12), bg="#f44336", fg="white").grid(row=1, column=1, padx=5, pady=5)
-        tk.Button(self.button_frame, text="Assign Ticket", command=self.assign_ticket, font=("Arial", 12), bg="#4CAF50", fg="white").grid(row=1, column=2, padx=5, pady=5)
+        # Load the SVG images
+        assets_path = "./assets/"
+        self.refresh_img = load_svg_as_image(os.path.join(assets_path, "refresh.svg"), 30, 30)
+        self.view_img = load_svg_as_image(os.path.join(assets_path, "view.svg"), 30, 30)
+        self.create_img = load_svg_as_image(os.path.join(assets_path, "create.svg"), 30, 30)
+        self.close_img = load_svg_as_image(os.path.join(assets_path, "close.svg"), 30, 30)
+        self.hold_img = load_svg_as_image(os.path.join(assets_path, "hold.svg"), 30, 30)
+        self.respond_img = load_svg_as_image(os.path.join(assets_path, "respond.svg"), 30, 30)
+        self.delete_img = load_svg_as_image(os.path.join(assets_path, "delete.svg"), 30, 30)
+        self.assign_img = load_svg_as_image(os.path.join(assets_path, "assign.svg"), 30, 30)
+
+        # Create buttons with images
+        tk.Button(self.button_frame, text="Refresh Tickets", image=self.refresh_img, command=self.show_tickets, font=("Arial", 12), bg="#2196F3", fg="white", compound="top").grid(row=0, column=0, padx=5, pady=5)
+        tk.Button(self.button_frame, text="View Ticket", image=self.view_img, command=self.view_ticket, font=("Arial", 12), bg="#2196F3", fg="white", compound="top").grid(row=0, column=1, padx=5, pady=5)
+        tk.Button(self.button_frame, text="Create Ticket", image=self.create_img, command=self.create_ticket, font=("Arial", 12), bg="#4CAF50", fg="white", compound="top").grid(row=0, column=2, padx=5, pady=5)
+        tk.Button(self.button_frame, text="Close Ticket", image=self.close_img, command=lambda: self.change_ticket_status('closed'), font=("Arial", 12), bg="#f44336", fg="white", compound="top").grid(row=0, column=3, padx=5, pady=5)
+        tk.Button(self.button_frame, text="Hold Ticket", image=self.hold_img, command=lambda: self.change_ticket_status('on hold'), font=("Arial", 12), bg="#FFC107", fg="white", compound="top").grid(row=0, column=4, padx=5, pady=5)
+        tk.Button(self.button_frame, text="Respond to Ticket", image=self.respond_img, command=self.respond_ticket, font=("Arial", 12), bg="#4CAF50", fg="white", compound="top").grid(row=1, column=0, padx=5, pady=5)
+        tk.Button(self.button_frame, text="Delete Ticket", image=self.delete_img, command=self.delete_ticket, font=("Arial", 12), bg="#f44336", fg="white", compound="top").grid(row=1, column=1, padx=5, pady=5)
+        tk.Button(self.button_frame, text="Assign Ticket", image=self.assign_img, command=self.assign_ticket, font=("Arial", 12), bg="#4CAF50", fg="white", compound="top").grid(row=1, column=2, padx=5, pady=5)
 
     def show_tickets(self):
         tickets = fetch_tickets()
@@ -95,11 +117,14 @@ class TicketView(tk.Frame):
             tags = simpledialog.askstring("Create Ticket", "Enter the tags (comma separated):")
             if title and message and priority and tags:
                 tag_list = [tag.strip() for tag in tags.split(',')]
-                create_ticket(title, message, priority, tag_list)
-                messagebox.showinfo("Success", "Ticket created successfully")
+                response = create_ticket(title, message, priority, tag_list)
+                if response:  # Vérifiez si la réponse est valide
+                    messagebox.showinfo("Success", "Ticket created successfully")
                 self.show_tickets()
         except requests.exceptions.RequestException as e:
             messagebox.showerror("Error", f"Failed to create ticket: {e}")
+        except json.JSONDecodeError as e:
+            messagebox.showerror("Error", f"Failed to parse response: {e}")
 
     def delete_ticket(self):
         try:

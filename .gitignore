@@ -17,3 +17,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+./ticketing_app/__pycache__
+./ticketing_app/plugins/__pycache__
+./ticketing_app/utils/__pycache__
+./ticketing_app/views/__pycache__

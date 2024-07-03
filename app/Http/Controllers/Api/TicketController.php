@@ -36,11 +36,13 @@ class TicketController extends Controller
 
     public function store(Request $request)
     {
+        Log::info('Creating a new ticket', ['request' => $request->all()]);
+    
         $request->validate([
             'title' => 'required|string|max:255',
             'message' => 'required|string',
             'priority' => 'required|string|in:low,medium,high',
-            'tags' => 'array'
+            'tags' => 'array|nullable'
         ]);
     
         $ticket = Ticket::create([
@@ -51,13 +53,15 @@ class TicketController extends Controller
             'user_id' => Auth::id(),
         ]);
     
-        if ($request->has('tags')) {
+        if ($request->filled('tags')) {
             $tags = Tag::whereIn('name', $request->tags)->get();
             $ticket->tags()->sync($tags);
         }
     
+        Log::info('Ticket created successfully', ['ticket' => $ticket]);
+    
         return response()->json($ticket, 201);
-    }    
+    }
 
     public function update(Request $request, Ticket $ticket)
     {
