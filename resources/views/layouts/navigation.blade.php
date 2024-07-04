@@ -100,6 +100,9 @@
                                 <x-dropdown-link :href="route('prestation.mesprestations')" class="transition duration-500 ease-in-out">
                                     {{ __('Mes prestations') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link :href="route('prestation.mestypesprestations')" class="transition duration-500 ease-in-out">
+                                    {{ __('Mes types de prestation') }}
+                                </x-dropdown-link>
                             @endif
 
                             <x-dropdown-link :href="route('tickets.index')" class="transition duration-500 ease-in-out">

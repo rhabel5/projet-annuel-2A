@@ -116,14 +116,41 @@ if($data['etablissement']['uniteLegale']['categorieJuridiqueUniteLegale'] == 100
 
 
 
-            return 'Votre choix de prestation a bien été enregistré';
+            return redirect('home')->with('Votre choix de prestation a bien été enregistré');
         }
 
         return "Une erreur s'est produite lors de l'ajout des missions et de l'attribution du rôle.";
     }
 
 
+  public function showtypespresta()
+  {
+      return view('prestataire.showtypespresta');
+  }
 
+  public function modifstypespresta(Request $request)
+  {
+      $typePrestationIds = $request->input('type_prestation');
+
+      $missionCount = 0;
+
+      foreach($typePrestationIds as $id) {
+
+          $mission = new PrestaTypeMission();
+          $mission->user_id = Auth::id();
+          $mission->type_prestation_id = $id;
+
+          $missionDejaSelectionee = PrestaTypeMission::where('type_prestation_id', $id)->where('user_id', Auth::id())->first();
+
+          if (!$missionDejaSelectionee) {
+              if($mission->save()) {
+                  $missionCount++;
+              }
+          } elseif ($missionDejaSelectionee) {
+              $missionCount++;
+          }
+      }
+  }
 
 
 
