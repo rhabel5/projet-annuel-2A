@@ -10,7 +10,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use mysql_xdevapi\Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 
 class PrestataireController extends Controller
@@ -25,25 +26,57 @@ class PrestataireController extends Controller
 
     public function create(Request $request){
 
+        $client = new Client();
+        try {
+            $response = $client->request('GET', 'https://api.insee.fr/entreprises/sirene/V3.11/siret/' . $request['siret'], [
+                'headers' => [
+                    'Authorization' => 'Bearer 4a2eb9f4-5a2c-33cd-bf4b-f4807765bafc',
+                    'Accept'        => 'application/json',
+                ],
+            ]);
+            $data = json_decode($response->getBody(), true);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            return 'HTTP Request failed: ' . $e->getMessage();
+        }
+
+        $prestataire = new Prestataire();
+
+if($data['etablissement']['uniteLegale']['categorieJuridiqueUniteLegale'] == 1000){
+   $nom_entreprise = $data['etablissement']['uniteLegale']['prenomUsuelUniteLegale'] . ' ' . $data['etablissement']['uniteLegale']['nomUniteLegale'];
+   if($nom_entreprise != $request->input('nom_entreprise')){
+       return "Le nom de l'entreprise est incorrect";
+   }
+    $prestataire->nom_entreprise = $nom_entreprise;
+}else{
+    $nom_entreprise = $data['etablissement']['uniteLegale']['denominationUniteLegale'];
+    if($nom_entreprise != $request->input('nom_entreprise')){
+        return "Le nom de l'entreprise est incorrect";
+    }
+    $prestataire->nom_entreprise = $nom_entreprise;
+
+}
+
+
+        try{
+            $prestataire->save();
+            $prestataire->id_prestataire = 0;
+            $prestataire->bic = $request->input('bic');
+            $prestataire->iban = $request->input('iban');
+            $prestataire->adresse_facturation = $request->input('adresse_facturation');
+            $prestataire->titulaire_compte = $request->input('titulaire_compte');
+            $prestataire->save();
+        }catch (\Exception $e){
+            return 'Une erreur est survenue lors de l\'enregistrement:' . $e->getMessage();
+        }
+
+
+        //Ajout des types de missions
+
         $typePrestationIds = $request->input('type_prestation');
 
         $missionCount = 0;
 
         foreach($typePrestationIds as $id) {
-
-            try{
-                $prestataire = new Prestataire();
-                $prestataire->bic = $request->input('bic');
-                $prestataire->iban = $request->input('iban');
-                $prestataire->adresse_facturation = $request->input('adresse_facturation');
-                $prestataire->titulaire_compte = $request->input('titulaire_compte');
-                $prestataire->nom_entreprise = $request->input('nom_entreprise');
-                $prestataire->save();
-            }catch (\Exception $e){
-                return 'Une erreur est survenue lors de l\'enregistrement:' . $e->getMessage();
-            }
-
-
 
             $mission = new PrestaTypeMission();
             $mission->user_id = Auth::id();

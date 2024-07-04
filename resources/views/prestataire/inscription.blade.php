@@ -18,8 +18,8 @@
                     <input type="text" name="nom_entreprise" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700">Adresse de l’entreprise</label>
-                    <input type="text" name="adresse_entreprise" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200">
+                    <label class="block text-gray-700">Numéro de Siret </label>
+                    <input type="text" name="siret" class="mt-1 block w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:ring-blue-200">
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700">Titulaire du compte</label>
