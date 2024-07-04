@@ -22,7 +22,7 @@
             <div class="flex justify-between items-center mb-8">
                 <div>
                     <p class="font-bold">SOCIETE SAID WAKIL YOUSOUF</p>
-                    <p>85 RUE DAREMONT</p>
+                    <p>85 RUE DANREMONT</p>
                     <p>75018 PARIS 18 - FRANCE</p>
                     <p>Tél : 0658068650</p>
                 </div>

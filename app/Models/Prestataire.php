@@ -11,8 +11,11 @@ class Prestataire extends Model
 
     protected $fillable = [
         'nom_entreprise',
+        'siret',
         'titulaire_compte',
-        'adresse_facturation',
+        'adresse',
+        'code_postal',
+        'ville',
         'iban',
         'bic'
     ];

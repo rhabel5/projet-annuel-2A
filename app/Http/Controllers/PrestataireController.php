@@ -26,6 +26,11 @@ class PrestataireController extends Controller
 
     public function create(Request $request){
 
+        $siretTrouve = Prestataire::where('siret', $request->siret)->first();
+        if($siretTrouve){
+            return "Le SIRET existe déjà";
+        }
+
         $client = new Client();
         try {
             $response = $client->request('GET', 'https://api.insee.fr/entreprises/sirene/V3.11/siret/' . $request['siret'], [
@@ -47,22 +52,27 @@ if($data['etablissement']['uniteLegale']['categorieJuridiqueUniteLegale'] == 100
        return "Le nom de l'entreprise est incorrect";
    }
     $prestataire->nom_entreprise = $nom_entreprise;
+   echo $prestataire->nom_entreprise;
 }else{
     $nom_entreprise = $data['etablissement']['uniteLegale']['denominationUniteLegale'];
     if($nom_entreprise != $request->input('nom_entreprise')){
         return "Le nom de l'entreprise est incorrect";
     }
     $prestataire->nom_entreprise = $nom_entreprise;
+    echo $prestataire->nom_entreprise;
 
 }
 
 
         try{
-            $prestataire->save();
-            $prestataire->id_prestataire = 0;
+            $prestataire->id_prestataire = Auth::id();
+            $prestataire->siret = $data['etablissement']['siret'];
             $prestataire->bic = $request->input('bic');
             $prestataire->iban = $request->input('iban');
-            $prestataire->adresse_facturation = $request->input('adresse_facturation');
+            $adresse = !empty($data['etablissement']['adresseEtablissement']['numeroVoieEtablissement']) . ' ' . $data['etablissement']['adresseEtablissement']['typeVoieEtablissement'] . ' ' . $data['etablissement']['adresseEtablissement']['libelleVoieEtablissement'] ;
+            $prestataire->adresse = $adresse;
+            $prestataire->code_postal  = $data['etablissement']['adresseEtablissement']['codePostalEtablissement'];
+            $prestataire->ville = $data['etablissement']['adresseEtablissement']['libelleCommuneEtablissement'];
             $prestataire->titulaire_compte = $request->input('titulaire_compte');
             $prestataire->save();
         }catch (\Exception $e){

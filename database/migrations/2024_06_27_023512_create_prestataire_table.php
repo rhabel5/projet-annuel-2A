@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('prestataire', function (Blueprint $table) {
             $table->id('id_prestataire');
+            $table->string('siret');
             $table->string('nom_entreprise');
             $table->string('titulaire_compte');
-            $table->string('adresse_facturation');
+            $table->string('adresse');
+            $table->string('code_postal');
+            $table->string('ville');
             $table->string('iban')->unique();
             $table->string('bic')->unique();
             $table->timestamps();
