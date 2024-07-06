@@ -1,4 +1,6 @@
- <!DOCTYPE html>
+
+
+<!DOCTYPE html>
         <html lang="fr">
         <head>
             <meta charset="utf-8">
@@ -22,7 +24,7 @@
             <div class="flex justify-between items-center mb-8">
                 <div>
                     <p class="font-bold">SOCIETE SAID WAKIL YOUSOUF</p>
-                    <p>85 RUE DANREMONT</p>
+                    <p>85 RUE DAMREMONT</p>
                     <p>75018 PARIS 18 - FRANCE</p>
                     <p>Tél : 0658068650</p>
                 </div>
@@ -31,28 +33,24 @@
             <table class="min-w-full bg-white border-collapse rounded-lg">
                 <thead>
                 <tr class="w-full bg-gray-200 text-left text-xs uppercase">
-                    <th class="px-4 py-2 border">REFERENCE</th>
                     <th class="px-4 py-2 border">DESIGNATION</th>
+                    <th class="px-4 py-2 border">PRIX UNITAIRE HT</th>
+                    <th class="px-4 py-2 border">TVA %</th>
+                    <th class="px-4 py-2 border">PRIX UNITAIRE TTC</th>
                     <th class="px-4 py-2 border">QUANTITÉ</th>
-                    <th class="px-4 py-2 border">P.U. HT</th>
-                    <th class="px-4 py-2 border">P.U. TTC</th>
-                    <th class="px-4 py-2 border">REM.</th>
-                    <th class="px-4 py-2 border">%</th>
                     <th class="px-4 py-2 border">MONTANT TTC</th>
                     <th class="px-4 py-2 border">TVA</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="w-full border">
-                    <td class="px-4 py-2 border">SUPERSOCOHUNTER</td>
                     <td class="px-4 py-2 border">TS STREET HUNTER</td>
-                    <td class="px-4 py-2 border">1,00</td>
                     <td class="px-4 py-2 border">3 325,00</td>
-                    <td class="px-4 py-2 border">3 990,00</td>
-                    <td class="px-4 py-2 border">20,00</td>
                     <td class="px-4 py-2 border">20,00</td>
                     <td class="px-4 py-2 border">3 990,00</td>
                     <td class="px-4 py-2 border">0,00</td>
+                    <td class="px-4 py-2 border">4 237, 87</td>
+                    <td class="px-4 py-2 border">706,32</td>
                 </tr>
                 <!-- Add other rows as needed -->
                 </tbody>
