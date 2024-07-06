@@ -17,6 +17,7 @@ class Prestataire extends Model
         'code_postal',
         'ville',
         'iban',
+        'banque',
         'bic'
     ];
 }

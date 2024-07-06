@@ -139,6 +139,7 @@ Route::get('/siren', function () {
     return view('siren_api');
 });
 
+//Routes biens
 Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.create_store');
 
 Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');

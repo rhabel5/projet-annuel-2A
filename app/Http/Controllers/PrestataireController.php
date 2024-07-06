@@ -28,7 +28,7 @@ class PrestataireController extends Controller
 
         $siretTrouve = Prestataire::where('siret', $request->siret)->first();
         if($siretTrouve){
-            return "Le SIRET existe déjà";
+            return "Votre entreprise est déjà enregistrée";
         }
 
         $client = new Client();
@@ -41,33 +41,54 @@ class PrestataireController extends Controller
             ]);
             $data = json_decode($response->getBody(), true);
         } catch (\GuzzleHttp\Exception\RequestException $e) {
-            return 'HTTP Request failed: ' . $e->getMessage();
+            $errorResponse = json_decode($e->getResponse()->getBody()->getContents(), true);
+            $errorMessage = $errorResponse['header']['message'] ?? 'An error occurred';
+            return redirect()->back()->withErrors([$errorMessage]);
         }
 
         $prestataire = new Prestataire();
 
-if($data['etablissement']['uniteLegale']['categorieJuridiqueUniteLegale'] == 1000){
-   $nom_entreprise = $data['etablissement']['uniteLegale']['prenomUsuelUniteLegale'] . ' ' . $data['etablissement']['uniteLegale']['nomUniteLegale'];
-   if($nom_entreprise != $request->input('nom_entreprise')){
-       return "Le nom de l'entreprise est incorrect";
-   }
-    $prestataire->nom_entreprise = $nom_entreprise;
-   echo $prestataire->nom_entreprise;
-}else{
-    $nom_entreprise = $data['etablissement']['uniteLegale']['denominationUniteLegale'];
-    if($nom_entreprise != $request->input('nom_entreprise')){
-        return "Le nom de l'entreprise est incorrect";
-    }
-    $prestataire->nom_entreprise = $nom_entreprise;
-    echo $prestataire->nom_entreprise;
+            if($data['etablissement']['uniteLegale']['categorieJuridiqueUniteLegale'] == 1000){
+               $nom_entreprise = $data['etablissement']['uniteLegale']['prenomUsuelUniteLegale'] . ' ' . $data['etablissement']['uniteLegale']['nomUniteLegale'];
+               if($nom_entreprise != $request->input('nom_entreprise')){
+                   return "Le nom de l'entreprise est incorrect";
+               }
+                $prestataire->nom_entreprise = $nom_entreprise;
+               echo $prestataire->nom_entreprise;
+            }else{
+                $nom_entreprise = $data['etablissement']['uniteLegale']['denominationUniteLegale'];
+                if($nom_entreprise != $request->input('nom_entreprise')){
+                    return "Le nom de l'entreprise est incorrect";
+                }
+                $prestataire->nom_entreprise = $nom_entreprise;
+                echo $prestataire->nom_entreprise;
 
-}
+            }
+
+        $iban = $request->input('iban');
+        $body = $body = [
+            "iban" => $iban,
+        ];
+
+        try {
+            $response = $client->request('POST', 'https://api.selectra.com/api/iban/getbic', [
+                'headers' => [
+                    'Authorization' => 'Bearer Y4911cJTa9VTopzmfANzDxmBQyt1c8YqsM5P1pgAGZmMzZC9Wtjk8unSCnE5',
+                    'Accept'        => 'application/json',
+                ],
+                'json' => $body,
+            ]);
+            $dataIban = json_decode($response->getBody(), true);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            return redirect()->back()->withErrors(['Iban introuvable']);
+        }
 
 
         try{
             $prestataire->id_prestataire = Auth::id();
             $prestataire->siret = $data['etablissement']['siret'];
-            $prestataire->bic = $request->input('bic');
+            $prestataire->bic = $dataIban['bic'];
+            $prestataire->banque = $dataIban['bank_name'];
             $prestataire->iban = $request->input('iban');
             $adresse = !empty($data['etablissement']['adresseEtablissement']['numeroVoieEtablissement']) . ' ' . $data['etablissement']['adresseEtablissement']['typeVoieEtablissement'] . ' ' . $data['etablissement']['adresseEtablissement']['libelleVoieEtablissement'] ;
             $prestataire->adresse = $adresse;
@@ -116,7 +137,7 @@ if($data['etablissement']['uniteLegale']['categorieJuridiqueUniteLegale'] == 100
 
 
 
-            return redirect('home')->with('Votre choix de prestation a bien été enregistré');
+            return redirect('/')->with('Votre choix de prestation a bien été enregistré');
         }
 
         return "Une erreur s'est produite lors de l'ajout des missions et de l'attribution du rôle.";
