@@ -25,5 +25,6 @@ class Prestation extends Model
         'id_prestataire',
         'id_reservation',
         'id_voyageur',
+        'id_bailleur'
     ];
 }

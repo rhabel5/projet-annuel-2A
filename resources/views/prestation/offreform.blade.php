@@ -50,7 +50,8 @@
         </label>
 
         <input type="hidden" name="id_reservation" value="{{$reservation->id}}">
-        <input type="hidden" name="type" value="{{$typeprestation->id}}">
+        <input type="hidden" name="type_prestation" value="{{$typeprestation}}">
+        <input type="hidden" name="type_prestation" value="{{$typeprestation}}">
         <input type="hidden" name="id_voyageur" value="{{$reservation->id_client}}">
         <input type="hidden" name="id_bailleur" value="{{Auth::id()}}">
         <input type="hidden" name="">

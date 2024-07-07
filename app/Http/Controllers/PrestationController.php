@@ -34,11 +34,11 @@ class PrestationController extends Controller
 
     public function create(Request $request)
     {
-        $type = TypePrestation::find($request['type']);
-        echo $request['prix'];
+        $typeprestation = json_decode($request['type_prestation'], true) ;
+
         try {
             $validatedData = $request->validate([
-                'type' => 'required|string',
+                'type_prestation' => 'required|string',
                 'debut' => 'required|date',
                 'fin' => 'required|date',
                 'prix' => 'required|numeric',
@@ -50,15 +50,40 @@ class PrestationController extends Controller
                 'id_bailleur' => 'required|integer',
             ]);
 
-            $prestation = new Prestation;
-            $prestation->fill($validatedData);
-            $prestation->paye_presta = $prestation->prix * (1 - 0.15);
-            $prestation->paye_pcs = $prestation->prix * 0.15;
-            $prestation->save();
+            if ($typeprestation['artisan'] == 1) {
 
-            return response()->json(['message' => 'Prestation created successfully', 'data' => $prestation], 201);
+                try {
+                    $prestation = new Prestation;
+                    $prestation->fill($validatedData);
+                    $prestation->type = $typeprestation['id'];
+                    $prestation->paye_presta = 0;
+                    $prestation->paye_pcs = 0;
+                    $prestation->genre = $typeprestation['artisan'];
+                    $prestation->save();
 
-        } catch (\Exception $e) {
+                    return response()->json(['message' => 'Prestation created successfully', 'data' => $prestation], 201);
+
+                } catch (\Exception $e) {
+                    return response()->json(['error' => $e->getMessage()], 500);
+                }
+            } else {
+                try {
+                    $prestation = new Prestation;
+                    $prestation->fill($validatedData);
+                    $prestation->type = $typeprestation['id'];
+                    $prestation->paye_presta = $prestation->prix * (1 - 0.15);
+                    $prestation->paye_pcs = $prestation->prix * 0.15;
+                    $prestation->genre = $typeprestation['artisan'];
+                    $prestation->save();
+
+                    return response()->json(['message' => 'Prestation created successfully', 'data' => $prestation], 201);
+
+                } catch (\Exception $e) {
+                    return response()->json(['error' => $e->getMessage()], 500);
+                }
+            }
+
+        }catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -87,9 +112,9 @@ class PrestationController extends Controller
     }
 
 
-    public function update(Request $request, string $id)
+    public function mesoffresprestations()
     {
-        //
+        return view('prestation.bailleuroffresprestation');
     }
 
 

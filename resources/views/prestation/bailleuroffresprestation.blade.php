@@ -1,14 +1,13 @@
 @php
 
-use \App\Models\Prestation;
-use \App\Models\TypePrestation;
-use Illuminate\Support\Facades\Auth;
-  use Carbon\Carbon;
-use App\Models\PrestaTypeMission;
-
-$typesdepresta = PrestaTypeMission::where('user_id', Auth::id())->pluck('type_prestation_id');
-
-$offres = Prestation::where('state', 'na')->whereIn('type', $typesdepresta)->get();
+    use \App\Models\Prestation;
+    use \App\Models\TypePrestation;
+    use Illuminate\Support\Facades\Auth;
+      use Carbon\Carbon;
+    use App\Models\PrestaTypeMission;
+    use \App\Models\Bailleur;
+    $bailleur = Bailleur::find(Auth::id());
+    $offres = Prestation::where('state', 'na')->whereIn('type', $typesdepresta)->get();
 
 
 
@@ -19,14 +18,13 @@ $offres = Prestation::where('state', 'na')->whereIn('type', $typesdepresta)->get
     <h2 class="text-3xl font-semibold text-center text-red-500 dark:text-red-300 mb-8 transition duration-500 ease-in-out">{{ __('Offres') }}</h2>
 
     <section class="container mx-auto px-4 py-16 transition duration-500 ease-in-out">
-        <div class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
         @if(!$offres->isEmpty())
             @foreach($offres as $offre)
                 @php
                     $type = TypePrestation::find($offre->type);
                     $nom = $type->nom;
                 @endphp
-
+                <div class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition duration-500 ease-in-out">
                         <div>
                             <!--<img src="{{ isset($offre->image_url) ? $offre->image_url : '' }}" alt="Image" class="h-40 w-full object-cover rounded-md mb-4 transition duration-500 ease-in-out">-->
@@ -38,9 +36,7 @@ $offres = Prestation::where('state', 'na')->whereIn('type', $typesdepresta)->get
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">{{ explode(',', $offre->addresse)[1] }}</p>
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">De {{ Carbon::parse($offre->debut)->format('H:i') . ' le ' . Carbon::parse($offre->debut)->format('d/m/Y') }} à {{ Carbon::parse($offre->fin)->format('H:i') . ' le '.  Carbon::parse($offre->fin)->format('d/m/Y') }}</p>
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">Indications : {{ $offre->indications }}</p>
-                                @if($offre->genre == 0)
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">Rémunération : {{ $offre->paye_presta }}</p>
-                                @endif
                             </div>
                             @if($offre->genre == 0)
                                 <div>
@@ -60,12 +56,11 @@ $offres = Prestation::where('state', 'na')->whereIn('type', $typesdepresta)->get
                             @endif
 
 
+                        </div>
                     </div>
-                </div>
-            @endforeach
-        @else
-            <p class="text-center">Il n'y a pas d'offres à afficher.</p>
-        @endif
+                    @endforeach
+                    @else
+                        <p class="text-center">Il n'y a pas d'offres à afficher.</p>
+                @endif
     </section>
 @endsection
-

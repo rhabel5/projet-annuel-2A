@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   /* public function up(): void
+   public function up(): void
     {
         Schema::create('type_prestations', function (Blueprint $table) {
             $table->id();
@@ -18,9 +18,10 @@ return new class extends Migration
             $table->integer('prix_moyen');
             $table->integer('pourcentage_pcs');
             $table->string('prerequis', 255);
+            $table->boolean('artisan');
             $table->timestamps();
         });
-    }*/
+    }
 
     /**
      * Reverse the migrations.
