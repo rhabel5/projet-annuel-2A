@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('devis', function (Blueprint $table) {
+        Schema::create('element_devis', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_prestataire');
-            $table->bigInteger('id_bailleur');
-            $table->bigInteger('id_reservation');
-            $table->bigInteger('id_prestation');
-            $table->decimal('prix_total', 8, 2);
+            $table->string('designation');
+            $table->int('quantite');
+            $table->decimal('prixunite');
+            $table->decimal('prixtotal');
             $table->timestamps();
         });
     }
