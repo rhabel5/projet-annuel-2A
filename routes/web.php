@@ -186,7 +186,7 @@ Route::get('mesprestations', [PrestationController::class, 'mesprestations'])->m
 Route::get('prestataire/mestypesdeprestations', [PrestataireController::class, 'showtypespresta'])->middleware('auth')->name('prestation.mestypesprestations');
 Route::post('prestataire/modifstypespresta', [PrestataireController::class, 'modifstypespresta'])->middleware('auth')->name('prestataire.modifstypespresta');
 
-Route::post('bailleur/mesoffres', [PrestationController::class, 'mesoffresprestations'])->middleware('auth')->name('mesoffresprestations');
+Route::get('bailleur/mesoffres', [PrestationController::class, 'mesoffresprestations'])->middleware('auth')->name('mesoffresprestations');
 
 Route::get('prestations', [PrestationController::class, 'prestationsOffres'])->middleware('auth')->name('prestation.offres');
 Route::post('/prestation/{prestation}/accept', [PrestationController::class, 'offresaccept'])->name('offres.accept');
