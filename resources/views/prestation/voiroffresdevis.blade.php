@@ -1,9 +1,11 @@
 @php use App\Models\Devis; @endphp
 @php
 
-$alldevis = Devis::where('id_prestation', $offreId )->get();
 
+echo $id_offre;
+$alldevis = Devis::where('id_prestation', $id_offre )->get();
 
+var_dump($alldevis);
 @endphp
 
 @foreach($alldevis as $devis)

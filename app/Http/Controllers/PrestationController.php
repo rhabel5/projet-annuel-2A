@@ -41,10 +41,10 @@ class PrestationController extends Controller
                 'type_prestation' => 'required|string',
                 'debut' => 'required|date',
                 'fin' => 'required|date',
-                'prix' => 'required|numeric',
+                'prix' => 'numeric',
                 'addresse' => 'required|string',
                 'description' => 'required|string',
-                'indications' => 'required|string',
+                'indications' => 'string',
                 'id_reservation' => 'required|integer',
                 'id_voyageur' => 'required|integer',
                 'id_bailleur' => 'required|integer',
@@ -118,9 +118,9 @@ class PrestationController extends Controller
     }
 
 
-    public function voiroffresdevis($offre)
+    public function voiroffresdevis(Prestation $offre)
     {
-        return view('prestation.voiroffresdevis', ['offreId' => $offre]);
+        return view('prestation.voiroffresdevis', ['id_offre' => $offre->id]);
     }
 
 }

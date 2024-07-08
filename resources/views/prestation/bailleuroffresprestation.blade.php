@@ -21,15 +21,15 @@
     <h2 class="text-3xl font-semibold text-center text-red-500 dark:text-red-300 mb-8 transition duration-500 ease-in-out">{{ __('Offres') }}</h2>
 
     <section class="container mx-auto px-4 py-16 transition duration-500 ease-in-out">
+        <div class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
         @if(!$offres->isEmpty())
             @foreach($offres as $offre)
                 @php
-                    $reservation = Reservation::find($offre->id_reservation);
-                    $type = TypePrestation::find($offre->type);
-                    $nom = $type->nom;
-                    $bien = Bien::find($reservation->id_bien)
+                        $reservation = Reservation::find($offre->id_reservation);
+                        $type = TypePrestation::find($offre->type);
+                        $nom = $type->nom;
+                        $bien = Bien::find($reservation->id_bien)
                 @endphp
-                <div class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition duration-500 ease-in-out">
                         <div>
                             <!--<img src="{{ isset($offre->image_url) ? $offre->image_url : '' }}" alt="Image" class="h-40 w-full object-cover rounded-md mb-4 transition duration-500 ease-in-out">-->
