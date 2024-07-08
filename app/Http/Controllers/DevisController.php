@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Devis;
 use App\Models\ElementDevis;
+use App\Models\Prestataire;
+use App\Models\Prestation;
 use App\Models\Reservation;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -95,7 +98,32 @@ class DevisController extends Controller
             echo 'Erreur lors de l\'ajout du devis : ' . $e->getMessage();
         }
 
-        return 'banger ça marche';
+        //echo $devis->id_prestataire;
+
+        return $this->devispdf($devis);
     }
+
+    public function devispdf($devis)
+    {
+        $prestataire = Prestataire::where('id_prestataire', $devis->id_prestataire)->first();
+        $bailleur = User::find($devis->id_bailleur);
+        $reservation = Reservation::find($devis->id_reservation);
+        $offre = Prestation::find($devis->id_prestation);
+
+
+        $data = [
+            'prestataire' => $prestataire,
+            'bailleur' => $bailleur,
+            'reservation' => $reservation,
+            'offre' => $offre,
+        ];
+        //print_r($data);
+        //return 'lala';
+
+
+        $pdf = PDF::loadView('devis', $data);
+        return $pdf->download('devis.pdf');
+    }
+
 
 }

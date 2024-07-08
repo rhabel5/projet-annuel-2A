@@ -118,9 +118,9 @@ class PrestationController extends Controller
     }
 
 
-    public function destroy(string $id)
+    public function voiroffresdevis($offre)
     {
-        //
+        return view('prestation.voiroffresdevis', ['offreId' => $offre]);
     }
 
 }
