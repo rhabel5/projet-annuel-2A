@@ -9,7 +9,7 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
 <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl">
     <h1 class="text-2xl font-bold mb-6 text-center">Créer votre devis</h1>
-    <form id="dynamicForm" class="space-y-4" action="{{ route('samba') }}" method="POST">
+    <form id="dynamicForm" class="space-y-4" action="{{ route('devispost') }}" method="POST">
         <h2>Ajoutez ci dessous les différents éléments de votre devis. </h2>
         @csrf
         <div class="grid grid-cols-7 gap-4 mb-2">

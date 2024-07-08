@@ -5,7 +5,7 @@
     use App\Models\User;
     $presta = User::find($prestataire->id_prestataire);
     $bien = Bien::find($reservation->id_bien);
-    $elements_devis = ElementDevis::where('devis_id', $offre->devis_id)->get();
+    $elements_devis = ElementDevis::where('devis_id', $devis->id)->get();
 
 @endphp
 
@@ -24,7 +24,6 @@
             <p class="font-bold">{{ $prestataire->nom_entreprise }}</p>
             <p>{{ $prestataire->adresse }}</p>
             <p>{{ $prestataire->code_postal . ' ' . $prestataire->ville }}</p>
-            <p>TEL : {{ $presta->tel }}</p>
             <p>E-MAIL : {{ $presta->email }}</p>
             <p>SIRET : {{ $prestataire->siret }}</p>
         </div>
@@ -62,7 +61,7 @@
     </table>
 
     <div class="mt-8 text-right">
-        <p class="mb-2">TOTAL <span class="ml-4">{{ $offre->prix_total }} €</span></p>
+        <p class="mb-2">TOTAL <span class="ml-4">{{ $devis->prix_total }} €</span></p>
     </div>
 </div>
 
@@ -76,6 +75,11 @@
         <p class="mt-4">Devis valable 1 mois</p>
     </div>
 </div>
+<form action="{{ route('devispdf', ['devis' => $devis, 'download' => true]) }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Télécharger le devis</button>
+</form>
 </body>
 </html>
+
 

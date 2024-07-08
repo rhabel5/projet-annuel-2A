@@ -11,6 +11,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class DevisController extends Controller
 {
@@ -66,6 +67,7 @@ class DevisController extends Controller
             $devis->id_reservation = $id_reservation;
             $devis->id_prestation = $prestation['id'];
             $devis->prix_total = 0;
+            $devis->etat = 'envoye';
             $devis->save();
         }catch(\Exception $e){
             echo 'Erreur lors de l\'ajout du devis : ' . $e->getMessage();
@@ -100,10 +102,10 @@ class DevisController extends Controller
 
         //echo $devis->id_prestataire;
 
-        return $this->devispdf($devis);
+        return $this->devispdf($devis, false);
     }
 
-    public function devispdf($devis)
+    public function devispdf($devis, $download)
     {
         $prestataire = Prestataire::where('id_prestataire', $devis->id_prestataire)->first();
         $bailleur = User::find($devis->id_bailleur);
@@ -116,13 +118,27 @@ class DevisController extends Controller
             'bailleur' => $bailleur,
             'reservation' => $reservation,
             'offre' => $offre,
+            'devis' => $devis
         ];
+
+        //var_dump($data['bailleur']);
         //print_r($data);
-        //return 'lala';
+        ///return 'lala';
 
+        if($download){
+            $pdf = PDF::loadView('devis', $data);
 
-        $pdf = PDF::loadView('devis', $data);
-        return $pdf->download('devis.pdf');
+            $fileName = $prestataire->nom_entreprise . '-devis-' . $devis->id . '.pdf';
+            $filePath = 'public/devis/' . $fileName;
+
+            // Sauvegarder le fichier sur le serveur
+            Storage::put($filePath, $pdf->output());
+
+            return $pdf->download($fileName);
+        }
+
+        return view('devis', $data);
+
     }
 
 

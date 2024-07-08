@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('id_reservation');
             $table->bigInteger('id_prestation');
             $table->decimal('prix_total', 8, 2);
+            $table->string('etat');
             $table->timestamps();
         });
     }

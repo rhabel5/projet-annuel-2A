@@ -14,7 +14,8 @@ class Devis extends Model
         'id_bailleur',
         'id_reservation',
         'id_prestation',
-        'prix_total'
+        'prix_total',
+        'etat'
 
     ];
 }

@@ -196,7 +196,8 @@ Route::post('/prestation/{prestation}/accept', [PrestationController::class, 'of
 
 Route::post('/prestation/{prestation}/devis', [PrestationController::class, 'offresdevis'])->name('offres.devis');
 Route::get('devis', [PrestationController::class, 'devis'])->middleware('auth')->name('devisnp');
-Route::post('/devispost', [\App\Http\Controllers\DevisController::class, 'create'])->middleware('auth')->name('samba');
+Route::post('/devispost', [\App\Http\Controllers\DevisController::class, 'create'])->middleware('auth')->name('devispost');
+Route::post('/devis/pdf', [\App\Http\Controllers\DevisController::class, 'devispdf'])->middleware('auth')->name('devis');
 
 Route::get('prestation/choix/{reservation}', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offre.prestation');
 Route::get('prestation/{typeprestation}/{reservation}', [PrestationController::class, 'offreform'])->middleware('auth')->name('offregetform');
