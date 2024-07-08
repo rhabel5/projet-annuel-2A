@@ -1,7 +1,11 @@
 @php
     use App\Models\User;use Illuminate\Support\Facades\Auth;
 @endphp
+
 @extends('layouts.app')
+
+@section('content')
+
 
 <h2 class="text-3xl font-semibold text-center text-red-500 dark:text-red-300 mb-8 transition duration-500 ease-in-out">{{ __('messages.mes_reservations') }}</h2>
 <div class="flex">
@@ -32,8 +36,8 @@
                         <div id="infobien">
                             <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 transition duration-500 ease-in-out">{{ $bien->titre }}</h3>
                             <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">{{ $bien->description }}</p>
-                            <a href="{{ route('biens.show', $bien) }}"
-                               class="text-blue-500 dark:text-blue-300 hover:underline mt-4 inline-block transition duration-500 ease-in-out">{{ __('messages.view_more') }}</a>
+                            <a href="{{ route('reservation.get', $reservation) }}"
+                               class="text-blue-500 dark:text-blue-300 hover:underline mt-4 inline-block transition duration-500 ease-in-out"> Details</a>
                         </div>
                         <div id="infobailleur">
                             <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out"> Par {{ $client->lastname  }}</p>
@@ -45,10 +49,11 @@
                     </div>
                 </div>
             </div>
+            </div>
     </section>
 </div>
             @endif
 
         @endforeach
 
-
+@endsection

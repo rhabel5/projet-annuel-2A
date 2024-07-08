@@ -26,11 +26,14 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @php
                     $estBailleur = \App\Models\Role_user::where('user_id', Auth::id())->where('role_id', 3)->first();
+                    $estPresta = \App\Models\Role_user::where('user_id', Auth::id())->where('role_id', 4)->first();
+
                 @endphp
 
                 @if($estBailleur)
                     <a href="{{ route('mesbiens') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Biens</a>
                     <a href="{{ route('mesreservations') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Reservations</a>
+                    <a href="{{ route('mesoffresprestations') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Prestations</a>
                 @else
                     <a href="{{ route('biens.ajout') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Devenir Bailleur</a>
                 @endif
@@ -87,6 +90,22 @@
                             <x-dropdown-link :href="route('voyageur.dashboard')" class="transition duration-500 ease-in-out">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                            @if(!$estPresta)
+                            <x-dropdown-link :href="route('prestataire.inscription')" class="transition duration-500 ease-in-out">
+                                {{ __('Devenir Prestataire') }}
+                            </x-dropdown-link>
+                            @else
+                                <x-dropdown-link :href="route('prestation.offres')" class="transition duration-500 ease-in-out">
+                                    {{ __('Offres de prestations') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('prestation.mesprestations')" class="transition duration-500 ease-in-out">
+                                    {{ __('Mes prestations') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('prestation.mestypesprestations')" class="transition duration-500 ease-in-out">
+                                    {{ __('Mes types de prestation') }}
+                                </x-dropdown-link>
+                            @endif
+
                             <x-dropdown-link :href="route('tickets.index')" class="transition duration-500 ease-in-out">
                                 {{ __('Help Center') }}
                             </x-dropdown-link>

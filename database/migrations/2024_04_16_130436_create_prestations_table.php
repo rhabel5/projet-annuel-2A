@@ -9,14 +9,19 @@ class CreatePrestationsTable extends Migration
     public function up()
     {
         Schema::create('prestations', function (Blueprint $table) {
-            $table->id('id_user');
+            $table->id();
             $table->string('nom');
             $table->string('type');
             $table->string('note');
-            $table->string('date');
+            $table->dateTime('debut');
+            $table->dateTime('fin');
             $table->string('description');
+            $table->string('indications');
             $table->unsignedBigInteger('id_prestataire');
             $table->unsignedInteger('id_reservation');
+            $table->id('id_voyageur');
+            $table->id('id_bailleur');
+            $table->boolean('genre');
             $table->timestamps();
         });
     }

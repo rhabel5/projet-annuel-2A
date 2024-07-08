@@ -70,4 +70,10 @@ class ReservationController extends Controller
         return view('bailleur.mesreservations');
     }
 
+    public function reservation(Reservation $reservation) {
+        return view('bailleur.reservation')->with('reservation', $reservation);
+    }
+
+
+
 }
