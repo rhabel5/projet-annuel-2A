@@ -25,7 +25,17 @@ $offres = Prestation::where('state', 'na')->whereIn('type', $typesdepresta)->get
                 @php
                     $type = TypePrestation::find($offre->type);
                     $nom = $type->nom;
+
+                    $devisenvoyes = \App\Models\Devis::where('id_prestation', $offre->id)->whereNotNull('etat')->get();
+
+                if ($offre->genre == 1) {
+                    if($devisenvoyes->isEmpty()){
+                        continue;
+                    }
+                }
                 @endphp
+
+
 
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition duration-500 ease-in-out">
                         <div>

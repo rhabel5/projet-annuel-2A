@@ -67,7 +67,7 @@ class DevisController extends Controller
             $devis->id_reservation = $id_reservation;
             $devis->id_prestation = $prestation['id'];
             $devis->prix_total = 0;
-            $devis->etat = 'envoye';
+            $devis->etat = 'null';
             $devis->save();
         }catch(\Exception $e){
             echo 'Erreur lors de l\'ajout du devis : ' . $e->getMessage();
@@ -105,8 +105,10 @@ class DevisController extends Controller
         return $this->devispdf($devis, false);
     }
 
-    public function devispdf($devis, $download)
+    public function devispdf(Devis $devis, $download)
     {
+
+
         $prestataire = Prestataire::where('id_prestataire', $devis->id_prestataire)->first();
         $bailleur = User::find($devis->id_bailleur);
         $reservation = Reservation::find($devis->id_reservation);
@@ -126,15 +128,18 @@ class DevisController extends Controller
         ///return 'lala';
 
         if($download){
-            $pdf = PDF::loadView('devis', $data);
+            $pdf = PDF::loadView('devispdf', $data);
 
             $fileName = $prestataire->nom_entreprise . '-devis-' . $devis->id . '.pdf';
             $filePath = 'public/devis/' . $fileName;
 
             // Sauvegarder le fichier sur le serveur
             Storage::put($filePath, $pdf->output());
+            $devis->etat = 'envoye';
+            $devis->save();
+            $pdf->download($fileName);
+            return redirect()->route('prestation.offres')->with('succesmessage', 'Devis envoyé avec succes');
 
-            return $pdf->download($fileName);
         }
 
         return view('devis', $data);

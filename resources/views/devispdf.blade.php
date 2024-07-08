@@ -49,12 +49,12 @@
         </thead>
         <tbody>
         @foreach($elements_devis as $item)
-        <tr class="w-full border">
-            <td class="px-4 py-2 border">{{ $item->designation }}</td>
-            <td class="px-4 py-2 border">{{ $item->prixunite }}</td>
-            <td class="px-4 py-2 border">{{ $item->quantite }}</td>
-            <td class="px-4 py-2 border">{{ $item->prixtotal }}</td>
-        </tr>
+            <tr class="w-full border">
+                <td class="px-4 py-2 border">{{ $item->designation }}</td>
+                <td class="px-4 py-2 border">{{ $item->prixunite }}</td>
+                <td class="px-4 py-2 border">{{ $item->quantite }}</td>
+                <td class="px-4 py-2 border">{{ $item->prixtotal }}</td>
+            </tr>
         @endforeach
         <!-- Ajoutez d'autres lignes si nécessaire -->
         </tbody>
@@ -75,10 +75,6 @@
         <p class="mt-4">Devis valable 1 mois</p>
     </div>
 </div>
-<form action="{{ route('envoiedevis', ['devis' => $devis, 'download' => true]) }}" method="POST">
-    @csrf
-    <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Envoyer le devis</button>
-</form>
 </body>
 </html>
 
