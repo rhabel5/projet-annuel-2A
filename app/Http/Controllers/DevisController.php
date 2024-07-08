@@ -138,7 +138,7 @@ class DevisController extends Controller
             $devis->etat = 'envoye';
             $devis->save();
             $pdf->download($fileName);
-            return redirect()->route('prestation.offres')->with('succesmessage', 'Devis envoyé avec succes');
+            return redirect()->route('prestation.offres')->with('success', 'Devis envoyé avec succes');
 
         }
 

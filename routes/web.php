@@ -125,12 +125,7 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->middleware
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
 // Routes biens
-Route::get('/biens/ajout', function () {
-    return view('biens_views/addbien');
-})->name('biens.ajout');
-
-// Evitez les duplications
-Route::get('/bien_add', function () {
+Route::get('/bien/ajout', function () {
     return view('biens_views/addbien');
 })->name('biens.create_view');
 

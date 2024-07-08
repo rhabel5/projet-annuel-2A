@@ -61,30 +61,36 @@ class PrestationController extends Controller
                     $prestation->genre = $typeprestation['artisan'];
                     $prestation->save();
 
-                    return response()->json(['message' => 'Prestation created successfully', 'data' => $prestation], 201);
+
+                    return redirect()->route('reservation.get', ['reservation' => $request['id_reservation']])
+                        ->with('success', 'Offre crée avec succes');
 
                 } catch (\Exception $e) {
                     return response()->json(['error' => $e->getMessage()], 500);
                 }
             } else {
                 try {
+                    $pourcentage = $typeprestation->pourcentage;
+                    $pourcentagepcs = $pourcentage / 100;
+
                     $prestation = new Prestation;
                     $prestation->fill($validatedData);
                     $prestation->type = $typeprestation['id'];
-                    $prestation->paye_presta = $prestation->prix * (1 - 0.15);
-                    $prestation->paye_pcs = $prestation->prix * 0.15;
+                    $prestation->paye_presta = $prestation->prix * (1 - $pourcentagepcs);
+                    $prestation->paye_pcs = $prestation->prix * $pourcentagepcs;
                     $prestation->genre = $typeprestation['artisan'];
                     $prestation->save();
 
-                    return response()->json(['message' => 'Prestation created successfully', 'data' => $prestation], 201);
+                    return redirect()->route('reservation.get', ['reservation' => $request['id_reservation']])
+                        ->with('success', 'Offre crée avec succes');
 
                 } catch (\Exception $e) {
-                    return response()->json(['error' => $e->getMessage()], 500);
+                    return redirect()->route('reservation.get')->with('error', 'Une erreur est survenue : ' . $e->getMessage());
                 }
             }
 
         }catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect()->route('reservation.get')->with('error', 'Une erreur est survenue : ' . $e->getMessage());
         }
     }
 
