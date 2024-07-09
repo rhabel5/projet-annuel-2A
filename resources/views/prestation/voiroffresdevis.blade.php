@@ -36,7 +36,10 @@
                                     @csrf
                                     <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Accepter</button>
                                 </form>
-                                <button class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Refuser</button>
+                                <form action="{{route('refuserdevis', ['devis' => $devis->id] )}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="ml-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Refuser</button>
+                                </form>
                                 <form action="{{ route('telechargerdevis', ['devis' => $devis->id]) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Télécharger</button>
