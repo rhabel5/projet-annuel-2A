@@ -35,15 +35,22 @@
                 <div id="step-2" style="display: none;">
                     <div class="mb-4">
                         <label for="type_bien" class="block text-gray-700 dark:text-gray-200">{{ __('Type de Bien') }}</label>
-                        <input id="type_bien" type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('type_bien') border-red-500 @enderror" name="type_bien" value="{{ old('type_bien') }}" required>
+                        <select id="type_bien" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('type_bien') border-red-500 @enderror" name="type_bien" required>
+                            <option value="appartement" {{ old('type_bien') == 'appartement' ? 'selected' : '' }}>Appartement</option>
+                            <option value="villa" {{ old('type_bien') == 'villa' ? 'selected' : '' }}>Villa</option>
+                            <option value="studio" {{ old('type_bien') == 'studio' ? 'selected' : '' }}>Studio</option>
+                            <option value="maison" {{ old('type_bien') == 'maison' ? 'selected' : '' }}>Maison</option>
+                            <option value="duplex" {{ old('type_bien') == 'duplex' ? 'selected' : '' }}>Duplex</option>
+                            <option value="manoir" {{ old('type_bien') == 'manoir' ? 'selected' : '' }}>Manoir</option>
+                        </select>
                         @error('type_bien')
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="mb-4">
-                        <label for="type_location" class="block text-gray-700 dark:text-gray-200">{{ __('Type de Location') }}</label>
-                        <input id="type_location" type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('type_location') border-red-500 @enderror" name="type_location" value="{{ old('type_location') }}" required>
-                        @error('type_location')
+                        <label for="adresse" class="block text-gray-700 dark:text-gray-200">{{ __('Adresse') }}</label>
+                        <input id="adresse" type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600" name="adresse" value="{{ old('adresse') }}" required>
+                        @error('adresse')
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                         @enderror
                     </div>
@@ -55,9 +62,9 @@
                         @enderror
                     </div>
                     <div class="mb-4">
-                        <label for="search_address" class="block text-gray-700 dark:text-gray-200">{{ __('Adresse') }}</label>
-                        <input id="adresse"   type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600" name="adresse" value="{{ old('search_address') }}" required>
-                        @error('search_address')
+                        <label for="code_postal" class="block text-gray-700 dark:text-gray-200">{{ __('Code Postal') }}</label>
+                        <input id="code_postal" type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('code_postal') border-red-500 @enderror" name="code_postal" value="{{ old('code_postal') }}" required>
+                        @error('code_postal')
                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
                         @enderror
                     </div>
@@ -66,13 +73,6 @@
                 </div>
 
                 <div id="step-3" style="display: none;">
-                    <div class="mb-4">
-                        <label for="code_postal" class="block text-gray-700 dark:text-gray-200">{{ __('Code Postal') }}</label>
-                        <input id="code_postal" type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('code_postal') border-red-500 @enderror" name="code_postal" value="{{ old('code_postal') }}" required>
-                        @error('code_postal')
-                        <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-                        @enderror
-                    </div>
                     <div class="mb-4">
                         <label for="prix_adulte" class="block text-gray-700 dark:text-gray-200">{{ __('Prix par Adulte') }}</label>
                         <input id="prix_adulte" type="text" class="mt-1 block w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800 focus:border-indigo-300 dark:focus:border-indigo-600 @error('prix_adulte') border-red-500 @enderror" name="prix_adulte" value="{{ old('prix_adulte') }}" required>
@@ -148,6 +148,7 @@
     </div>
 @endsection
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA38DEMSQDH82RNPROswWUs8jq9l62soCM&libraries=places"></script>
 <script>
     let currentStep = 1;
 
@@ -163,5 +164,59 @@
         document.getElementById('step-' + currentStep).style.display = 'block';
     }
 
-</script>
+    function initAutocomplete() {
+        var input = document.getElementById('adresse');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.setFields(['address_components', 'geometry']);
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                window.alert("Aucun détail disponible pour l'entrée : '" + place.name + "'");
+                return;
+            }
 
+            var addressComponents = place.address_components;
+            var postalCode = '';
+            var ville = '';
+            var numero = '';
+            var rue = '';
+
+            console.log(addressComponents);
+
+            for (var i = 0; i < addressComponents.length; i++) {
+                var component = addressComponents[i];
+                if (component.types.includes('postal_code')) {
+                    postalCode = component.long_name;
+                    break;
+                }
+            }
+
+                    component = addressComponents[2];
+                    ville = component.long_name;
+                    component = addressComponents[0]
+                    numero = component.long_name
+                    component = addressComponents[1]
+                    rue = component.long_name
+
+            var addresse = numero + ' ' + rue
+
+            var postalCodeInput = document.getElementById('code_postal');
+            postalCodeInput.value = postalCode;
+
+            var villeInput = document.getElementById('ville');
+            villeInput.value = ville;
+
+            var addressseInput = document.getElementById('adresse');
+            addressseInput.value = addresse;
+
+
+
+
+            console.log(place);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initAutocomplete();
+    });
+</script>

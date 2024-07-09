@@ -2,6 +2,9 @@
 
 @section('content')
     <section class="bg-cover bg-center h-screen text-white flex items-center justify-center filter brightness-100 dark:brightness-75 transition duration-500 ease-in-out" style="background-image: url('{{ asset('images/exemple.webp') }}');">
+
+
+
         <div class="bg-black bg-opacity-50 p-8 rounded-lg transition duration-500 ease-in-out">
             <h1 class="text-5xl font-bold mb-4 transition duration-500 ease-in-out">{{ __('messages.welcome') }}</h1>
             <p class="text-2xl transition duration-500 ease-in-out">{{ __('messages.manage_properties') }}</p>

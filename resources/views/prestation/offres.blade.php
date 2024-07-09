@@ -10,7 +10,10 @@ $typesdepresta = PrestaTypeMission::where('user_id', Auth::id())->pluck('type_pr
 
 //var_dump($typesdepresta);
 
-$offres = Prestation::where('state', 'na')->whereIn('type', $typesdepresta)->get();
+$offres = Prestation::where('state', 'na')
+    ->whereIn('type', $typesdepresta)
+    ->where('id_bailleur', '<>', auth::id())
+    ->get();
 
 //var_dump($offres);
 

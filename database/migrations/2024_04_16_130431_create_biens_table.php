@@ -15,7 +15,6 @@ class CreateBiensTable extends Migration
             $table->string('description', 255);
             $table->unsignedInteger('couchage');
             $table->string('type_bien', 60);
-            $table->string('type_location', 60);
             $table->string('ville', 60);
             $table->string('adresse', 255);
             $table->unsignedInteger('code_postal');

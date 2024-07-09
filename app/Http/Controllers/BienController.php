@@ -19,7 +19,6 @@ class BienController extends Controller
             'description' => 'required|string|max:255',
             'couchage' => 'required|integer',
             'type_bien' => 'required|string|max:255',
-            'type_location' => 'required|string|max:255',
             'ville' => 'required|string|max:255',
             'adresse' => 'required|string|max:255',
             'code_postal' => 'required|integer',
@@ -135,6 +134,45 @@ class BienController extends Controller
 
     public function mesbiens(){
        return view('bien.mesbiens');
+    }
+
+
+    public function searchbien(Request $request)
+    {
+        $query = Bien::query();
+
+        if ($request->filled('description')) {
+            $query->where('description', 'like', '%' . $request->input('description') . '%');
+        }
+
+        if ($request->filled('type_bien')) {
+            $query->where('type_bien', 'like', '%' . $request->input('type_bien') . '%');
+        }
+
+        if ($request->filled('ville')) {
+            $query->where('ville', 'like', '%' . $request->input('ville') . '%');
+        }
+
+        if ($request->filled('code_postal')) {
+            $query->where('code_postal', $request->input('code_postal'));
+        }
+
+        if ($request->filled('prix_min')) {
+            $query->where('prix_adulte', '>=', $request->input('prix_min'));
+        }
+
+        if ($request->filled('prix_max')) {
+            $query->where('prix_adulte', '<=', $request->input('prix_max'));
+        }
+
+        $biens = $query->get();
+
+        return view('bien.index', compact('biens'));
+    }
+
+    public function searchbienview()
+    {
+        return view('recherche');
     }
 
 }

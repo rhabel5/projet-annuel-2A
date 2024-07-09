@@ -96,7 +96,7 @@
 </form>
 
 <script>
-    // If you want flash message to auto-dismiss after few seconds
+
     setTimeout(function() {
         const flashMessageEl = document.querySelector('.flash-message');
         if (flashMessageEl) {
