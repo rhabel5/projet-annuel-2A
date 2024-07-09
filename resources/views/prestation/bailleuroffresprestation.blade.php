@@ -41,14 +41,14 @@
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">{{ $offre->description }}</p>
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">{{ explode(',', $offre->addresse)[1] }}</p>
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">
-                                    De {{ Carbon::parse($offre->debut)->format('H:i') . ' le ' . Carbon::parse($offre->debut)->format('d/m/Y') }}
-                                    à {{ Carbon::parse($offre->fin)->format('H:i') . ' le '.  Carbon::parse($offre->fin)->format('d/m/Y') }}</p>
+                                    Du {{ Carbon::parse($offre->debut)->format('d/m/Y') . ' à ' . Carbon::parse($offre->debut)->format('H:i')  }}
+                                    au {{ Carbon::parse($offre->fin)->format('d/m/Y') . ' à '. Carbon::parse($offre->fin)->format('H:i')   }}</p>
                                 <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">
                                     Indications : {{ $offre->indications }}</p>
                             </div>
                             @if($offre->genre == 1)
                                 <div>
-                                    <form action="{{ route('voir.offres.devis', ['offre' => $offre->id]) }}" method="POST">
+                                    <form action="{{ route('voir.offres.devis', ['prestation' => $offre->id]) }}" method="POST">
                                         @csrf
                                         <button type="submit"
                                                 class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800">

@@ -26,7 +26,7 @@ class Kernel extends HttpKernel
             //\App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
-    
+
         'api' => [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
@@ -45,5 +45,6 @@ class Kernel extends HttpKernel
         'log' => \App\Http\Middleware\LogRequests::class,
         'language' => \App\Http\Middleware\LanguageMiddleware::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'check.prestataire' => \App\Http\Middleware\CheckPrestataireRole::class,
     ];
 }

@@ -51,7 +51,7 @@ class BienController extends Controller
             $bien = Bien::create($request->all());
 
             // Vérification si l'utilisateur a déjà le rôle de bailleur
-            $dejaBailleur = Role_user::where('user_id', Auth::id())->where('role_id', 4)->first();
+            $dejaBailleur = Role_user::where('user_id', Auth::id())->where('role_id', 3)->first();
             if (!$dejaBailleur) {
                 // Assigner le rôle de bailleur à l'utilisateur
                 $roleUser = new Role_user;

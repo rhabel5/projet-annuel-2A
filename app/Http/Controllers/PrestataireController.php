@@ -151,6 +151,7 @@ class PrestataireController extends Controller
 
   public function modifstypespresta(Request $request)
   {
+
       $typePrestationIds = $request->input('type_prestation');
 
       $missionCount = 0;

@@ -79,6 +79,10 @@
     @csrf
     <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Envoyer le devis</button>
 </form>
+<form action="{{ route('telechargerdevis', ['devis' => $devis]) }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-link p-0 m-0 align-baseline">Télécharger le devis</button>
+</form>
 </body>
 </html>
 

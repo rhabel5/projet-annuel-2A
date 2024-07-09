@@ -125,12 +125,7 @@ Route::get('/register', [RegisteredUserController::class, 'create'])->middleware
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
 // Routes biens
-Route::get('/biens/ajout', function () {
-    return view('biens_views/addbien');
-})->name('biens.ajout');
-
-// Evitez les duplications
-Route::get('/bien_add', function () {
+Route::get('/bien/ajout', function () {
     return view('biens_views/addbien');
 })->name('biens.create_view');
 
@@ -169,49 +164,79 @@ Route::get('reservation/{reservation}', [ReservationController::class, 'reservat
 
 
 
-//Routes Bailleurs
+//---------------------------------------------Routes pour que les Bailleurs puissent voir leurs biens et leurs reservations -------------------------------------------------------------------------
 Route::get('mesbiens.blade.php', [BienController::class, 'mesbiens'])->middleware('auth')->name('mesbiens');
 Route::get('mesreservations', [ReservationController::class, 'mesreservations'])->middleware('auth')->name('mesreservations');
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Routes Inscription Prestataires
+
+//----------------------------------------------Routes Inscription Prestataires-------------------------------------------------------------------------------------------------------------------------------
 Route::get('prestataire/inscritpion', [PrestataireController::class, 'inscription'])->middleware('auth')->name('prestataire.inscription');
 Route::post('prestataire/inscritpion', [PrestataireController::class, 'create'])->middleware('auth')->name('prestataire.inscription');
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-//Ajout et modification des types prestatations
+
+//---------------------------------------------------Ajout des types prestatations-----------------------------------------------------------------------------------------------------------------------------
 Route::get('prestataire/mestypesdeprestations', [PrestataireController::class, 'showtypespresta'])->middleware('auth')->name('prestation.mestypesprestations');
+Route::post('prestataire/modifstypespresta', [PrestataireController::class, 'modifstypespresta'])->middleware('auth')->name('prestataire.modifstypespresta');
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+//---------------------------------------------Route pour que l'admin puisse ajouter des types de prestation---------------------------------------------------------------------------------------------
 Route::get('prestation/type/ajout', [PrestationTypeController::class, 'form'])->middleware('auth')->name('prestation.type');
 Route::post('prestation/type/ajout', [PrestationTypeController::class, 'store'])->middleware('auth')->name('prestation.type.post');
-Route::post('prestataire/modifstypespresta', [PrestataireController::class, 'modifstypespresta'])->middleware('auth')->name('prestataire.modifstypespresta');
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Routes pour la visualisation des offres et l'acceptation de celles-ci
+
+//------------------------------Routes prestataire pour la visualisation des offres et l'acceptation de celles-ci---------------------------------------------------------------------------------------
 Route::get('prestations', [PrestationController::class, 'prestationsOffres'])->middleware('auth')->name('prestation.offres');
 Route::post('/prestation/{prestation}/accept', [PrestationController::class, 'offresaccept'])->name('offres.accept');
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Routes pour que le prestataire puisse voir ses prestations (acceptées)
+
+//-----------------------------------------Route pour que le prestataire puisse voir les prestations qu'il a acceptées-----------------------------------------------------------------------------------------
 Route::get('mesprestations', [PrestationController::class, 'mesprestations'])->middleware('auth')->name('prestation.mesprestations');
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 
-
-//Routes pour que le bailleur puisse voir les offres qu'il a publié, voir les devis qu'il a reçu pour une offre et accepter une offre
+//------------------------------------------Route pour que le bailleur puisse voir les offres qu'il a publiées-----------------------------------------------------------------------------------------------------
 Route::get('bailleur/mesoffres', [PrestationController::class, 'mesoffresprestations'])->middleware('auth')->name('mesoffresprestations');
-Route::post('bailleur/devis/{offre}', [PrestationController::class, 'voiroffresdevis'])->middleware('auth')->name('voir.offres.devis');
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//----------------------------------Route pour voir les devis qu'il a reçu pour une offre, accepter et refuser une offre--------------------------------------------------------------------------------------------------------
+Route::post('bailleur/devis/{prestation}', [PrestationController::class, 'voiroffresdevis'])->middleware('auth')->name('voir.offres.devis');
+//Route pour accepter une offre
+Route::post('bailleur/devis/{devis}/accept', [PrestationController::class, 'accepter'])->middleware('auth')->name('accepterdevis');
+Route::post('bailleur/devis/{devis}/refuser', [PrestationController::class, 'refuserdevis'])->middleware('auth')->name('refuserdevis');
 
 
+
+//---------------------------------Renvoie le formulaire pour qu'un prestataire puisse créer un devis et ses éléments------------------------------------------------------------------------------------------------
 Route::post('/prestation/{prestation}/devis', [PrestationController::class, 'offresdevis'])->name('offres.devis');
-Route::get('devis', [PrestationController::class, 'devis'])->middleware('auth')->name('devisnp');
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Routes pour que le prestataire puisse créer un devis, le visualiser et l'envoyer
-Route::post('/devispost', [\App\Http\Controllers\DevisController::class, 'create'])->middleware('auth')->name('devispost');
+//----------------------------Routes pour que le prestataire puisse créer un devis, le visualiser et l'envoyer--------------------------------------------------------------------------------------------------------
+Route::post('/deviscreate', [\App\Http\Controllers\DevisController::class, 'create'])->middleware('auth')->name('deviscreate');
+//
 Route::post('/devis/pdf/{devis}/{download}', [\App\Http\Controllers\DevisController::class, 'devispdf'])->middleware('auth')->name('envoiedevis');
+//Telecharger le devis
+Route::post('/devis/telecharger/{devis}/', [\App\Http\Controllers\DevisController::class, 'telechargerdevis'])->middleware('auth')->name('telechargerdevis');
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Ajouter une prestation a une reservation
+//------------------------------------------------Route pour Ajouter une prestation à une reservation-----------------------------------------------------------------------------------------------------------------------------
+//Choisir le type de la prestation à ajouter
 Route::get('prestation/choix/{reservation}', [PrestationController::class, 'offreprestation'])->middleware('auth')->name('offre.prestation');
-Route::get('prestation/{typeprestation}/{reservation}', [PrestationController::class, 'offreform'])->middleware('auth')->name('offregetform');
-Route::post('prestation/', [PrestationController::class, 'create'])->middleware('auth')->name('offreform');
 
+//Formulaire pour remplir les détails de la prestation (date, prix, description etc)
+Route::get('prestation/{typeprestation}/{reservation}', [PrestationController::class, 'offreform'])->middleware('auth')->name('offregetform');
+
+//Créer la prestation
+Route::post('prestation/', [PrestationController::class, 'create'])->middleware('auth')->name('offreform');
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

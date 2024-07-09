@@ -59,10 +59,10 @@ class EquipementsController extends Controller
                 // Parcourir les données d'équipement
                 foreach ($equipment_request as $nom => $value) {
                     if($value == 1){
-                        // Récupérer l'id de l'équipement basé sur son nom
+
                         $equipement_id = Equipements::where('nom', $nom)->first()->id;
 
-                        // Insérer une nouvelle ligne dans la table equipement_biens
+
                         Equipements_biens::create(['id_bien' => $bien_id, 'id_equipement' => $equipement_id]);
 
                         $image = Image::where('id_bien', $bien_id)->first();
