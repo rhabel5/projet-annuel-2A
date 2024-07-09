@@ -210,7 +210,7 @@ Route::get('bailleur/mesoffres', [PrestationController::class, 'mesoffresprestat
 //----------------------------------Route pour voir les devis qu'il a reçu pour une offre et accepter une offre--------------------------------------------------------------------------------------------------------
 Route::post('bailleur/devis/{prestation}', [PrestationController::class, 'voiroffresdevis'])->middleware('auth')->name('voir.offres.devis');
 //Route pour accepter une offre (pas encore fonctionelle)
-Route::post('bailleur/devis/{prestation}/accept', [PrestationController::class, 'accepter'])->middleware('auth')->name('accpeterdevis');
+Route::post('bailleur/devis/{devis}/accept', [PrestationController::class, 'accepter'])->middleware('auth')->name('accepterdevis');
 
 
 

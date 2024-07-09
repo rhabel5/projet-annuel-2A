@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Devis;
 use App\Models\Prestation;
 use App\Models\Reservation;
 use App\Models\TypePrestation;
@@ -127,6 +128,32 @@ class PrestationController extends Controller
     public function voiroffresdevis(Prestation $prestation)
     {
         return view('prestation.voiroffresdevis', ['prestation' => $prestation]);
+    }
+
+    public function accepter(Devis $devis){
+
+
+
+        $devis->etat = 'accepte';
+        $devis->save();
+        $prestation = Prestation::find($devis->id_prestation);
+
+        $prestation->id_prestataire = $devis->id_prestataire;
+        $prestation->state = 'a';
+        $prestation->prix = $devis->prix_total;
+        $prestation->save();
+
+
+        Devis::where('id_prestation', $devis->id_prestation)
+            ->where(function($query) {
+                $query->where('etat', 'envoye')
+                        ->orWhere('etat', 'null');
+            })
+            ->delete();
+
+
+        return redirect()->route('mesoffresprestations')->with('success', 'Devis accepté avec succès !');
+
     }
 
 }

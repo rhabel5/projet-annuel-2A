@@ -48,9 +48,10 @@ class DevisController extends Controller
         $prixunites = $validatedData['prixunite'];
         //print_r($prixunites) ;
 
-        $prestataire = Auth::user();
-        $prestataireId = $prestataire['id'];
-        //print_r($prestataireId) ;
+        $prestataire = Prestataire::where('id_prestataire',Auth::id())->first();
+
+        $prestataireId = $prestataire->id_prestataire;
+        print_r($prestataireId) ;
 
         //print_r($prestation) ;
         $prestation = json_decode($request->input('prestation'), true); // Le second paramètre définit le résultat en tant que tableau
@@ -144,7 +145,6 @@ class DevisController extends Controller
             $devis->etat = 'envoye';
             $devis->save();
             $pdf->download($fileName);
-            echo $download;
             return redirect()->route('prestation.offres')->with('success', 'Devis envoyé avec succes');
 
         }
