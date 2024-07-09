@@ -24,6 +24,7 @@ class DevisController extends Controller
     public function create(Request $request)
     {
 
+
     try {
         $validatedData = $request->validate([
             'designation' => 'required|array',
@@ -96,6 +97,7 @@ class DevisController extends Controller
         try {
             $devis->prix_total = $prixtotal;
             $devis->save();
+            return $this->showdevis($devis);
         }catch(\Exception $e){
             echo 'Erreur lors de l\'ajout du devis : ' . $e->getMessage();
         }
@@ -134,10 +136,15 @@ class DevisController extends Controller
             $filePath = 'public/devis/' . $fileName;
 
             // Sauvegarder le fichier sur le serveur
-            Storage::put($filePath, $pdf->output());
+            try{
+                Storage::put($filePath, $pdf->output());
+            }catch(\Exception $e){
+                return 'Erreur lors de l\'ajout du devis : ' . $e->getMessage();
+            }
             $devis->etat = 'envoye';
             $devis->save();
             $pdf->download($fileName);
+            echo $download;
             return redirect()->route('prestation.offres')->with('success', 'Devis envoyé avec succes');
 
         }
@@ -146,5 +153,62 @@ class DevisController extends Controller
 
     }
 
+    public function showdevis(Devis $devis){
+        $prestataire = Prestataire::where('id_prestataire', $devis->id_prestataire)->first();
+        $bailleur = User::find($devis->id_bailleur);
+        $reservation = Reservation::find($devis->id_reservation);
+        $offre = Prestation::find($devis->id_prestation);
+
+        $data = [
+            'prestataire' => $prestataire,
+            'bailleur' => $bailleur,
+            'reservation' => $reservation,
+            'offre' => $offre,
+            'devis' => $devis
+        ];
+
+
+        return view('devis', $data);
+
+
+    }
+
+
+    public function telechargerdevis(Devis $devis)
+    {
+
+
+        $prestataire = Prestataire::where('id_prestataire', $devis->id_prestataire)->first();
+        $bailleur = User::find($devis->id_bailleur);
+        $reservation = Reservation::find($devis->id_reservation);
+        $offre = Prestation::find($devis->id_prestation);
+
+
+        $data = [
+            'prestataire' => $prestataire,
+            'bailleur' => $bailleur,
+            'reservation' => $reservation,
+            'offre' => $offre,
+            'devis' => $devis
+        ];
+
+            $pdf = PDF::loadView('devispdf', $data);
+
+            $fileName = $prestataire->nom_entreprise . '-devis-' . $devis->id . '.pdf';
+            $filePath = 'public/devis/' . $fileName;
+
+            // Sauvegarder le fichier sur le serveur
+            try{
+                Storage::put($filePath, $pdf->output());
+            }catch(\Exception $e){
+                return 'Erreur lors de l\'ajout du devis sur le serveur : ' . $e->getMessage();
+            }
+            $devis->etat = 'envoye';
+            $devis->save();
+            $pdf->download($fileName);
+            return $pdf->download($fileName);
+
+
+    }
 
 }

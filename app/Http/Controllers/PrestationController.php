@@ -124,9 +124,9 @@ class PrestationController extends Controller
     }
 
 
-    public function voiroffresdevis(Prestation $offre)
+    public function voiroffresdevis(Prestation $prestation)
     {
-        return view('prestation.voiroffresdevis', ['id_offre' => $offre->id]);
+        return view('prestation.voiroffresdevis', ['prestation' => $prestation]);
     }
 
 }
