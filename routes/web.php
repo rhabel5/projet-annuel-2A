@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DevisController;
 use App\Http\Controllers\PrestataireController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\PrestationTypeController;
@@ -139,10 +140,10 @@ Route::post('/biens/ajout', [BienController::class, 'store'])->name('biens.creat
 
 Route::get('/bien/{bien}/ajout_equipement', [BienController::class, 'show'])->name('biens.equipement');
 
-Route::get('/equipements/create', [EquipementsController::class, 'create'])->name('equipements.create');
-Route::post('/equipements', [EquipementsController::class, 'store'])->name('equipements.store');
-Route::get('/equipements/selection', [EquipementsController::class, 'select'])->name('equipements.select');
-Route::post('/equipements/selection', [EquipementsController::class, 'postselect'])->name('equipements.postselect');
+Route::get('/equipements/create', [EquipementsController::class, 'create'])->middleware('auth')->name('equipements.create');
+Route::post('/equipements', [EquipementsController::class, 'store'])->middleware('auth')->name('equipements.store');
+Route::get('/equipements/selection', [EquipementsController::class, 'select'])->middleware('auth')->name('equipements.select');
+Route::post('/equipements/selection', [EquipementsController::class, 'postselect'])->middleware('auth')->name('equipements.postselect');
 
 require __DIR__.'/auth.php';
 
@@ -209,23 +210,35 @@ Route::get('bailleur/mesoffres', [PrestationController::class, 'mesoffresprestat
 
 //----------------------------------Route pour voir les devis qu'il a reçu pour une offre, accepter et refuser une offre--------------------------------------------------------------------------------------------------------
 Route::post('bailleur/devis/{prestation}', [PrestationController::class, 'voiroffresdevis'])->middleware('auth')->name('voir.offres.devis');
-//Route pour accepter une offre
+
+
+//------------------------------------------------------------Route pour accepter ou refuser  une offre----------------------------------------------------------------------------------
 Route::post('bailleur/devis/{devis}/accept', [PrestationController::class, 'accepter'])->middleware('auth')->name('accepterdevis');
 Route::post('bailleur/devis/{devis}/refuser', [PrestationController::class, 'refuserdevis'])->middleware('auth')->name('refuserdevis');
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-//---------------------------------Renvoie le formulaire pour qu'un prestataire puisse créer un devis et ses éléments------------------------------------------------------------------------------------------------
+
+//---------------------------------Renvoie le formulaire pour qu'un prestataire puisse créer un devis et ses éléments------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Route::post('/prestation/{prestation}/devis', [PrestationController::class, 'offresdevis'])->name('offres.devis');
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-//----------------------------Routes pour que le prestataire puisse créer un devis, le visualiser et l'envoyer--------------------------------------------------------------------------------------------------------
-Route::post('/deviscreate', [\App\Http\Controllers\DevisController::class, 'create'])->middleware('auth')->name('deviscreate');
+//----------------------------Routes pour que le prestataire puisse créer un devis, le visualiser et l'envoyer-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Route::post('/deviscreate', [DevisController::class, 'create'])->middleware('auth')->name('deviscreate');
 //
-Route::post('/devis/pdf/{devis}/{download}', [\App\Http\Controllers\DevisController::class, 'devispdf'])->middleware('auth')->name('envoiedevis');
+Route::post('/devis/pdf/{devis}/{download}', [DevisController::class, 'devispdf'])->middleware('auth')->name('envoiedevis');
 //Telecharger le devis
-Route::post('/devis/telecharger/{devis}/', [\App\Http\Controllers\DevisController::class, 'telechargerdevis'])->middleware('auth')->name('telechargerdevis');
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Route::post('/devis/telecharger/{devis}/', [DevisController::class, 'telechargerdevis'])->middleware('auth')->name('telechargerdevis');
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//-------------------------------------------Route pour visualiser la liste des devis envoye et les gérer----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Route::get('mesdevis', [DevisController::class, 'devisenattente'])->middleware('auth')->name('devisenattente');
+Route::post('supprimeroffredevis/{devis}', [PrestationController::class, 'supprimeroffredevis'])->middleware('auth')->name('supprimeroffredevis');
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 //------------------------------------------------Route pour Ajouter une prestation à une reservation-----------------------------------------------------------------------------------------------------------------------------
 //Choisir le type de la prestation à ajouter
@@ -239,7 +252,7 @@ Route::post('prestation/', [PrestationController::class, 'create'])->middleware(
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-//------------------------------------------------------Routes recherche de bien--------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------Routes recherche de bien (pas fonctionel) --------------------------------------------------------------------------------------------------------------------------------------------------------
 Route::post('/biens/search', [BienController::class, 'searchbien'])->name('biens.search');
 Route::get('/apagnan', [BienController::class, 'searchbienview'])->name('biens.search');
 

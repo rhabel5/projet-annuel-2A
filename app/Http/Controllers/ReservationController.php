@@ -42,11 +42,12 @@ class ReservationController extends Controller
 
         $dates = explode('-', $request['dates']);
 
-
+        $trimdatedebut = trim($dates[0]);
+        $trimdatefin = trim($dates[1]);
 
         //On récupère le nombre de jours
-        $dateDebut = new DateTime($dates[0]);
-        $dateFin = new DateTime($dates[1]);
+        $dateDebut = DateTime::createFromFormat('d/m/Y', $trimdatedebut);
+        $dateFin = DateTime::createFromFormat('d/m/Y', $trimdatefin);
         $intervale = $dateDebut->diff($dateFin);
         $jours = $intervale->days;
 
@@ -80,6 +81,7 @@ class ReservationController extends Controller
         $reservation->prix_total = $prix_total;
 
         $reservation->save();
+        return redirect()->route('mesreservations');
     }
 
 

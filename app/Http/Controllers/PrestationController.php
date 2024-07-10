@@ -166,4 +166,15 @@ class PrestationController extends Controller
         return redirect()->route('mesoffresprestations');
     }
 
+    public function supprimeroffredevis(Devis $devis)
+    {
+        $idpresta = $devis->id_prestatation;
+        // Supprimer le devis
+        $devis->delete();
+
+
+        // Rediriger avec un message de succès
+        return redirect()->route('devisenattente');
+    }
+
 }

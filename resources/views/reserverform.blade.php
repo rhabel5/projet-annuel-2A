@@ -59,7 +59,7 @@
 
 <script>
     $(function() {
-        console.log('DOM entièrement chargé et analysé');
+        console.log('DOM chargé');
 
         // Récupérer les intervalles de dates invalides depuis PHP
         var invalidDateRanges = @json($invalidDateRanges);
@@ -75,7 +75,7 @@
 
         $('input[name="dates"]').daterangepicker({
             locale: {
-                format: 'DD-MM-YYYY'  // Définir le format d'affichage des dates
+                format: 'DD/MM/YYYY'  // Définir le format d'affichage des dates
             },
             isInvalidDate: function(date) {
                 // Vérifier si la date actuelle est dans l'un des intervalles de dates invalides

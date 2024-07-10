@@ -21,7 +21,7 @@ class BienController extends Controller
             'type_bien' => 'required|string|max:255',
             'ville' => 'required|string|max:255',
             'adresse' => 'required|string|max:255',
-            'code_postal' => 'required|integer',
+            'code_postal' => 'required',
             'prix_adulte' => 'required|integer',
             'prix_enfant' => 'required|integer',
             'prix_animaux' => 'required|integer',

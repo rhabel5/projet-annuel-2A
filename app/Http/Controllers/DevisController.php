@@ -211,4 +211,10 @@ class DevisController extends Controller
 
     }
 
+
+    public function devisenattente()
+    {
+        return view('devisenattente');
+    }
+
 }

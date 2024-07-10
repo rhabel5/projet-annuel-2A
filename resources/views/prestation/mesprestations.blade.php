@@ -18,14 +18,14 @@
     <h2 class="text-3xl font-semibold text-center text-red-500 dark:text-red-300 mb-8 transition duration-500 ease-in-out">{{ __('Mes Prestations') }}</h2>
 
     <section class="container mx-auto px-4 py-16 transition duration-500 ease-in-out">
+        <div class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
         @if(!$prestations->isEmpty())
             @foreach($prestations as $prestation)
                 @php
-                    $type = TypePrestation::find($prestation->type);
-                    $nom = $type->nom;
-                    //$bailleur = \App\Models\Bailleur::find($prestation->)
+                        $type = TypePrestation::find($prestation->type);
+                        $nom = $type->nom;
+                        //$bailleur = \App\Models\Bailleur::find($prestation->)
                 @endphp
-                <div class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
                     <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition duration-500 ease-in-out">
                         <div>
                             <!--<img src="{{ isset($prestation->image_url) ? $prestation->image_url : '' }}" alt="Image" class="h-40 w-full object-cover rounded-md mb-4 transition duration-500 ease-in-out">-->
