@@ -165,6 +165,7 @@ Route::post('reserver/{bien}', [ReservationController::class, 'reserver'])->midd
 Route::get('payementreservation/{reservation}', [ReservationController::class, 'formulairepayement'])->middleware('auth')->name('formulairepayement');
 Route::get('processpayement/{reservation}', [ReservationController::class, 'processpayement'])->middleware('auth')->name('processpayement');
 Route::get('payementsuccess/{reservation}', [ReservationController::class, 'payementsuccess'])->middleware('auth')->name('payementsuccess');
+Route::get('payementcancel/{reservation}', [ReservationController::class, 'payementcancel'])->middleware('auth')->name('payementcancel');
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

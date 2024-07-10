@@ -81,7 +81,7 @@ class ReservationController extends Controller
         $reservation->date_debut = $dateDebut;
         $reservation->date_fin = $dateFin;
         $reservation->nb_adulte = $request->input('nombre_adultes');
-        $reservation->prix_total =
+        $reservation->prix_total = $prix_total;
         $reservation->statut = 'reserve';
 
         $reservation->save();
@@ -124,6 +124,11 @@ class ReservationController extends Controller
     public function payementsuccess(Reservation $reservation){
         $reservation->etat = 'paye';
         $reservation->save();
+        return redirect()->route('voyageur.dashboard');
+    }
+
+    public function payementcancel(Reservation $reservation){
+        $reservation->delete();
         return redirect()->route('voyageur.dashboard');
     }
 
