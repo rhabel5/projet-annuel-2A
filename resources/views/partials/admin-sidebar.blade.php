@@ -8,5 +8,7 @@
         <a href="{{ route('admin.biens.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-500 ease-in-out">Biens</a>
         <a href="{{ route('admin.services.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-500 ease-in-out">Commentaires</a>
         <a href="{{ route('admin.tickets.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-500 ease-in-out">Tickets</a>
+        <a href="{{ route('admin.prestations.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-500 ease-in-out">Prestations</a>
+        <a href="{{ route('admin.devis.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-500 ease-in-out">Devis</a>
     </nav>
 </div>

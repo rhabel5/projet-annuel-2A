@@ -78,6 +78,32 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-// routes pour récup reserv android
+// Routes for retrieving Android reservations
 Route::post('/login', [ApiLoginController::class, 'login']);
-Route::middleware('auth:sanctum')->get('/users/{userId}/reservations', [ApiReservationController::class, 'getUserReservations']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('users')->group(function () {
+        Route::get('/{userId}/reservations', [ApiReservationController::class, 'getUserReservations']);
+    });
+
+    Route::prefix('reservations')->group(function () {
+        Route::get('/', [ApiReservationController::class, 'getAllReservations']);
+        Route::post('/', [ApiReservationController::class, 'store']);
+        Route::get('/{reservationId}', [ApiReservationController::class, 'getReservation']);
+        Route::put('/{reservationId}', [ApiReservationController::class, 'update']);
+        Route::delete('/{reservationId}', [ApiReservationController::class, 'destroy']);
+        Route::get('/{reservationId}/biens', [ApiReservationController::class, 'getReservationBiens']);
+        Route::get('/{reservationId}/tickets', [ApiReservationController::class, 'getReservationTickets']);
+        Route::get('/{reservationId}/facture', [ApiReservationController::class, 'getReservationFacture']);
+        Route::get('/{reservationId}/paiements', [ApiReservationController::class, 'getReservationPaiements']);
+        Route::post('/{reservationId}/paiements', [ApiReservationController::class, 'storePaiement']);
+        Route::get('/{reservationId}/paiements/{paiementId}', [ApiReservationController::class, 'getPaiement']);
+        Route::put('/{reservationId}/paiements/{paiementId}', [ApiReservationController::class, 'updatePaiement']);
+        Route::delete('/{reservationId}/paiements/{paiementId}', [ApiReservationController::class, 'destroyPaiement']);
+        Route::get('/{reservationId}/paiements/{paiementId}/facture', [ApiReservationController::class, 'getPaiementFacture']);
+        Route::get('/{reservationId}/paiements/{paiementId}/tickets', [ApiReservationController::class, 'getPaiementTickets']);
+        Route::get('/{reservationId}/paiements/{paiementId}/biens', [ApiReservationController::class, 'getPaiementBiens']);
+        Route::get('/{reservationId}/paiements/{paiementId}/reservation', [ApiReservationController::class, 'getPaiementReservation']);
+        Route::get('/{reservationId}/paiements/{paiementId}/user', [ApiReservationController::class, 'getPaiementUser']);
+        Route::get('/{reservationId}/paiements/{paiementId}/bailleur', [ApiReservationController::class, 'getPaiementBailleur']);
+    });
+});

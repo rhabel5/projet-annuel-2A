@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminBienController;
 use App\Http\Controllers\Admin\AdminServiceController;
 use App\Http\Controllers\Admin\AdminTicketController;
+use App\Http\Controllers\Admin\AdminPrestationController;
+use App\Http\Controllers\Admin\AdminDevisController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\VoyageurController;
 use App\Http\Controllers\BailleurController;
@@ -26,7 +28,6 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\VIPController;
-
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -103,6 +104,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/tickets', [AdminTicketController::class, 'index'])->name('admin.tickets.index');
     Route::get('/admin/tickets/{ticket}', [AdminTicketController::class, 'show'])->name('admin.tickets.show');
     Route::put('/admin/tickets/{ticket}', [AdminTicketController::class, 'update'])->name('admin.tickets.update');
+
+    // Prestations
+    Route::resource('admin/prestations', AdminPrestationController::class)->names([
+        'index' => 'admin.prestations.index',
+        'create' => 'admin.prestations.create',
+        'store' => 'admin.prestations.store',
+        'edit' => 'admin.prestations.edit',
+        'update' => 'admin.prestations.update',
+        'destroy' => 'admin.prestations.destroy',
+    ]);
+
+    // Devis
+    Route::resource('admin/devis', AdminDevisController::class)->names([
+        'index' => 'admin.devis.index',
+        'create' => 'admin.devis.create',
+        'store' => 'admin.devis.store',
+        'edit' => 'admin.devis.edit',
+        'update' => 'admin.devis.update',
+        'destroy' => 'admin.devis.destroy',
+    ]);
 });
 
 Route::middleware(['auth', 'role:voyageur'])->group(function () {
@@ -292,3 +313,4 @@ Route::post('/refuserBien', [BienController::class, 'refuserBien'])->name('refus
 
 
 
+Route::post('/refuserBien', [BienController::class, 'refuserBien'])->name('refuserBien');
