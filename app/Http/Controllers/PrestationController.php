@@ -180,7 +180,10 @@ class PrestationController extends Controller
 
     public function validerPrestation(Prestation $prestation)
     {
-        return view('prestation.validerprestation', ['prestation' => $prestation]);
+        $prestation = Prestation::find($prestation->id);
+        return view('prestation.validerprestation')->with('prestation', $prestation);
     }
+
+
 
 }

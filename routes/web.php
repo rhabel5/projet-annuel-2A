@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DevisController;
+use App\Http\Controllers\FicheInterventionController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PrestataireController;
 use App\Http\Controllers\PrestationController;
@@ -271,6 +272,7 @@ Route::get('/apagnan', [BienController::class, 'searchbienview'])->name('biens.s
 
 //------------------------------------Route presta pour valider une prestation----------------------------------------------------------------------------------------------------------------------------------------
 Route::post('/valider/{prestation}', [PrestationController::class, 'validerPrestation'])->name('validerPrestation');
+Route::post('/fiche/intervention/', [FicheInterventionController::class, 'store'])->name('ficheintervention.post');
 
 
 
@@ -283,4 +285,10 @@ Route::get('/bienverif', [BienController::class, 'bienverif'])->name('bienverif'
 
 Route::post('/validerBien', [BienController::class, 'validerBien'])->name('validerBien');
 Route::post('/refuserBien', [BienController::class, 'refuserBien'])->name('refuserBien');
+
+
+//-------------------------------Routes pour formulaire post prestation----------------------------------------------------------------------------------------------------
+
+
+
 

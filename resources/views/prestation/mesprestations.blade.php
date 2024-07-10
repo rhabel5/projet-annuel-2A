@@ -129,7 +129,7 @@
                                     Rémunération : {{ $prestation->paye_presta }}</p>
                             </div>
                         </div>
-                        <form action="{{ route('validerPrestation', ['id' => $prestation->id]) }}" method="POST">
+                        <form action="{{ route('validerPrestation', ['prestation' => $prestation]) }}" method="POST">
                             @csrf
                             <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-indigo-200 dark:focus:ring-indigo-800">
                                 Valider la prestation
