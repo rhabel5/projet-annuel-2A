@@ -90,6 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/biens', [AdminBienController::class, 'store'])->name('admin.biens.store');
     Route::get('/admin/biens/{bien}/edit', [AdminBienController::class, 'edit'])->name('admin.biens.edit');
     Route::put('/admin/biens/{bien}', [AdminBienController::class, 'update'])->name('admin.biens.update');
+    Route::put('/admin/biens/{id}/validate', [AdminBienController::class, 'validateBien'])->name('admin.biens.validate');
     Route::delete('/admin/biens/{bien}', [AdminBienController::class, 'destroy'])->name('admin.biens.destroy');
 
     // Backoffice services management
