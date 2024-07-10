@@ -44,6 +44,13 @@
                         @method('DELETE')
                         <button type="submit" class="text-red-500 dark:text-red-300 hover:underline ml-2">Supprimer</button>
                     </form>
+                    @if(!$bien->valide)
+                        <form action="{{ route('admin.biens.validate', $bien->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="text-green-500 dark:text-green-300 hover:underline ml-2">Valider</button>
+                        </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

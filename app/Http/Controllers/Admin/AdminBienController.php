@@ -101,4 +101,13 @@ class AdminBienController extends Controller
 
         return redirect()->route('admin.biens.index')->with('success', 'Bien supprimé avec succès.');
     }
+
+    public function validateBien($id)
+    {
+        $bien = Bien::findOrFail($id);
+        $bien->valide = true;
+        $bien->save();
+
+        return redirect()->route('admin.biens.index')->with('success', 'Bien validé avec succès.');
+    }
 }

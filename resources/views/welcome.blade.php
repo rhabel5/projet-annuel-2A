@@ -2,9 +2,6 @@
 
 @section('content')
     <section class="bg-cover bg-center h-screen text-white flex items-center justify-center filter brightness-100 dark:brightness-75 transition duration-500 ease-in-out" style="background-image: url('{{ asset('images/exemple.webp') }}');">
-
-
-
         <div class="bg-black bg-opacity-50 p-8 rounded-lg transition duration-500 ease-in-out">
             <h1 class="text-5xl font-bold mb-4 transition duration-500 ease-in-out">{{ __('messages.welcome') }}</h1>
             <p class="text-2xl transition duration-500 ease-in-out">{{ __('messages.manage_properties') }}</p>
@@ -31,7 +28,42 @@
 
     <section class="container mx-auto px-4 py-16 transition duration-500 ease-in-out">
         <h2 class="text-3xl font-semibold text-center text-red-500 dark:text-red-300 mb-8 transition duration-500 ease-in-out">{{ __('messages.our_properties') }}</h2>
-        <div class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
+        <div class="mb-8">
+            <input type="text" id="search" placeholder="Rechercher..." class="px-4 py-2 rounded-md mb-4 w-full">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div>
+                    <h4 class="font-semibold mb-2">Type de bien</h4>
+                    <div>
+                        <label><input type="checkbox" name="type_bien" value="appartement"> Appartement</label>
+                    </div>
+                    <div>
+                        <label><input type="checkbox" name="type_bien" value="villa"> Villa</label>
+                    </div>
+                    <div>
+                        <label><input type="checkbox" name="type_bien" value="studio"> Studio</label>
+                    </div>
+                    <div>
+                        <label><input type="checkbox" name="type_bien" value="maison"> Maison</label>
+                    </div>
+                    <div>
+                        <label><input type="checkbox" name="type_bien" value="duplex"> Duplex</label>
+                    </div>
+                    <div>
+                        <label><input type="checkbox" name="type_bien" value="manoir"> Manoir</label>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2">Prix</h4>
+                    <div>
+                        <input type="number" id="prix_min" placeholder="Prix Min" class="px-4 py-2 rounded-md mb-2 w-full">
+                    </div>
+                    <div>
+                        <input type="number" id="prix_max" placeholder="Prix Max" class="px-4 py-2 rounded-md w-full">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="properties-list" class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
             @foreach($biens as $bien)
                 @if($bien->valide)
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition duration-500 ease-in-out">
@@ -53,3 +85,54 @@
         </div>
     </section>
 @endsection
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search');
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const prixMinInput = document.getElementById('prix_min');
+    const prixMaxInput = document.getElementById('prix_max');
+
+    function performSearch() {
+        const formData = new FormData();
+        formData.append('search', searchInput.value);
+        formData.append('prix_min', prixMinInput.value);
+        formData.append('prix_max', prixMaxInput.value);
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                formData.append('type_bien[]', checkbox.value);
+            }
+        });
+
+        fetch('{{ route('biens.search') }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const propertiesList = document.getElementById('properties-list');
+            propertiesList.innerHTML = '';
+            data.forEach(bien => {
+                const propertyElement = document.createElement('div');
+                propertyElement.classList.add('bg-white', 'dark:bg-gray-800', 'p-6', 'rounded-lg', 'shadow-md', 'transition', 'duration-500', 'ease-in-out');
+                propertyElement.innerHTML = `
+                    <img src="${bien.image_url}" alt="Image du logement" class="h-40 w-full object-cover rounded-md mb-4 transition duration-500 ease-in-out">
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-gray-100 transition duration-500 ease-in-out">${bien.titre}</h3>
+                    <p class="text-gray-700 dark:text-gray-300 transition duration-500 ease-in-out">${bien.description}</p>
+                    <a href="/biens/${bien.id}" class="text-blue-500 dark:text-blue-300 hover:underline mt-4 inline-block transition duration-500 ease-in-out">{{ __('messages.view_more') }}</a>
+                `;
+                propertiesList.appendChild(propertyElement);
+            });
+        });
+    }
+
+    searchInput.addEventListener('input', performSearch);
+    checkboxes.forEach(checkbox => checkbox.addEventListener('change', performSearch));
+    prixMinInput.addEventListener('input', performSearch);
+    prixMaxInput.addEventListener('input', performSearch);
+});
+</script>
