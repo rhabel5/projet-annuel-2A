@@ -17,8 +17,8 @@
 <script>
     $(function() {
         // Récupérer les intervalles de dates invalides (reservations) depuis le controlleur
-        var invalidDateRanges = @json($invalidDateRanges);
-        console.log(invalidDateRanges);
+        //var invalidDateRanges = @json($invalidDateRanges);
+        //console.log(invalidDateRanges);
         console.log('lala');
 
         invalidDateRanges = invalidDateRanges.map(function(range) {

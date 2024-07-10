@@ -59,7 +59,31 @@
 
 <script>
     $(function() {
-        $('input[name="dates"]').daterangepicker();
+        console.log('DOM entièrement chargé et analysé');
+
+        // Récupérer les intervalles de dates invalides depuis PHP
+        var invalidDateRanges = @json($invalidDateRanges);
+        console.log(invalidDateRanges);
+        console.log('lala');
+
+        invalidDateRanges = invalidDateRanges.map(function(range) {
+            return {
+                start: moment(range.start, 'YYYY-MM-DD'),
+                end: moment(range.end, 'YYYY-MM-DD')
+            };
+        });
+
+        $('input[name="dates"]').daterangepicker({
+            locale: {
+                format: 'DD-MM-YYYY'  // Définir le format d'affichage des dates
+            },
+            isInvalidDate: function(date) {
+                // Vérifier si la date actuelle est dans l'un des intervalles de dates invalides
+                return invalidDateRanges.some(function(range) {
+                    return date.isBetween(range.start, range.end, 'day', '[]');
+                });
+            }
+        });
     });
 </script>
 
