@@ -17,6 +17,7 @@ class Reservation extends Model
         'date_fin',
         'nb_adulte',
         'prix_total',
+        'statut'
     ];
 
     public function user()

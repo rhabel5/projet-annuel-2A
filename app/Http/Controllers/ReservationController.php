@@ -94,35 +94,32 @@ class ReservationController extends Controller
     }
 
 
-    public function processpayement(Reservation $reservation){
-
+    public function processpayement(Reservation $reservation)
+    {
         $bien = Bien::find($reservation->id_bien);
 
         Stripe::setApiKey(config('stripe.sk'));
         $session = \Stripe\Checkout\Session::create([
-            'line_items' => [
-            [
+            'line_items' => [[
                 'price_data' => [
                     'currency' => 'eur',
                     'product_data' => [
                         'name' => 'Reservation n°' . $reservation->id . ' pour ' . $bien->titre,
                     ],
-
-                    'unit_amount' => $reservation->prix_total,
+                    'unit_amount' => $reservation->prix_total * 100, // amount is in cents
                 ],
                 'quantity' => 1,
-            ],
-            'mode' => 'payement',
+            ]],
+            'mode' => 'payment', // corrected 'payement' to 'payment'
             'success_url' => route('payementsuccess', ['reservation' => $reservation]),
             'cancel_url' => route('payementcancel', ['reservation' => $reservation]),
-        ]
         ]);
 
         return redirect()->away($session->url);
     }
 
     public function payementsuccess(Reservation $reservation){
-        $reservation->etat = 'paye';
+        $reservation->statut = 'paye';
         $reservation->save();
         return redirect()->route('voyageur.dashboard');
     }

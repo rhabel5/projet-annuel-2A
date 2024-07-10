@@ -23,9 +23,9 @@ class CreatePrestationsTable extends Migration
             $table->float('paye_pcs')->nullable();
             $table->unsignedBigInteger('id_prestataire');
             $table->unsignedInteger('id_reservation');
-            $table->id('id_voyageur');
-            $table->id('id_bailleur');
-            $table->id('id_bien')->nullable();
+            $table->integer('id_voyageur');
+            $table->integer('id_bailleur');
+            $table->integer('id_bien')->nullable();
             $table->string('state');
             $table->timestamps();
         });
