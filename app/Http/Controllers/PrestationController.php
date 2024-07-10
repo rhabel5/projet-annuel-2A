@@ -177,4 +177,10 @@ class PrestationController extends Controller
         return redirect()->route('devisenattente');
     }
 
+
+    public function validerPrestation(Prestation $prestation)
+    {
+        return view('prestation.validerprestation', ['prestation' => $prestation]);
+    }
+
 }

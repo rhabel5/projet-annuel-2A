@@ -67,7 +67,7 @@ class EquipementsController extends Controller
 
                         $image = Image::where('id_bien', $bien_id)->first();
                         if(!$image){
-                            return redirect()->route('biens.image', ['id' => $bien_id]);
+                            return redirect()->route('ajoutImageForm', ['id' => $bien_id]);
                         }
 
                     }

@@ -175,4 +175,13 @@ class BienController extends Controller
         return view('recherche');
     }
 
+
+    public function ajoutImage(Request $request){
+
+    }
+
+    public function ajoutImageForm(Bien $bien){
+        return view('bien.ajoutimage', compact('bien'));
+    }
+
 }

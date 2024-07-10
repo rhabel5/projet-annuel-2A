@@ -264,4 +264,15 @@ Route::post('prestation/', [PrestationController::class, 'create'])->middleware(
 //------------------------------------------------------Routes recherche de bien (pas fonctionel) --------------------------------------------------------------------------------------------------------------------------------------------------------
 Route::post('/biens/search', [BienController::class, 'searchbien'])->name('biens.search');
 Route::get('/apagnan', [BienController::class, 'searchbienview'])->name('biens.search');
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+//------------------------------------Route presta pour valider une prestation----------------------------------------------------------------------------------------------------------------------------------------
+Route::post('/valider/{prestation}', [PrestationController::class, 'validerPrestation'])->name('validerPrestation');
+
+
+
+//----------------------------------------------Ajout d'image pour un bien---------------------------------------------------------------------------------
+Route::get('/ajout/image/{bien}', [BienController::class, 'ajoutImageForm'])->name('ajoutImageForm');
+Route::post('/ajout/image/{bien}', [\App\Http\Controllers\ImageController::class, 'store'])->name('ajoutImage');
+Route::post('/voir/images/{bien}', [\App\Http\Controllers\ImageController::class, 'voirimagesbien'])->name('ajoutImage');
