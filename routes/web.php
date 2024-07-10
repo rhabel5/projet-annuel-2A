@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DevisController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\PrestataireController;
 use App\Http\Controllers\PrestationController;
 use App\Http\Controllers\PrestationTypeController;
@@ -275,4 +276,10 @@ Route::post('/valider/{prestation}', [PrestationController::class, 'validerPrest
 //----------------------------------------------Ajout d'image pour un bien---------------------------------------------------------------------------------
 Route::get('/ajout/image/{bien}', [BienController::class, 'ajoutImageForm'])->name('ajoutImageForm');
 Route::post('/ajout/image/{bien}', [\App\Http\Controllers\ImageController::class, 'store'])->name('ajoutImage');
-Route::post('/voir/images/{bien}', [\App\Http\Controllers\ImageController::class, 'voirimagesbien'])->name('ajoutImage');
+Route::get('/voir/images/{bien}', [ImageController::class, 'voirimagesbien'])->name('voirimagesbien');
+
+Route::get('/bienverif', [BienController::class, 'bienverif'])->name('bienverif');
+
+Route::post('/validerBien', [BienController::class, 'validerBien'])->name('validerBien');
+Route::post('/refuserBien', [BienController::class, 'refuserBien'])->name('refuserBien');
+

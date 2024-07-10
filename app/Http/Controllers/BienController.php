@@ -184,4 +184,27 @@ class BienController extends Controller
         return view('bien.ajoutimage', compact('bien'));
     }
 
+    public function bienverif()
+    {
+        return view('bien.bienverif');
+    }
+
+    public function refuserBien(Request $request)
+    {
+        $bienId = $request->input('bien');
+        $bien = Bien::find($bienId);
+        $bien->delete();
+
+        return redirect()->route('bienverif');
+    }
+
+    public function validerBien(Request $request)
+    {
+        $bienId = $request->input('bien');
+        $bien = Bien::find($bienId);
+        $bien->valide = 1;
+        $bien->save();
+        return redirect()->route('bienverif');
+    }
+
 }

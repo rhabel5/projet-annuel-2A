@@ -52,4 +52,10 @@ class ImageController extends Controller
             return back()->with('error', 'Une erreur s\'est produite lors de l\'ajout des images : ' . $e->getMessage());
         }
     }
+
+
+    public function voirimagesbien(Bien $bien){
+
+        return view('bien.voirimagesbien', ['bien' => $bien]);
+    }
 }

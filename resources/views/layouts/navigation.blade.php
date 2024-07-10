@@ -27,9 +27,10 @@
                 @php
                     $estBailleur = \App\Models\Role_user::where('user_id', Auth::id())->where('role_id', 3)->first();
                     $estPresta = \App\Models\Role_user::where('user_id', Auth::id())->where('role_id', 4)->first();
+                    $estAdmin = \App\Models\Role_user::where('user_id', Auth::id())->where('role_id', 1)->first();
 
                 @endphp
-
+@if(!$estAdmin)
                 @if($estBailleur)
                     <a href="{{ route('mesbiens') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Biens</a>
                     <a href="{{ route('mesreservations') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Mes Reservations</a>
@@ -38,18 +39,22 @@
                     <a href="{{ route('biens.create_view') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-900 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Devenir Bailleur</a>
                 @endif
                 <!-- Theme Toggle -->
-
+                @endif
                 <!-- Bailleur -->
                 <div class="relative ml-4 transition duration-500 ease-in-out">
                     <input type="checkbox" id="toggle-theme" class="toggle-checkbox sr-only">
                     <label for="toggle-theme" class="toggle-checkbox-container"></label>
                 </div>
-
+                @if(!$estAdmin)
                 <!-- Voyageurs VIP -->
                 <div class="relative ml-4 transition duration-500 ease-in-out">
                     <a href="{{ route('vip.subscription') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-9000 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Devenir VIP</a>
                 </div>
-
+                @else
+                    <div class="relative ml-4 transition duration-500 ease-in-out">
+                        <a href="{{ route('bienverif') }}" class="text-gray-700 dark:text-gray-300 font-semibold hover:text-gray-9000 dark:hover:text-white mx-2 transition duration-500 ease-in-out">Bien à verifier</a>
+                    </div>
+                @endif
                 <!-- Language Switcher -->
                 <div class="relative ml-4 transition duration-500 ease-in-out">
                     @php
@@ -85,11 +90,17 @@
                                 </div>
                             </button>
                         </x-slot>
-
+                        @if(!$estAdmin)
                         <x-slot name="content">
                             <x-dropdown-link :href="route('voyageur.dashboard')" class="transition duration-500 ease-in-out">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                        @else
+                                <x-slot name="content">
+                                    <x-dropdown-link :href="route('equipements.create')" class="transition duration-500 ease-in-out">
+                                        {{ __('Ajout de nouveaux équipements') }}
+                                    </x-dropdown-link>
+                        @endif
                             @if(!$estPresta)
                             <x-dropdown-link :href="route('prestataire.inscription')" class="transition duration-500 ease-in-out">
                                 {{ __('Devenir Prestataire') }}
