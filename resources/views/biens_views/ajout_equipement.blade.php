@@ -1,7 +1,6 @@
 
 <head>
 
-    <!-- Ajoutez cette ligne pour inclure le CSS de Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
 </head>

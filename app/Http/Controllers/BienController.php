@@ -72,12 +72,28 @@ class BienController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // Récupérer tous les biens depuis la base de données
-        $biens = Bien::all();
+        $query = Bien::query();
 
-        // Retourner la vue avec les biens
+        if ($request->filled('titre')) {
+            $query->where('titre', 'like', '%' . $request->input('titre') . '%');
+        }
+        if ($request->filled('type_bien')) {
+            $query->where('type_bien', 'like', '%' . $request->input('type_bien') . '%');
+        }
+        if ($request->filled('ville')) {
+            $query->where('ville', 'like', '%' . $request->input('ville') . '%');
+        }
+        if ($request->filled('prix_min')) {
+            $query->where('prix_adulte', '>=', $request->input('prix_min'));
+        }
+        if ($request->filled('prix_max')) {
+            $query->where('prix_adulte', '<=', $request->input('prix_max'));
+        }
+
+        $biens = $query->where('valide', true)->get();
+
         return view('welcome', compact('biens'));
     }
 
@@ -140,35 +156,28 @@ class BienController extends Controller
     public function searchbien(Request $request)
     {
         $query = Bien::query();
-
-        if ($request->filled('description')) {
-            $query->where('description', 'like', '%' . $request->input('description') . '%');
+    
+        if ($request->filled('search')) {
+            $query->where('titre', 'like', '%' . $request->input('search') . '%')
+                  ->orWhere('description', 'like', '%' . $request->input('search') . '%');
         }
-
+    
         if ($request->filled('type_bien')) {
-            $query->where('type_bien', 'like', '%' . $request->input('type_bien') . '%');
+            $query->where('type_bien', $request->input('type_bien'));
         }
-
-        if ($request->filled('ville')) {
-            $query->where('ville', 'like', '%' . $request->input('ville') . '%');
-        }
-
-        if ($request->filled('code_postal')) {
-            $query->where('code_postal', $request->input('code_postal'));
-        }
-
+    
         if ($request->filled('prix_min')) {
             $query->where('prix_adulte', '>=', $request->input('prix_min'));
         }
-
+    
         if ($request->filled('prix_max')) {
             $query->where('prix_adulte', '<=', $request->input('prix_max'));
         }
-
-        $biens = $query->get();
-
-        return view('bien.index', compact('biens'));
-    }
+    
+        $biens = $query->where('valide', true)->get();
+    
+        return response()->json($biens);
+    }    
 
     public function searchbienview()
     {

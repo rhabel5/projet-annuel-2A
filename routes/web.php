@@ -243,4 +243,3 @@ Route::post('prestation/', [PrestationController::class, 'create'])->middleware(
 //------------------------------------------------------Routes recherche de bien--------------------------------------------------------------------------------------------------------------------------------------------------------
 Route::post('/biens/search', [BienController::class, 'searchbien'])->name('biens.search');
 Route::get('/apagnan', [BienController::class, 'searchbienview'])->name('biens.search');
-
