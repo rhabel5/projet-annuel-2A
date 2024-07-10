@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('content')
 <div class="flex items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-6xl w-full space-y-8">
         <div class="flex">
@@ -14,17 +15,12 @@
                     <div class="rounded-md shadow-sm -space-y-px">
 
                         <div>
-                            <label for="date_debut" class="">Date Début</label>
-                            <input type="date" id="date_debut" name="date_debut" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" required>
-                        </div>
-                        <div>
-                            <label for="date_fin" class="">Date Fin</label>
-                            <input type="date" id="date_fin" name="date_fin" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" required>
-                        </div>
+                            <label for="dates"> Dates </label>
+                            <input name="dates" type="text" class="p-2 border rounded-lg w-full max-w-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"> </div>
                         <div>
                             <label for="nombre_adultes" class="">Nombre d'Adultes</label>
                             <select id="nombre_adultes" name="nombre_adultes" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" required>
-                                @for ($i = 1; $i <= $bien->couchage; $i++) <option value="{{ $i }}">{{ $i }}</option>
+                            @for ($i = 1; $i <= $bien->couchage; $i++) <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
                         </div>
@@ -55,3 +51,15 @@
         </div>
     </div>
 </div>
+@endsection
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script>
+    $(function() {
+        $('input[name="dates"]').daterangepicker();
+    });
+</script>
+

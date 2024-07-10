@@ -1,41 +1,40 @@
 @extends('layouts.app')
 @section('content')
-    <!DOCTYPE html>
-<html>
-<head>
-    <title>Formulaire avec Autocomplétion d'Adresse</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA38DEMSQDH82RNPROswWUs8jq9l62soCM&libraries=places"></script>
-    <script>
-        function initAutocomplete() {
-            // Créez le champ d'entrée pour l'autocomplétion
-            var input = document.getElementById('autocomplete');
-            var autocomplete = new google.maps.places.Autocomplete(input);
 
-            // Limitez les résultats aux adresses
-            autocomplete.setFields(['address_components', 'geometry']);
-
-            // Écoutez les changements dans le champ d'entrée
-            autocomplete.addListener('place_changed', function() {
-                var place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    // L'utilisateur n'a pas sélectionné de résultat
-                    window.alert("Aucun détail disponible pour l'entrée : '" + place.name + "'");
-                    return;
-                }
-                // Affichez les détails du lieu dans la console (ou faites quelque chose avec)
-                console.log(place);
-            });
-        }
-    </script>
-</head>
-<body onload="initAutocomplete()">
-<form method="POST" action="">
-    @csrf
-    <label for="autocomplete">Adresse :</label>
-    <input id="autocomplete" type="text" name="address" />
-    <button type="submit">Envoyer</button>
-</form>
-</body>
-</html>
+    <!-- Ajoutez votre contenu ici -->
+    <input name="dates" type="text" class="p-2 border rounded-lg w-full max-w-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
 
 @endsection
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script>
+    console.log('jQuery chargé', typeof jQuery !== 'undefined');
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+<script>
+    $(function() {
+        // Récupérer les intervalles de dates invalides (reservations) depuis le controlleur
+        var invalidDateRanges = @json($invalidDateRanges);
+        console.log(invalidDateRanges);
+        console.log('lala');
+
+        invalidDateRanges = invalidDateRanges.map(function(range) {
+            return {
+                start: moment(range.start, 'YYYY-MM-DD'),
+                end: moment(range.end, 'YYYY-MM-DD')
+            };
+        });
+
+        $('input[name="dates"]').daterangepicker({
+            isInvalidDate: function(date) {
+                // Vérifier si la date actuelle est dans l'un des intervalles de dates invalides
+                return invalidDateRanges.some(function(range) {
+                    return date.isBetween(range.start, range.end, 'day', '[]');
+                });
+            }
+        });
+    });
+</script>

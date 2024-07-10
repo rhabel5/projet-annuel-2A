@@ -2,8 +2,11 @@
  use Illuminate\Support\Facades\Auth;
  @endphp
 
+@extends('layouts.app')
+@section('content')
+
 <section class="container mx-auto px-4 py-16 transition duration-500 ease-in-out">
-    <h2 class="text-3xl font-semibold text-center text-red-500 dark:text-red-300 mb-8 transition duration-500 ease-in-out">{{ __('messages.our_properties') }}</h2>
+    <h2 class="text-3xl font-semibold text-center text-red-500 dark:text-red-300 mb-8 transition duration-500 ease-in-out">{{ __('Mes biens') }}</h2>
     <div class="grid md:grid-cols-3 gap-8 transition duration-500 ease-in-out">
         @php
             $biens = Bien::where('id_bailleur', Auth::id())->get();
@@ -21,3 +24,4 @@
         @endforeach
     </div>
 </section>
+@endsection

@@ -7,6 +7,7 @@ use App\Models\Reservation;
 use App\Models\Role;
 use App\Models\Role_user;
 use App\Models\User;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,18 @@ class ReservationController extends Controller
         $bien = Bien::find($bienId);
         $bailleur = User::find($bien->id_bailleur);
 
-        return view('reserverform', ['bien' => $bien, 'bailleur' => $bailleur]);
+        $anciennesReservations = Reservation::where('id_bien', $bienId)->get();
+
+        $invalidDateRanges = [];
+
+        foreach ($anciennesReservations as $reservation) {
+            $invalidDateRanges[] = [
+                'start' => Carbon::parse($reservation->date_debut)->format('Y-m-d'),
+                'end' => Carbon::parse($reservation->date_fin)->format('Y-m-d')
+            ];
+        }
+
+        return view('reserverform', ['bien' => $bien, 'bailleur' => $bailleur], compact('invalidDateRanges'));
     }
 
     public function reserver(Request $request){
@@ -26,10 +38,15 @@ class ReservationController extends Controller
         $bien_id = $request->input('bien_id');
         $bien = Bien::find($bien_id);
 
+        //echo $request['dates'];
+
+        $dates = explode('-', $request['dates']);
+
+
 
         //On récupère le nombre de jours
-        $dateDebut = new DateTime($request->input('date_debut'));
-        $dateFin = new DateTime($request->input('date_fin'));
+        $dateDebut = new DateTime($dates[0]);
+        $dateFin = new DateTime($dates[1]);
         $intervale = $dateDebut->diff($dateFin);
         $jours = $intervale->days;
 
@@ -57,8 +74,8 @@ class ReservationController extends Controller
         $reservation->id_client = Auth::user()->id;
         $reservation->id_bien = $bien_id;
         $reservation->id_bailleur = $bien->id_bailleur;
-        $reservation->date_debut = $request->input('date_debut');
-        $reservation->date_fin = $request->input('date_fin');
+        $reservation->date_debut = $dateDebut;
+        $reservation->date_fin = $dateFin;
         $reservation->nb_adulte = $request->input('nombre_adultes');
         $reservation->prix_total = $prix_total;
 
