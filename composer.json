@@ -14,7 +14,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
-        "spatie/laravel-ignition": "*"
+        "spatie/laravel-ignition": "*",
+        "stripe/stripe-php": "^15.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

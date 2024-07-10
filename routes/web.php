@@ -156,13 +156,21 @@ Route::middleware(['auth'])->group(function () {
 // Route dashboard bailleur
 Route::get('bailleur/dashboard', [BailleurController::class, 'dashboard'])->middleware('auth')->name('bailleur.dashboard');
 
-//Route Réservation
-
+//-------------------------------------------------Route Réservation----------------------------------------------------------------------------------------------------------------------------------------------------------
 Route::get('reserver/{bien}', [ReservationController::class, 'reserverform'])->middleware('auth')->name('reserver.get');
 Route::post('reserver/{bien}', [ReservationController::class, 'reserver'])->middleware('auth')->name('reserver.post');
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+//----------------------------------------------------Route payement (pas fonctionel)------------------------------------------------------------------------------------------------------------------------------------
+Route::get('payementreservation/{reservation}', [ReservationController::class, 'formulairepayement'])->middleware('auth')->name('formulairepayement');
+Route::get('processpayement/{reservation}', [ReservationController::class, 'processpayement'])->middleware('auth')->name('processpayement');
+Route::get('payementsuccess/{reservation}', [ReservationController::class, 'payementsuccess'])->middleware('auth')->name('payementsuccess');
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//---------------------------------???Route pour voir une reservation ????----------------------------------------------------------------------------------------------------------------------
 Route::get('reservation/{reservation}', [ReservationController::class, 'reservation'])->middleware('auth')->name('reservation.get');
-
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 //---------------------------------------------Routes pour que les Bailleurs puissent voir leurs biens et leurs reservations -------------------------------------------------------------------------

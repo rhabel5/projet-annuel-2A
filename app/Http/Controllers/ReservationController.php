@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Psy\Util\Str;
+use Stripe\Stripe;
+
 class ReservationController extends Controller
 {
     public function reserverform($bienId){
@@ -78,12 +81,51 @@ class ReservationController extends Controller
         $reservation->date_debut = $dateDebut;
         $reservation->date_fin = $dateFin;
         $reservation->nb_adulte = $request->input('nombre_adultes');
-        $reservation->prix_total = $prix_total;
+        $reservation->prix_total =
+        $reservation->statut = 'reserve';
 
         $reservation->save();
-        return redirect()->route('mesreservations');
+        return redirect()->route('processpayement', ['reservation' => $reservation]);
     }
 
+    public function formulairepayement(Reservation $reservation)
+    {
+        return view('formulairepayement', ['reservation' => $reservation]);
+    }
+
+
+    public function processpayement(Reservation $reservation){
+
+        $bien = Bien::find($reservation->id_bien);
+
+        Stripe::setApiKey(config('stripe.sk'));
+        $session = \Stripe\Checkout\Session::create([
+            'line_items' => [
+            [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'product_data' => [
+                        'name' => 'Reservation n°' . $reservation->id . ' pour ' . $bien->titre,
+                    ],
+
+                    'unit_amount' => $reservation->prix_total,
+                ],
+                'quantity' => 1,
+            ],
+            'mode' => 'payement',
+            'success_url' => route('payementsuccess', ['reservation' => $reservation]),
+            'cancel_url' => route('payementcancel', ['reservation' => $reservation]),
+        ]
+        ]);
+
+        return redirect()->away($session->url);
+    }
+
+    public function payementsuccess(Reservation $reservation){
+        $reservation->etat = 'paye';
+        $reservation->save();
+        return redirect()->route('voyageur.dashboard');
+    }
 
     public function mesreservations(){
         return view('bailleur.mesreservations');
